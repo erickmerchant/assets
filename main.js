@@ -88,7 +88,7 @@ function css (args) {
           fsWriteFile(path.join(process.cwd(), args.destination, 'app.css.map'), JSON.stringify(map))
         ])
         .then(function () {
-          console.log(chalk.green(path.join(args.destination, 'app.css') + ' saved'))
+          console.log(chalk.green('\u2714') + ' saved ' + path.join(args.destination, 'app.css'))
         })
       })
     })
@@ -122,6 +122,6 @@ function js (args) {
     bundleFs.once('error', reject)
   })
   .then(function () {
-    console.log(chalk.green(path.join(args.destination, 'app.js') + ' saved'))
+    console.log(chalk.green('\u2714') + ' saved ' + path.join(args.destination, 'app.js'))
   })
 }
