@@ -128,7 +128,7 @@ function js (args) {
 
   bundle.transform(babelify.configure({
     presets
-  }))
+  }), {global: true})
 
   bundle
   .bundle()
