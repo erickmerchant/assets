@@ -38,7 +38,8 @@
     "postcss-import": "^9.1.0",
     "postcss-inherit": "^4.0.3",
     "sergeant": "^15.2.1",
-    "thenify": "^3.2.1"
+    "thenify": "^3.2.1",
+    "yo-yoify": "^3.7.0"
   },
   "devDependencies": {
     "standard": "^10.0.0"

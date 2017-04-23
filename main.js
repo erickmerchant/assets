@@ -12,6 +12,7 @@ const postcss = require('postcss')
 const browserify = require('browserify')
 const exorcist = require('exorcist')
 const babelify = require('babelify')
+const yoyoify = require('yo-yoify')
 const collapser = require('bundle-collapser/plugin')
 
 command('assets', 'generate css using postcss, and js using browserify', function ({parameter, option, command}) {
@@ -125,6 +126,8 @@ function js (args) {
   if (!args.noMin) {
     presets.push(require('babel-preset-babili'))
   }
+
+  bundle.transform(yoyoify, {global: true})
 
   bundle.transform(babelify.configure({
     presets
