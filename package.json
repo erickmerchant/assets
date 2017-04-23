@@ -19,7 +19,6 @@
   },
   "homepage": "https://github.com/erickmerchant/assets#readme",
   "dependencies": {
-    "autoprefixer": "^6.7.7",
     "babel-preset-babili": "0.0.12",
     "babel-preset-env": "^1.4.0",
     "babelify": "^7.3.0",
@@ -31,12 +30,9 @@
     "exorcist": "^0.4.0",
     "mkdirp": "^0.5.1",
     "postcss": "^5.2.16",
-    "postcss-calc": "^5.3.1",
     "postcss-copy": "^6.2.1",
-    "postcss-custom-media": "^5.0.1",
-    "postcss-custom-properties": "^5.0.2",
+    "postcss-cssnext": "^2.10.0",
     "postcss-import": "^9.1.0",
-    "postcss-inherit": "^4.0.3",
     "sergeant": "^15.2.1",
     "thenify": "^3.2.1",
     "yo-yoify": "^3.7.0"

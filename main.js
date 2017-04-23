@@ -64,11 +64,7 @@ function css (args) {
   .then(function (css) {
     let plugins = [
       require('postcss-import')(),
-      require('postcss-inherit'),
-      require('postcss-custom-media')(),
-      require('postcss-custom-properties')(),
-      require('postcss-calc')(),
-      require('autoprefixer')({browsers: args.target}),
+      require('postcss-cssnext')({browsers: args.target}),
       require('postcss-copy')({
         src: 'css',
         dest: args.destination,
@@ -79,7 +75,7 @@ function css (args) {
     ]
 
     if (!args.noMin) {
-      plugins.push(require('cssnano')())
+      plugins.push(require('cssnano')({autoprefixer: false}))
     }
 
     return postcss(plugins).process(css, {
