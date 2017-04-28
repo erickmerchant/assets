@@ -35,7 +35,7 @@
     "postcss-import": "^9.1.0",
     "sergeant": "^15.2.1",
     "thenify": "^3.2.1",
-    "yo-yoify": "^3.7.0"
+    "yo-yoify": "github:erickmerchant/yo-yoify"
   },
   "devDependencies": {
     "standard": "^10.0.0"
