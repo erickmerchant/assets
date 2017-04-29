@@ -2,12 +2,13 @@
 const command = require('sergeant')
 const chalk = require('chalk')
 const chokidar = require('chokidar')
-const thenify = require('thenify')
-const fs = require('fs')
 const path = require('path')
+const thenify = require('thenify')
 const mkdirp = thenify(require('mkdirp'))
-const fsReadFile = thenify(fs.readFile)
-const fsWriteFile = thenify(fs.writeFile)
+const fsReadFile = thenify(require('fs').readFile)
+const fsWriteFile = thenify(require('fs').writeFile)
+const stat = thenify(require('fs').stat)
+const createWriteStream = require('fs').createWriteStream
 const postcss = require('postcss')
 const browserify = require('browserify')
 const exorcist = require('exorcist')
@@ -56,89 +57,95 @@ command('assets', 'generate css using postcss, and js using browserify', functio
 })(process.argv.slice(2))
 
 function css (args) {
-  if (!fs.existsSync(path.join(process.cwd(), 'css/app.css'))) {
-    return Promise.resolve(true)
-  }
+  const cssPath = path.join(process.cwd(), 'css/app.css')
 
-  return fsReadFile(path.join(process.cwd(), 'css/app.css'), 'utf-8')
-  .then(function (css) {
-    let plugins = [
-      require('postcss-import')(),
-      require('postcss-cssnext')({browsers: args.target}),
-      require('postcss-copy')({
-        src: 'css',
-        dest: args.destination,
-        relativePath (dirname, fileMeta, result, options) {
-          return path.join(process.cwd(), args.destination)
-        }
-      })
-    ]
+  stat(cssPath).then(function () {
+    return fsReadFile(cssPath, 'utf-8')
+    .then(function (css) {
+      let plugins = [
+        require('postcss-import')(),
+        require('postcss-cssnext')({browsers: args.target}),
+        require('postcss-copy')({
+          src: 'css',
+          dest: args.destination,
+          relativePath (dirname, fileMeta, result, options) {
+            return path.join(process.cwd(), args.destination)
+          }
+        })
+      ]
 
-    if (!args.noMin) {
-      plugins.push(require('cssnano')({autoprefixer: false}))
-    }
+      if (!args.noMin) {
+        plugins.push(require('cssnano')({autoprefixer: false}))
+      }
 
-    return postcss(plugins).process(css, {
-      from: path.join(process.cwd(), 'css/app.css'),
-      to: '/app.css',
-      map: { inline: false, annotation: '/app.css.map' }
-    }).then(function (output) {
-      let map = JSON.parse(output.map)
+      return postcss(plugins).process(css, {
+        from: path.join(process.cwd(), 'css/app.css'),
+        to: '/app.css',
+        map: { inline: false, annotation: '/app.css.map' }
+      }).then(function (output) {
+        let map = JSON.parse(output.map)
 
-      map.sources = map.sources.map((source) => path.relative(process.cwd(), '/' + source))
+        map.sources = map.sources.map((source) => path.relative(process.cwd(), '/' + source))
 
-      return Promise.all([
-        fsWriteFile(path.join(process.cwd(), args.destination, 'app.css'), output.css),
-        fsWriteFile(path.join(process.cwd(), args.destination, 'app.css.map'), JSON.stringify(map))
-      ])
-      .then(function () {
-        console.log(chalk.green('\u2714') + ' saved ' + path.join(args.destination, 'app.css'))
+        return Promise.all([
+          fsWriteFile(path.join(process.cwd(), args.destination, 'app.css'), output.css),
+          fsWriteFile(path.join(process.cwd(), args.destination, 'app.css.map'), JSON.stringify(map))
+        ])
+        .then(function () {
+          console.log(chalk.green('\u2714') + ' saved ' + path.join(args.destination, 'app.css'))
+        })
       })
     })
+  })
+  .catch(function () {
+    return Promise.resolve(true)
   })
 }
 
 function js (args) {
-  if (!fs.existsSync(path.join(process.cwd(), 'js/app.js'))) {
-    return Promise.resolve(true)
-  }
+  const jsPath = path.join(process.cwd(), 'js/app.js')
 
-  var bundleFs = fs.createWriteStream(path.join(process.cwd(), args.destination, 'app.js'))
-  var options = {
-    debug: true,
-    plugin: [collapser]
-  }
-
-  var bundle = browserify(options)
-
-  bundle.add(path.join(process.cwd(), 'js/app.js'))
-
-  const presets = [[require('babel-preset-env'), {
-    targets: {
-      browsers: args.target
+  return stat(jsPath).then(function () {
+    var bundleFs = createWriteStream(path.join(process.cwd(), args.destination, 'app.js'))
+    var options = {
+      debug: true,
+      plugin: [collapser]
     }
-  }]]
 
-  if (!args.noMin) {
-    presets.push(require('babel-preset-babili'))
-  }
+    var bundle = browserify(options)
 
-  bundle.transform(yoyoify, {global: true})
+    bundle.add(jsPath)
 
-  bundle.transform(babelify.configure({
-    presets
-  }), {global: true})
+    const presets = [[require('babel-preset-env'), {
+      targets: {
+        browsers: args.target
+      }
+    }]]
 
-  bundle
-  .bundle()
-  .pipe(exorcist(path.join(process.cwd(), args.destination, 'app.js.map'), '/app.js.map'))
-  .pipe(bundleFs)
+    if (!args.noMin) {
+      presets.push(require('babel-preset-babili'))
+    }
 
-  return new Promise(function (resolve, reject) {
-    bundleFs.once('finish', resolve)
-    bundleFs.once('error', reject)
+    bundle.transform(yoyoify, {global: true})
+
+    bundle.transform(babelify.configure({
+      presets
+    }), {global: true})
+
+    bundle
+    .bundle()
+    .pipe(exorcist(path.join(process.cwd(), args.destination, 'app.js.map'), '/app.js.map'))
+    .pipe(bundleFs)
+
+    return new Promise(function (resolve, reject) {
+      bundleFs.once('finish', resolve)
+      bundleFs.once('error', reject)
+    })
+    .then(function () {
+      console.log(chalk.green('\u2714') + ' saved ' + path.join(args.destination, 'app.js'))
+    })
   })
-  .then(function () {
-    console.log(chalk.green('\u2714') + ' saved ' + path.join(args.destination, 'app.js'))
+  .catch(function () {
+    return Promise.resolve(true)
   })
 }
