@@ -62,14 +62,7 @@ function css (args) {
     .then(function (css) {
       let plugins = [
         require('postcss-import')(),
-        require('postcss-cssnext')({browsers: args.target}),
-        require('postcss-copy')({
-          src: 'css',
-          dest: args.destination,
-          relativePath (dirname, fileMeta, result, options) {
-            return path.join(process.cwd(), args.destination)
-          }
-        })
+        require('postcss-cssnext')({browsers: args.target})
       ]
 
       if (!args.noMin) {
