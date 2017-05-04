@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/erickmerchant/assets#readme",
   "dependencies": {
+    "babel-plugin-yo-yoify": "^0.4.0",
     "babel-preset-babili": "0.0.12",
     "babel-preset-env": "^1.4.0",
     "babelify": "^7.3.0",
@@ -34,8 +35,7 @@
     "postcss-cssnext": "^2.10.0",
     "postcss-import": "^9.1.0",
     "sergeant": "^15.2.1",
-    "thenify": "^3.2.1",
-    "yo-yoify": "^3.7.2"
+    "thenify": "^3.2.1"
   },
   "devDependencies": {
     "standard": "^10.0.0"

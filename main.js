@@ -12,8 +12,6 @@ const createWriteStream = require('fs').createWriteStream
 const postcss = require('postcss')
 const browserify = require('browserify')
 const exorcist = require('exorcist')
-const babelify = require('babelify')
-const yoyoify = require('yo-yoify')
 const collapser = require('bundle-collapser/plugin')
 
 command('assets', 'generate css using postcss, and js using browserify', function ({parameter, option, command}) {
@@ -116,20 +114,21 @@ function js (args) {
 
     bundle.add(jsPath)
 
-    const presets = [[require('babel-preset-env'), {
-      targets: {
-        browsers: args.target
-      }
-    }]]
+    const presets = [
+      [require('babel-preset-env'), {
+        targets: {
+          browsers: args.target
+        }
+      }]
+    ]
 
     if (!args.noMin) {
       presets.push(require('babel-preset-babili'))
     }
 
-    bundle.transform(yoyoify, {global: true})
-
-    bundle.transform(babelify.configure({
-      presets
+    bundle.transform(require('babelify').configure({
+      presets,
+      plugins: [require('babel-plugin-yo-yoify')]
     }), {global: true})
 
     bundle
