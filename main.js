@@ -57,7 +57,7 @@ command('assets', 'generate css using postcss, and js using browserify', functio
 function css (args) {
   const cssPath = path.join(process.cwd(), 'css/app.css')
 
-  stat(cssPath).then(function () {
+  return stat(cssPath).then(function () {
     return fsReadFile(cssPath, 'utf-8')
     .then(function (css) {
       let plugins = [
