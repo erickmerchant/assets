@@ -11,13 +11,26 @@ const stat = thenify(require('fs').stat)
 const createWriteStream = require('fs').createWriteStream
 const postcss = require('postcss')
 const browserify = require('browserify')
-const exorcist = require('exorcist')
-const collapser = require('bundle-collapser/plugin')
 
-command('assets', 'generate css using postcss, and js using browserify', function ({parameter, option, command}) {
+command('assets', 'generate css using postcss, and js using browserify and babel', function ({parameter, option, command}) {
   parameter('destination', {
     description: 'where to save to',
     required: true
+  })
+
+  option('name', {
+    description: 'name of outputted files without extension',
+    default: 'bundle'
+  })
+
+  option('css', {
+    description: 'the css entry',
+    default: path.join(process.cwd(), 'css/index.css')
+  })
+
+  option('js', {
+    description: 'the js entry',
+    default: path.join(process.cwd(), 'js/index.js')
   })
 
   option('no-min', {
@@ -31,7 +44,7 @@ command('assets', 'generate css using postcss, and js using browserify', functio
     aliases: ['w']
   })
 
-  option('target', {
+  option('browsers', {
     description: 'what browsers to target',
     default: ['last 2 versions', '> 5%'],
     multiple: true
@@ -39,11 +52,11 @@ command('assets', 'generate css using postcss, and js using browserify', functio
 
   return function (args) {
     if (args.watch) {
-      chokidar.watch(path.join(process.cwd(), 'css/**/*.css'), {ignoreInitial: true}).on('all', function () {
+      chokidar.watch(path.join(path.dirname(args.css), '**/*.css'), {ignoreInitial: true}).on('all', function () {
         css(args).catch(console.error)
       })
 
-      chokidar.watch(path.join(process.cwd(), 'js/**/*.js'), {ignoreInitial: true}).on('all', function () {
+      chokidar.watch(path.join(path.dirname(args.js), '**/*.js'), {ignoreInitial: true}).on('all', function () {
         js(args).catch(console.error)
       })
     }
@@ -55,14 +68,12 @@ command('assets', 'generate css using postcss, and js using browserify', functio
 })(process.argv.slice(2))
 
 function css (args) {
-  const cssPath = path.join(process.cwd(), 'css/app.css')
-
-  return stat(cssPath).then(function () {
-    return fsReadFile(cssPath, 'utf-8')
+  return stat(args.css).then(function () {
+    return fsReadFile(args.css, 'utf-8')
     .then(function (css) {
       let plugins = [
         require('postcss-import')(),
-        require('postcss-cssnext')({browsers: args.target})
+        require('postcss-cssnext')({browsers: args.browsers})
       ]
 
       if (!args.noMin) {
@@ -70,20 +81,20 @@ function css (args) {
       }
 
       return postcss(plugins).process(css, {
-        from: path.join(process.cwd(), 'css/app.css'),
-        to: '/app.css',
-        map: { inline: false, annotation: '/app.css.map' }
+        from: args.css,
+        to: `/${args.name}.css`,
+        map: { inline: false, annotation: `/${args.name}.css.map` }
       }).then(function (output) {
         let map = JSON.parse(output.map)
 
         map.sources = map.sources.map((source) => path.relative(process.cwd(), '/' + source))
 
         return Promise.all([
-          fsWriteFile(path.join(process.cwd(), args.destination, 'app.css'), output.css),
-          fsWriteFile(path.join(process.cwd(), args.destination, 'app.css.map'), JSON.stringify(map))
+          fsWriteFile(path.join(process.cwd(), args.destination, `${args.name}.css`), output.css),
+          fsWriteFile(path.join(process.cwd(), args.destination, `${args.name}.css.map`), JSON.stringify(map))
         ])
         .then(function () {
-          console.log(chalk.green('\u2714') + ' saved ' + path.join(args.destination, 'app.css'))
+          console.log(chalk.green('\u2714') + ' saved ' + path.join(args.destination, `${args.name}.css`))
         })
       })
     })
@@ -94,23 +105,21 @@ function css (args) {
 }
 
 function js (args) {
-  const jsPath = path.join(process.cwd(), 'js/app.js')
-
-  return stat(jsPath).then(function () {
-    var bundleFs = createWriteStream(path.join(process.cwd(), args.destination, 'app.js'))
+  return stat(args.js).then(function () {
+    var bundleFs = createWriteStream(path.join(process.cwd(), args.destination, `${args.name}.js`))
     var options = {
       debug: true,
-      plugin: [collapser]
+      plugin: [require('bundle-collapser/plugin')]
     }
 
     var bundle = browserify(options)
 
-    bundle.add(jsPath)
+    bundle.add(args.js)
 
     const presets = [
       [require('babel-preset-env'), {
         targets: {
-          browsers: args.target
+          browsers: args.browsers
         }
       }]
     ]
@@ -126,7 +135,7 @@ function js (args) {
 
     bundle
     .bundle()
-    .pipe(exorcist(path.join(process.cwd(), args.destination, 'app.js.map'), '/app.js.map'))
+    .pipe(require('exorcist')(path.join(process.cwd(), args.destination, `${args.name}.js.map`), `/${args.name}.js.map`))
     .pipe(bundleFs)
 
     return new Promise(function (resolve, reject) {
@@ -134,7 +143,7 @@ function js (args) {
       bundleFs.once('error', reject)
     })
     .then(function () {
-      console.log(chalk.green('\u2714') + ' saved ' + path.join(args.destination, 'app.js'))
+      console.log(chalk.green('\u2714') + ' saved ' + path.join(args.destination, `${args.name}.js`))
     })
   })
   .catch(function () {
