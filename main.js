@@ -117,7 +117,7 @@ function js (args) {
     bundle.add(args.js)
 
     const presets = [
-      [require('babel-preset-env'), {
+      ['env', {
         targets: {
           browsers: args.browsers
         }
@@ -125,7 +125,7 @@ function js (args) {
     ]
 
     if (!args.noMin) {
-      presets.push(require('babel-preset-babili'))
+      presets.push('babili')
     }
 
     bundle.transform(require('babelify').configure({
