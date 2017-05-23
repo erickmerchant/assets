@@ -20,7 +20,7 @@
   "homepage": "https://github.com/erickmerchant/assets#readme",
   "dependencies": {
     "babel-plugin-yo-yoify": "^0.6.0",
-    "babel-preset-babili": "0.0.12",
+    "babel-preset-babili": "^0.1.1",
     "babel-preset-env": "^1.4.0",
     "babelify": "^7.3.0",
     "browserify": "^14.1.0",
