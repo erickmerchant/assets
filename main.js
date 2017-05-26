@@ -5,8 +5,8 @@ const chokidar = require('chokidar')
 const path = require('path')
 const thenify = require('thenify')
 const mkdirp = thenify(require('mkdirp'))
-const fsReadFile = thenify(require('fs').readFile)
-const fsWriteFile = thenify(require('fs').writeFile)
+const readFile = thenify(require('fs').readFile)
+const writeFile = thenify(require('fs').writeFile)
 const stat = thenify(require('fs').stat)
 const createWriteStream = require('fs').createWriteStream
 const postcss = require('postcss')
@@ -69,7 +69,7 @@ command('assets', 'generate css using postcss, and js using browserify and babel
 
 function css (args) {
   return stat(args.css).then(function () {
-    return fsReadFile(args.css, 'utf-8')
+    return readFile(args.css, 'utf-8')
     .then(function (css) {
       let plugins = [
         require('postcss-import')(),
@@ -90,8 +90,8 @@ function css (args) {
         map.sources = map.sources.map((source) => path.relative(process.cwd(), '/' + source))
 
         return Promise.all([
-          fsWriteFile(path.join(process.cwd(), args.destination, `${args.name}.css`), output.css),
-          fsWriteFile(path.join(process.cwd(), args.destination, `${args.name}.css.map`), JSON.stringify(map))
+          writeFile(path.join(process.cwd(), args.destination, `${args.name}.css`), output.css),
+          writeFile(path.join(process.cwd(), args.destination, `${args.name}.css.map`), JSON.stringify(map))
         ])
         .then(function () {
           console.log(chalk.green('\u2714') + ' saved ' + path.join(args.destination, `${args.name}.css`))
