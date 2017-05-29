@@ -106,13 +106,13 @@ function css (args) {
 
 function js (args) {
   return stat(args.js).then(function () {
-    var bundleFs = createWriteStream(path.join(process.cwd(), args.destination, `${args.name}.js`))
-    var options = {
+    const bundleFs = createWriteStream(path.join(process.cwd(), args.destination, `${args.name}.js`))
+    const options = {
       debug: true,
       plugin: [require('bundle-collapser/plugin')]
     }
 
-    var bundle = browserify(options)
+    const bundle = browserify(options)
 
     bundle.add(args.js)
 
