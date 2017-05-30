@@ -6,7 +6,8 @@
     "assets": "./main.js"
   },
   "scripts": {
-    "test": "standard"
+    "test": "standard && tape 'test/**/*.js' | faucet",
+    "cover": "nyc --reporter=html npm test"
   },
   "repository": {
     "type": "git",
@@ -38,6 +39,10 @@
     "thenify": "^3.2.1"
   },
   "devDependencies": {
-    "standard": "^10.0.0"
+    "faucet": "0.0.1",
+    "mockery": "^2.0.0",
+    "nyc": "^10.0.0",
+    "standard": "^10.0.0",
+    "tape": "^4.6.0"
   }
 }
