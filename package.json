@@ -35,13 +35,13 @@
     "postcss": "^5.2.16",
     "postcss-cssnext": "^2.10.0",
     "postcss-import": "^9.1.0",
-    "sergeant": "^15.2.1",
+    "sergeant": "^15.4.1",
     "thenify": "^3.2.1"
   },
   "devDependencies": {
     "faucet": "0.0.1",
     "mockery": "^2.0.0",
-    "nyc": "^10.0.0",
+    "nyc": "^11.0.1",
     "standard": "^10.0.0",
     "tape": "^4.6.0"
   }
