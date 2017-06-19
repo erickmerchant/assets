@@ -37,7 +37,8 @@
     "postcss-cssnext": "^2.10.0",
     "postcss-import": "^9.1.0",
     "sergeant": "^15.4.2",
-    "thenify": "^3.2.1"
+    "thenify": "^3.2.1",
+    "unassertify": "^2.0.4"
   },
   "devDependencies": {
     "faucet": "0.0.1",
