@@ -1,27 +1,16 @@
 #!/usr/bin/env node
 const command = require('sergeant')
-const path = require('path')
 const action = require('./lib/action')
 
 command('assets', 'generate css using postcss, and js using browserify and babel', function ({parameter, option, command}) {
-  parameter('destination', {
-    description: 'where to save to',
+  parameter('source', {
+    description: 'where is your code',
     required: true
   })
 
-  option('name', {
-    description: 'name of outputted files without extension',
-    default: 'bundle'
-  })
-
-  option('css', {
-    description: 'the css entry',
-    default: path.join(process.cwd(), 'css/index.css')
-  })
-
-  option('js', {
-    description: 'the js entry',
-    default: path.join(process.cwd(), 'js/index.js')
+  parameter('destination', {
+    description: 'where to save to',
+    required: true
   })
 
   option('no-min', {

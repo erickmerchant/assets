@@ -1,4 +1,3 @@
-const path = require('path')
 const test = require('tape')
 const mockery = require('mockery')
 
@@ -20,7 +19,7 @@ test('test lib/action', function (t) {
   t.plan(5)
 
   mockery.registerMock('mkdirp', function (dir, cb) {
-    t.equals(dir, path.join(process.cwd(), args.destination))
+    t.equals(dir, args.destination)
 
     cb()
   })
