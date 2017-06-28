@@ -18,6 +18,11 @@ command('assets', 'generate css using postcss, and js using browserify and babel
     type: Boolean
   })
 
+  option('electron', {
+    description: 'build for electron',
+    type: Boolean
+  })
+
   option('watch', {
     description: 'watch for changes',
     type: Boolean,
