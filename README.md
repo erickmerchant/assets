@@ -21,6 +21,7 @@ Uses the following modules.
 - [postcss-media-minmax](https://github.com/postcss/postcss-media-minmax)
 - [postcss-color-gray](https://github.com/postcss/postcss-color-gray)
 - [postcss-color-function](https://github.com/postcss/postcss-color-function)
+- [autoprefixer](https://github.com/postcss/autoprefixer)
 - [cssnano](http://cssnano.co/)
 
 ## Install

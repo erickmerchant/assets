@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/erickmerchant/assets#readme",
   "dependencies": {
+    "autoprefixer": "^7.1.1",
     "babel-plugin-yo-yoify": "^0.6.0",
     "babel-preset-babili": "^0.1.4",
     "babel-preset-env": "^1.5.2",
