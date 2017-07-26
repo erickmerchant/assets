@@ -5,12 +5,12 @@ const action = require('./lib/action')
 command('assets', 'generate css using postcss, and js using browserify and babel', function ({parameter, option, command}) {
   parameter('source', {
     description: 'where is your code',
-    required: true
+    default: '.'
   })
 
   parameter('destination', {
     description: 'where to save to',
-    required: true
+    default: '.'
   })
 
   option('no-min', {
