@@ -1,13 +1,16 @@
+const path = require('path')
 const test = require('tape')
 const mockery = require('mockery')
 
-test('test lib/action', function (t) {
-  const scriptsSymbol = Symbol('scripts')
-  const stylesSymbol = Symbol('styles')
+test('test lib/action - no watch', function (t) {
+  const resultSymbol = Symbol('result')
   const args = {
-    css: 'index.css',
-    js: 'index.js',
-    destination: 'build'
+    destination: 'dist',
+    source: 'src'
+  }
+  const config = {
+    input: path.join(args.source, 'foo/index.foo'),
+    output: path.join(args.destination, 'bundle.foo')
   }
 
   mockery.enable({
@@ -16,7 +19,7 @@ test('test lib/action', function (t) {
     warnOnUnregistered: false
   })
 
-  t.plan(5)
+  t.plan(4)
 
   mockery.registerMock('mkdirp', function (dir, cb) {
     t.equals(dir, args.destination)
@@ -24,27 +27,68 @@ test('test lib/action', function (t) {
     cb()
   })
 
-  mockery.registerMock('./scripts', function (a) {
-    t.equals(a, args)
+  const types = {
+    foo: function (a, c) {
+      t.deepEquals(a, args)
 
-    return function () {
-      return scriptsSymbol
+      t.deepEquals(c, config)
+
+      return function () {
+        return resultSymbol
+      }
     }
-  })
+  }
 
-  mockery.registerMock('./styles', function (a) {
-    t.equals(a, args)
-
-    return function () {
-      return stylesSymbol
-    }
-  })
-
-  require('../../lib/action')(args).then(function (results) {
-    t.ok(results.includes(stylesSymbol))
-
-    t.ok(results.includes(scriptsSymbol))
+  require('../../lib/action')(types)(args).then(function (results) {
+    t.ok(results.includes(resultSymbol))
 
     mockery.disable()
   })
+})
+
+test('test lib/action - watch', function (t) {
+  const resultSymbol = Symbol('result')
+  const args = {
+    destination: 'dist',
+    source: 'src',
+    watch: true
+  }
+
+  mockery.enable({
+    useCleanCache: true,
+    warnOnReplace: false,
+    warnOnUnregistered: false
+  })
+
+  t.plan(4)
+
+  mockery.registerMock('mkdirp', function (dir, cb) {
+    cb()
+  })
+
+  mockery.registerMock('chokidar', {
+    watch: function (files, settings) {
+      t.equals(files, path.join(args.source, 'foo/**/*.foo'))
+
+      t.deepEquals(settings, {ignoreInitial: true})
+
+      return {
+        on: function (name, cb) {
+          t.equals(name, 'all')
+
+          t.equals(cb(), resultSymbol)
+        }
+      }
+    }
+  })
+
+  const types = {
+    foo: function (a, c) {
+      return function () {
+        return resultSymbol
+      }
+    }
+  }
+
+  require('../../lib/action')(types)(args)
 })
