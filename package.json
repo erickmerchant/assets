@@ -27,7 +27,7 @@
     "babelify": "^7.3.0",
     "browserify": "^14.1.0",
     "bundle-collapser": "^1.2.1",
-    "chalk": "^2.0.1",
+    "chalk": "^2.1.0",
     "chokidar": "^1.6.1",
     "cssnano": "^3.10.0",
     "exorcist": "^0.4.0",
