@@ -32,7 +32,7 @@
     "cssnano": "^3.10.0",
     "exorcist": "^0.4.0",
     "mkdirp": "^0.5.1",
-    "postcss": "^6.0.8",
+    "postcss": "^6.0.9",
     "postcss-color-function": "^4.0.0",
     "postcss-color-gray": "^4.0.0",
     "postcss-custom-media": "^6.0.0",
@@ -42,7 +42,7 @@
     "postcss-import": "^10.0.0",
     "postcss-media-minmax": "^3.0.0",
     "postcss-pseudo-class-any-link": "^4.0.0",
-    "sergeant": "^15.4.8",
+    "sergeant": "^15.4.9",
     "thenify": "^3.2.1",
     "unassertify": "^2.0.4"
   },
