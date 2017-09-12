@@ -2,7 +2,7 @@ const path = require('path')
 const test = require('tape')
 const mockery = require('mockery')
 
-test('test lib/action - no watch', function (t) {
+test('test src/action - no watch', function (t) {
   const resultSymbol = Symbol('result')
   const args = {
     destination: 'dist',
@@ -39,14 +39,14 @@ test('test lib/action - no watch', function (t) {
     }
   }
 
-  require('../../lib/action')(types)(args).then(function (results) {
+  require('../../src/action')(types)(args).then(function (results) {
     t.ok(results.includes(resultSymbol))
 
     mockery.disable()
   })
 })
 
-test('test lib/action - watch', function (t) {
+test('test src/action - watch', function (t) {
   const resultSymbol = Symbol('result')
   const args = {
     destination: 'dist',
@@ -90,5 +90,5 @@ test('test lib/action - watch', function (t) {
     }
   }
 
-  require('../../lib/action')(types)(args)
+  require('../../src/action')(types)(args)
 })

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 const command = require('sergeant')
-const action = require('./lib/action')({
-  js: require('./lib/scripts/'),
-  css: require('./lib/styles/')
+const action = require('./src/action')({
+  js: require('./src/scripts/'),
+  css: require('./src/styles/')
 })
 
 command('assets', 'generate css using postcss, and js using browserify and babel', function ({parameter, option, command}) {
