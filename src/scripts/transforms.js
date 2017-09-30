@@ -1,7 +1,7 @@
 const unassertify = require('unassertify')
 const babelify = require('babelify')
 const presetEnv = require('babel-preset-env')
-const babili = require('babel-preset-babili')
+const babili = require('babel-preset-minify')
 const yoyoify = require('babel-plugin-yo-yoify')
 
 module.exports = function (args) {
