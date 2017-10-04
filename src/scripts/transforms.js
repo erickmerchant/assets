@@ -33,8 +33,7 @@ module.exports = function (args) {
 
   transforms.push(babelify.configure({
     presets,
-    plugins,
-    env: 'production'
+    plugins
   }))
 
   return transforms
