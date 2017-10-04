@@ -19,13 +19,21 @@ module.exports = function (args) {
     }]
   ]
 
+  const plugins = []
+
   if (!args.noMin) {
     presets.push(babili)
+
+    plugins.push([
+      yoyoify, {
+        appendChildModule: 'bel/appendChild'
+      }
+    ])
   }
 
   transforms.push(babelify.configure({
     presets,
-    plugins: [yoyoify],
+    plugins,
     env: 'production'
   }))
 

@@ -21,7 +21,7 @@
   "homepage": "https://github.com/erickmerchant/assets#readme",
   "dependencies": {
     "autoprefixer": "^7.1.4",
-    "babel-plugin-yo-yoify": "^1.0.0",
+    "babel-plugin-yo-yoify": "^1.0.1",
     "babel-preset-env": "^1.6.0",
     "babel-preset-minify": "^0.2.0",
     "babelify": "^7.3.0",
