@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/erickmerchant/assets#readme",
   "dependencies": {
-    "autoprefixer": "^7.1.4",
+    "autoprefixer": "^7.1.5",
     "babel-plugin-yo-yoify": "^1.0.1",
     "babel-preset-env": "^1.6.0",
     "babel-preset-minify": "^0.2.0",
@@ -36,7 +36,7 @@
     "postcss-color-function": "^4.0.0",
     "postcss-color-gray": "^4.0.0",
     "postcss-custom-media": "^6.0.0",
-    "postcss-custom-properties": "^6.1.0",
+    "postcss-custom-properties": "^6.2.0",
     "postcss-custom-selectors": "^4.0.1",
     "postcss-font-family-system-ui": "^2.0.1",
     "postcss-import": "^11.0.0",
