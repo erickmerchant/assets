@@ -10,8 +10,10 @@ Uses the following modules.
 - [babel-plugin-yo-yoify](https://github.com/goto-bus-stop/babel-plugin-yo-yoify#readme)
 - [babel-preset-babili](https://github.com/babel/babili#readme)
 - [unassertify](https://github.com/unassert-js/unassertify)
-- [bundle-collapser](https://github.com/substack/bundle-collapser)
+- [browser-pack-flat](https://github.com/goto-bus-stop/browser-pack-flat)
+- [common-shakeify](https://github.com/goto-bus-stop/common-shakeify)
 - [exorcist](https://github.com/thlorenz/exorcist)
+- [uglify-es](https://www.npmjs.com/package/uglify-es)
 - [postcss](http://postcss.org/)
 - [postcss-import](https://github.com/postcss/postcss-import#readme)
 - [postcss-font-family-system-ui](https://github.com/JLHwung/postcss-font-family-system-ui)
@@ -36,3 +38,7 @@ npm install -g @erickmerchant/assets
 ```
 assets --help
 ```
+
+## Targeting Electron
+
+Be sure to pass `--no-min and --electron`.
