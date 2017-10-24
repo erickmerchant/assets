@@ -27,7 +27,7 @@
     "babelify": "^7.3.0",
     "browser-pack-flat": "^3.0.1",
     "browserify": "^14.5.0",
-    "chalk": "^2.2.0",
+    "chalk": "^2.3.0",
     "chokidar": "^1.7.0",
     "common-shakeify": "^0.4.4",
     "cssnano": "^3.10.0",
@@ -43,7 +43,7 @@
     "postcss-import": "^11.0.0",
     "postcss-media-minmax": "^3.0.0",
     "postcss-pseudo-class-any-link": "^4.0.0",
-    "sergeant": "^15.4.14",
+    "sergeant": "^15.4.15",
     "thenify": "^3.3.0",
     "uglify-es": "^3.1.5",
     "unassertify": "^2.1.0"
