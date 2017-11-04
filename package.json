@@ -21,10 +21,11 @@
   "homepage": "https://github.com/erickmerchant/assets#readme",
   "dependencies": {
     "autoprefixer": "^7.1.6",
+    "babel-core": "^6.26.0",
     "babel-plugin-yo-yoify": "^1.0.1",
     "babel-preset-env": "^1.6.1",
     "babel-preset-minify": "^0.2.0",
-    "babelify": "^7.3.0",
+    "babelify": "^8.0.0",
     "browser-pack-flat": "^3.0.3",
     "browserify": "^14.5.0",
     "chalk": "^2.3.0",
