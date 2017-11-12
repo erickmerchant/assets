@@ -46,7 +46,7 @@
     "postcss-pseudo-class-any-link": "^4.0.0",
     "sergeant": "^15.5.1",
     "thenify": "^3.3.0",
-    "uglify-es": "^3.1.8",
+    "uglify-es": "^3.1.9",
     "unassertify": "^2.1.0"
   },
   "devDependencies": {
