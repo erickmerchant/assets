@@ -1,6 +1,6 @@
 {
   "name": "@erickmerchant/assets",
-  "version": "6.8.17",
+  "version": "6.8.18",
   "description": "",
   "bin": {
     "assets": "./main.js"
