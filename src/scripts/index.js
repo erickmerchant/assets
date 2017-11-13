@@ -8,10 +8,9 @@ const stat = thenify(fs.stat)
 const readFile = thenify(fs.readFile)
 const writeFile = thenify(fs.writeFile)
 const createWriteStream = fs.createWriteStream
-const browserPackFlat = require('browser-pack-flat/plugin')
-const commonShakeify = require('common-shakeify')
 const browserify = require('browserify')
 const transforms = require('./transforms')
+const plugins = require('./plugins')
 const exorcist = require('exorcist')
 const uglify = require('uglify-es')
 
@@ -40,11 +39,10 @@ module.exports = function (args, config) {
           bundle.transform(transform, {global: true})
         })
 
-        if (!args.noMin) {
-          bundle.plugin(browserPackFlat)
+        plugins(args).forEach(function (plugin) {
+          bundle.plugin(plugin)
+        })
 
-          bundle.plugin(commonShakeify)
-        }
 
         bundle
         .bundle(function (err) {
