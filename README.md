@@ -4,16 +4,8 @@ Generate css using postcss, and js using browserify and babel.
 
 Uses the following modules.
 
-- [browserify](http://browserify.org/)
-- [babelify](https://github.com/babel/babelify)
-- [babel-preset-env](https://github.com/babel/babel-preset-env)
-- [babel-plugin-yo-yoify](https://github.com/goto-bus-stop/babel-plugin-yo-yoify#readme)
-- [babel-preset-babili](https://github.com/babel/babili#readme)
-- [unassertify](https://github.com/unassert-js/unassertify)
-- [browser-pack-flat](https://github.com/goto-bus-stop/browser-pack-flat)
-- [common-shakeify](https://github.com/goto-bus-stop/common-shakeify)
-- [exorcist](https://github.com/thlorenz/exorcist)
-- [uglify-es](https://www.npmjs.com/package/uglify-es)
+__for css__
+
 - [postcss](http://postcss.org/)
 - [postcss-import](https://github.com/postcss/postcss-import#readme)
 - [postcss-font-family-system-ui](https://github.com/JLHwung/postcss-font-family-system-ui)
@@ -26,6 +18,20 @@ Uses the following modules.
 - [postcss-color-function](https://github.com/postcss/postcss-color-function)
 - [autoprefixer](https://github.com/postcss/autoprefixer)
 - [cssnano](http://cssnano.co/)
+
+__for js__
+
+- [browserify](http://browserify.org/)
+- [babelify](https://github.com/babel/babelify)
+- [babel-preset-env](https://github.com/babel/babel-preset-env)
+- [babel-plugin-yo-yoify](https://github.com/goto-bus-stop/babel-plugin-yo-yoify#readme)
+- [babel-preset-babili](https://github.com/babel/babili#readme)
+- [unassertify](https://github.com/unassert-js/unassertify)
+- [browser-pack-flat](https://github.com/goto-bus-stop/browser-pack-flat)
+- [common-shakeify](https://github.com/goto-bus-stop/common-shakeify)
+- [exorcist](https://github.com/thlorenz/exorcist)
+- [uglify-es](https://www.npmjs.com/package/uglify-es)
+
 
 ## Install
 
