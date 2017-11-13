@@ -29,8 +29,8 @@ __for js__
 - [unassertify](https://github.com/unassert-js/unassertify)
 - [browser-pack-flat](https://github.com/goto-bus-stop/browser-pack-flat)
 - [common-shakeify](https://github.com/goto-bus-stop/common-shakeify)
+- [minify-stream](https://github.com/goto-bus-stop/minify-stream)
 - [exorcist](https://github.com/thlorenz/exorcist)
-- [uglify-es](https://www.npmjs.com/package/uglify-es)
 
 
 ## Install
