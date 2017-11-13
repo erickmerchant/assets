@@ -5,14 +5,12 @@ const fs = require('fs')
 const path = require('path')
 const thenify = require('thenify')
 const stat = thenify(fs.stat)
-const readFile = thenify(fs.readFile)
-const writeFile = thenify(fs.writeFile)
 const createWriteStream = fs.createWriteStream
 const browserify = require('browserify')
 const transforms = require('./transforms')
 const plugins = require('./plugins')
 const exorcist = require('exorcist')
-const uglify = require('uglify-es')
+const minify = require('minify-stream')
 
 module.exports = function (args, config) {
   return function () {
@@ -27,7 +25,7 @@ module.exports = function (args, config) {
           options.bare = true
         }
 
-        const bundle = browserify(options)
+        let bundle = browserify(options)
 
         if (args.electron) {
           bundle.external('electron')
@@ -43,12 +41,16 @@ module.exports = function (args, config) {
           bundle.plugin(plugin)
         })
 
-
-        bundle
+        bundle = bundle
         .bundle(function (err) {
           if (err) reject(err)
         })
-        .pipe(exorcist(
+
+        if (!args.noMin) {
+          bundle = bundle.pipe(minify())
+        }
+
+        bundle.pipe(exorcist(
           config.output + '.map',
           path.basename(config.output + '.map'),
           '',
@@ -56,32 +58,7 @@ module.exports = function (args, config) {
         ))
         .pipe(bundleFs)
 
-        bundleFs.once('finish', function () {
-          if (!args.noMin) {
-            Promise.all([
-              readFile(config.output, 'utf8'),
-              readFile(config.output + '.map', 'utf8')
-            ])
-              .then(function ([code, map]) {
-                const minified = uglify.minify(code, {
-                  compress: true,
-                  mangle: true,
-                  sourceMap: {
-                    content: map,
-                    url: path.basename(config.output + '.map')
-                  }
-                })
-
-                return Promise.all([
-                  writeFile(config.output, minified.code),
-                  writeFile(config.output + '.map', minified.map)
-                ])
-              })
-              .then(resolve, reject)
-          } else {
-            resolve()
-          }
-        })
+        bundleFs.once('finish', resolve)
 
         bundleFs.once('error', reject)
       })
