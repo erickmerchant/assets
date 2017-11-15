@@ -22,7 +22,7 @@ command('assets', 'generate css using postcss, and js using browserify and babel
   })
 
   option('electron', {
-    description: 'build for electron',
+    description: 'build for electron. (implies --no-min)',
     type: Boolean
   })
 

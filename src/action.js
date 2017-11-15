@@ -5,6 +5,10 @@ const chokidar = require('chokidar')
 
 module.exports = function (types) {
   return function (args) {
+    if (args.electron) {
+      args.noMin = true
+    }
+
     return mkdirp(args.destination).then(function () {
       return Promise.all(Object.keys(types).map(function (ext) {
         const config = {
