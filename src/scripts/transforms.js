@@ -2,7 +2,7 @@ const unassertify = require('unassertify')
 const babelify = require('babelify')
 const presetEnv = require('babel-preset-env')
 const babili = require('babel-preset-minify')
-const yoyoify = require('babel-plugin-yo-yoify')
+const yoYoify = require('yo-yoify')
 
 module.exports = function (args) {
   const transforms = []
@@ -23,18 +23,16 @@ module.exports = function (args) {
 
   if (!args.noMin) {
     presets.push(babili)
-
-    plugins.push([
-      yoyoify, {
-        appendChildModule: 'bel/appendChild'
-      }
-    ])
   }
 
   transforms.push(babelify.configure({
     presets,
     plugins
   }))
+
+  if (!args.noMin) {
+    transforms.push(yoYoify)
+  }
 
   return transforms
 }
