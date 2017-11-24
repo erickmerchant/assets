@@ -40,7 +40,7 @@
     "postcss-font-family-system-ui": "^2.1.1",
     "postcss-import": "^11.0.0",
     "postcss-media-minmax": "^3.0.0",
-    "sergeant": "^16.0.1",
+    "sergeant": "^16.1.0",
     "thenify": "^3.3.0",
     "unassertify": "^2.1.0",
     "yo-yoify": "^4.2.0"
