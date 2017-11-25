@@ -54,7 +54,7 @@ module.exports = function (args, config) {
           config.output + '.map',
           path.basename(config.output + '.map'),
           '',
-          path.join(process.cwd(), args.source)
+          process.cwd()
         ))
         .pipe(bundleFs)
 

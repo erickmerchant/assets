@@ -6,9 +6,14 @@ const action = require('./src/action')({
 })
 
 command('assets', 'generate css using postcss, and js using browserify and babel', function ({parameter, option, command}) {
-  parameter('source', {
-    description: 'where is your code',
-    default: '.'
+  option('css', {
+    description: 'where is your css',
+    default: './css/index.css'
+  })
+
+  option('js', {
+    description: 'where is your js',
+    default: './js/index.js'
   })
 
   parameter('destination', {
