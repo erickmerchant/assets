@@ -5,11 +5,11 @@ const mockery = require('mockery')
 test('test src/action - no watch', function (t) {
   const resultSymbol = Symbol('result')
   const args = {
-    destination: 'dist',
-    source: 'src'
+    foo: './foo/index.foo',
+    destination: 'dist'
   }
   const config = {
-    input: path.join(args.source, 'foo/index.foo'),
+    input: './foo/index.foo',
     output: path.join(args.destination, 'bundle.foo')
   }
 
@@ -49,8 +49,8 @@ test('test src/action - no watch', function (t) {
 test('test src/action - watch', function (t) {
   const resultSymbol = Symbol('result')
   const args = {
+    foo: './foo/index.foo',
     destination: 'dist',
-    source: 'src',
     watch: true
   }
 
@@ -68,7 +68,7 @@ test('test src/action - watch', function (t) {
 
   mockery.registerMock('chokidar', {
     watch: function (files, settings) {
-      t.equals(files, path.join(args.source, 'foo/**/*.foo'))
+      t.equals(files, 'foo/**/*.foo')
 
       t.deepEquals(settings, {ignoreInitial: true})
 
