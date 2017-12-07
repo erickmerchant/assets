@@ -8,17 +8,17 @@ const action = require('./src/action')({
 command('assets', 'generate css using postcss, and js using browserify and babel', function ({parameter, option, command}) {
   option('css', {
     description: 'where is your css',
-    default: './css/index.css'
+    default: { value: './css/index.css' }
   })
 
   option('js', {
     description: 'where is your js',
-    default: './js/index.js'
+    default: { value: './js/index.js' }
   })
 
   parameter('destination', {
     description: 'where to save to',
-    default: '.'
+    default: { value: '.' }
   })
 
   option('no-min', {
@@ -39,7 +39,7 @@ command('assets', 'generate css using postcss, and js using browserify and babel
 
   option('browsers', {
     description: 'what browsers to target',
-    default: ['last 2 versions', '> 5%'],
+    default: { value: ['last 2 versions', '> 5%'] },
     multiple: true
   })
 
