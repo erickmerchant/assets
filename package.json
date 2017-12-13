@@ -1,13 +1,13 @@
 {
   "name": "@erickmerchant/assets",
   "version": "10.2.0",
-  "description": "",
+  "description": "Generate css using postcss, and js using browserify and babel.",
+  "main": "index.js",
   "bin": {
-    "assets": "./main.js"
+    "assets": "./cli.js"
   },
   "scripts": {
-    "test": "standard && tape 'test/**/*.js' | faucet",
-    "cover": "nyc --reporter=html npm test"
+    "test": "standard && tape 'test/**/*.js'"
   },
   "repository": {
     "type": "git",
@@ -46,9 +46,7 @@
     "yo-yoify": "^4.2.0"
   },
   "devDependencies": {
-    "faucet": "0.0.1",
     "mockery": "^2.0.0",
-    "nyc": "^11.4.0",
     "standard": "^10.0.3",
     "tape": "^4.8.0"
   }

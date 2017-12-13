@@ -32,15 +32,15 @@ __for js__
 ## Install
 
 ```
-npm install -g @erickmerchant/assets
+npm install @erickmerchant/assets
 ```
 
 ## Help
 
 ```
-assets --help
+npx assets --help
 ```
 
 ## Targeting Electron
 
-Be sure to pass `--no-min and --electron`.
+Be sure to pass `--electron`.

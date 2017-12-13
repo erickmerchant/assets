@@ -39,7 +39,7 @@ test('test src/action - no watch', function (t) {
     }
   }
 
-  require('../../src/action')(types)(args).then(function (results) {
+  require('../')(types)(args).then(function (results) {
     t.ok(results.includes(resultSymbol))
 
     mockery.disable()
@@ -90,5 +90,5 @@ test('test src/action - watch', function (t) {
     }
   }
 
-  require('../../src/action')(types)(args)
+  require('../')(types)(args)
 })
