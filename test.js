@@ -17,7 +17,7 @@ const noopDeps = {
 // }
 
 test('index.js - options and parameters', function (t) {
-  t.plan(16)
+  t.plan(15)
 
   const parameters = {}
   const options = {}
@@ -31,13 +31,11 @@ test('index.js - options and parameters', function (t) {
     }
   })
 
-  t.ok(options.css)
+  t.ok(parameters.source)
 
-  t.equal(options.css.default.value, './css/index.css')
+  t.deepEqual(parameters.source.default.value, ['./css/index.css', './js/index.js'])
 
-  t.ok(options.js)
-
-  t.equal(options.js.default.value, './js/index.js')
+  t.equal(parameters.source.multiple, true)
 
   t.ok(parameters.destination)
 

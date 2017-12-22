@@ -1,20 +1,25 @@
 const path = require('path')
+const assert = require('assert')
+const commonDir = require('common-dir')
 
 module.exports = function (deps) {
-  return function ({option, parameter}) {
-    option('css', {
-      description: 'where is your css',
-      default: { value: './css/index.css' }
-    })
+  assert.equal(typeof deps.makeDir, 'function')
 
-    option('js', {
-      description: 'where is your js',
-      default: { value: './js/index.js' }
+  assert.equal(typeof deps.watch, 'function')
+
+  assert.equal(typeof deps.types, 'object')
+
+  return function ({option, parameter}) {
+    parameter('source', {
+      description: 'your source files',
+      default: { value: ['./css/index.css', './js/index.js'] },
+      multiple: true
     })
 
     parameter('destination', {
       description: 'where to save to',
-      default: { value: '.' }
+      default: { value: '.' },
+      required: true
     })
 
     option('no-min', {
@@ -42,12 +47,22 @@ module.exports = function (deps) {
     return function (args) {
       return deps.makeDir(args.destination).then(function () {
         return Promise.all(Object.keys(deps.types).map(function (ext) {
-          const config = {
-            input: args[ext],
-            output: path.join(args.destination, 'bundle.' + ext)
+          const input = args.source.filter((source) => path.extname(source) === '.' + ext)
+
+          if (input.length) {
+            if (args.destination.endsWith('/')) {
+              args.destination += 'bundle'
+            }
+
+            const config = {
+              input,
+              output: path.join(args.destination + '.' + ext)
+            }
+
+            return deps.watch(args.watch, commonDir(input), deps.types[ext](args, config))
           }
 
-          return deps.watch(args.watch, path.join(path.dirname(args[ext]), '**/*.' + ext), deps.types[ext](args, config))
+          return Promise.resolve(true)
         }))
       })
     }

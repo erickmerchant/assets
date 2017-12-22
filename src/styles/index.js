@@ -5,17 +5,19 @@ const path = require('path')
 const thenify = require('thenify')
 const readFile = thenify(require('fs').readFile)
 const writeFile = thenify(require('fs').writeFile)
-const stat = thenify(require('fs').stat)
 const postcss = require('postcss')
+const Concat = require('concat-with-sourcemaps')
 const plugins = require('./plugins')
 
 module.exports = function (args, config) {
   return function () {
-    return stat(config.input).then(function () {
-      return readFile(config.input, 'utf-8')
+    const concat = new Concat(true, config.output, '\n')
+
+    return Promise.all(config.input.map(function (input) {
+      return readFile(input, 'utf-8')
       .then(function (css) {
         return postcss(plugins(args)).process(css, {
-          from: config.input,
+          from: input,
           to: '/' + path.basename(config.output),
           map: { inline: false, annotation: path.basename(config.output + '.map') }
         }).then(function (output) {
@@ -23,19 +25,21 @@ module.exports = function (args, config) {
 
           map.sources = map.sources.map((source) => path.relative(process.cwd(), '/' + source))
 
-          return Promise.all([
-            writeFile(config.output, output.css),
-            writeFile(config.output + '.map', JSON.stringify(map))
-          ])
-          .then(function () {
-            console.log(chalk.green('\u2714') + ' saved ' + config.output)
-          })
+          concat.add(input, output.css, JSON.stringify(map))
+
+          return true
         })
       })
-      .catch(error)
+    }))
+    .then(function () {
+      return Promise.all([
+        writeFile(config.output, concat.content),
+        writeFile(config.output + '.map', concat.sourceMap)
+      ])
+      .then(function () {
+        console.log(chalk.green('\u2714') + ' saved ' + config.output)
+      })
     })
-    .catch(function () {
-      return Promise.resolve(true)
-    })
+    .catch(error)
   }
 }
