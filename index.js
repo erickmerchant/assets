@@ -17,8 +17,8 @@ module.exports = function (deps) {
     })
 
     parameter('destination', {
-      description: 'where to save to',
-      default: { value: '.' },
+      description: 'what to save',
+      default: { value: './bundle' },
       required: true
     })
 
@@ -45,15 +45,15 @@ module.exports = function (deps) {
     })
 
     return function (args) {
-      return deps.makeDir(args.destination).then(function () {
+      if (args.destination.endsWith('/')) {
+        args.destination += 'bundle'
+      }
+
+      return deps.makeDir(path.dirname(args.destination)).then(function () {
         return Promise.all(Object.keys(deps.types).map(function (ext) {
           const input = args.source.filter((source) => path.extname(source) === '.' + ext)
 
           if (input.length) {
-            if (args.destination.endsWith('/')) {
-              args.destination += 'bundle'
-            }
-
             const config = {
               input,
               output: path.join(args.destination + '.' + ext)

@@ -11,10 +11,10 @@ const noopDeps = {
   watch () {},
   types: {}
 }
-// const noopDefiners = {
-//   parameter: () => {},
-//   option: () => {}
-// }
+const noopDefiners = {
+  parameter: () => {},
+  option: () => {}
+}
 
 test('index.js - options and parameters', function (t) {
   t.plan(15)
@@ -39,7 +39,7 @@ test('index.js - options and parameters', function (t) {
 
   t.ok(parameters.destination)
 
-  t.equal(parameters.destination.default.value, '.')
+  t.equal(parameters.destination.default.value, './bundle')
 
   t.ok(options['no-min'])
 
@@ -60,6 +60,41 @@ test('index.js - options and parameters', function (t) {
   t.equal(options.browsers.multiple, true)
 
   t.deepEqual(options.browsers.default.value, ['last 2 versions', '> 5%'])
+})
+
+test('index.js - make directory and watch', function (t) {
+  t.plan(4)
+
+  require('./')({
+    makeDir (directory) {
+      t.equal(directory, '.')
+
+      return Promise.resolve(true)
+    },
+    watch (watch, directory, fn) {
+      t.equal(watch, false)
+
+      t.equal(directory, './')
+
+      return fn()
+    },
+    types: {
+      txt (args, config) {
+        return () => {
+          t.deepEqual(config, {
+            input: ['./a.txt', './b.txt', './c.txt'],
+            output: 'bundle.txt'
+          })
+
+          return Promise.resolve(true)
+        }
+      }
+    }
+  })(noopDefiners)({
+    destination: './bundle',
+    source: ['./a.txt', './b.txt', './c.txt'],
+    watch: false
+  })
 })
 
 test('cli.js', async function (t) {

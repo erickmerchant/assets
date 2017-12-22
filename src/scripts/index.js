@@ -13,7 +13,7 @@ const minify = require('minify-stream')
 module.exports = function (args, config) {
   return function () {
     return new Promise(function (resolve, reject) {
-      const bundleFs = createWriteStream(config.output)
+      const writeStream = createWriteStream(config.output)
       const options = {
         debug: true
       }
@@ -55,11 +55,11 @@ module.exports = function (args, config) {
         '',
         process.cwd()
       ))
-      .pipe(bundleFs)
+      .pipe(writeStream)
 
-      bundleFs.once('finish', resolve)
+      writeStream.once('finish', resolve)
 
-      bundleFs.once('error', reject)
+      writeStream.once('error', reject)
     })
     .then(function () {
       console.log(chalk.green('\u2714') + ' saved ' + config.output)
