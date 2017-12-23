@@ -42,7 +42,7 @@ test('index.js - options and parameters', function (t) {
 
   t.ok(parameters.destination)
 
-  t.equal(parameters.destination.default.value, './bundle')
+  t.equal(parameters.destination.required, true)
 
   t.ok(options['no-min'])
 

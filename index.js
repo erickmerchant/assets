@@ -26,7 +26,6 @@ module.exports = function (deps) {
 
     parameter('destination', {
       description: 'what to save',
-      default: { value: './bundle' },
       required: true
     })
 
