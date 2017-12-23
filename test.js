@@ -7,7 +7,9 @@ const out = new stream.Writable()
 out._write = () => { }
 
 const noopDeps = {
+  out,
   makeDir () {},
+  writeFile () {},
   watch () {},
   types: {}
 }
@@ -63,11 +65,17 @@ test('index.js - options and parameters', function (t) {
 })
 
 test('index.js - make directory and watch', function (t) {
-  t.plan(4)
+  t.plan(6)
 
   require('./')({
+    out,
     makeDir (directory) {
       t.equal(directory, '.')
+
+      return Promise.resolve(true)
+    },
+    writeFile (file, content) {
+      t.ok(file.startsWith('bundle.txt'))
 
       return Promise.resolve(true)
     },

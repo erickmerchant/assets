@@ -3,12 +3,15 @@ const assert = require('assert')
 const commonDir = require('common-dir')
 const error = require('sergeant/error')
 const chalk = require('chalk')
-const thenify = require('thenify')
-const fs = require('fs')
-const writeFile = thenify(fs.writeFile)
 
 module.exports = function (deps) {
+  assert.equal(typeof deps.out, 'object')
+
+  assert.equal(typeof deps.out.write, 'function')
+
   assert.equal(typeof deps.makeDir, 'function')
+
+  assert.equal(typeof deps.writeFile, 'function')
 
   assert.equal(typeof deps.watch, 'function')
 
@@ -69,12 +72,12 @@ module.exports = function (deps) {
             return deps.watch(args.watch, commonDir(input), function () {
               handler().then((result) => {
                 if (result != null) {
-                  writeFile(config.output, result.code).then(() => {
-                    console.log(chalk.green('\u2714') + ' saved ' + config.output)
+                  deps.writeFile(config.output, result.code).then(() => {
+                    deps.out.write(chalk.green('\u2714') + ' saved ' + config.output + '\n')
                   })
 
-                  writeFile(config.output + '.map', result.map).then(() => {
-                    console.log(chalk.green('\u2714') + ' saved ' + config.output + '.map')
+                  deps.writeFile(config.output + '.map', result.map).then(() => {
+                    deps.out.write(chalk.green('\u2714') + ' saved ' + config.output + '.map' + '\n')
                   })
                 }
               })
