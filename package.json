@@ -49,6 +49,7 @@
     "yo-yoify": "^4.2.0"
   },
   "devDependencies": {
+    "bel": "^5.1.5",
     "execa": "^0.8.0",
     "standard": "^10.0.3",
     "tape": "^4.8.0"

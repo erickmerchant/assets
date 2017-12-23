@@ -1,0 +1,41 @@
+{
+  "version": 3,
+  "sources": [
+    "node_modules/browser-pack-flat/_prelude",
+    "fixtures/js/index.js",
+    "fixtures/js/component.js",
+    "node_modules/yo-yoify/lib/appendChild.js"
+  ],
+  "names": [
+    "document",
+    "querySelector",
+    "appendChild",
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "length",
+    "Array",
+    "isArray",
+    "Date",
+    "RegExp",
+    "toString",
+    "test",
+    "lastChild",
+    "nodeName",
+    "nodeValue",
+    "createTextNode",
+    "nodeType",
+    "_$component_1",
+    "heading"
+  ],
+  "mappings": "CAAA,WACA,aCCAA,SAAAC,cAAA,QAAAC,YCCA,SAAAC,GAAiB,OAAA,mFCHA,SAAAA,EAAAC,EAAAC,GACf,IAAK,IAAAC,EAAIC,EAAT,EAAgBA,EAAIF,EAApBG,OAAAD,IAEE,GAAAD,EAFsCD,EAAAE,GAElCE,MAAJC,QAAAJ,GAAyBH,EAAAC,EAAAE,OAAzB,CAUA,IANI,iBAAAA,GAAA,kBACFA,GACAA,aAFEK,MAGFL,aAHFM,UAIEN,EAAOA,EAV6BO,YAYtC,iBAAIP,EAA0B,CAC5B,GAAI,cAAJQ,KAAAR,GAD4B,SAE5B,GAAIF,EAAAW,WAAJ,UAAoBX,EAAAW,UAAAC,SAAmC,CACrDZ,EAAAW,UADqDE,WAAAX,EAAA,SAIvDA,EAAON,SANqBkB,eAAAZ,GAQ1BA,GAAQA,EAAZa,UACEf,EArBoCF,YAAAI,yBDEzB,YDD0Bc,EAAWC,QAAtD,mBDFA",
+  "sourcesContent": [
+    "(function(){\n",
+    "const component = require('./component.js')\n\ndocument.querySelector('body').appendChild(component({heading: 'Testing 1 2 3'}))\n",
+    "const assert = require('assert')\nconst html = require('bel')\n\nmodule.exports = function (state) {\n  assert.equal(typeof state, 'object')\n\n  return html`<h1 class=\"foo\">${state.heading}</h1>`\n}\n",
+    "module.exports = function yoyoifyAppendChild (el, childs) {\n  for (var i = 0; i < childs.length; i++) {\n    var node = childs[i]\n    if (Array.isArray(node)) {\n      yoyoifyAppendChild(el, node)\n      continue\n    }\n    if (typeof node === 'number' ||\n      typeof node === 'boolean' ||\n      node instanceof Date ||\n      node instanceof RegExp) {\n      node = node.toString()\n    }\n    if (typeof node === 'string') {\n      if (/^[\\n\\r\\s]+$/.test(node)) continue\n      if (el.lastChild && el.lastChild.nodeName === '#text') {\n        el.lastChild.nodeValue += node\n        continue\n      }\n      node = document.createTextNode(node)\n    }\n    if (node && node.nodeType) {\n      el.appendChild(node)\n    }\n  }\n}\n"
+  ],
+  "sourceRoot": ""
+}
