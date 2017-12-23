@@ -1,5 +1,4 @@
 const test = require('tape')
-// const chalk = require('chalk')
 const execa = require('execa')
 const stream = require('stream')
 const out = new stream.Writable()
@@ -101,6 +100,83 @@ test('index.js - make directory and watch', function (t) {
   })(noopDefiners)({
     destination: './bundle',
     source: ['./a.txt', './b.txt', './c.txt'],
+    watch: false
+  })
+})
+
+test('index.js - directory destination, watch true, null result', function (t) {
+  t.plan(4)
+
+  require('./')({
+    out,
+    makeDir (directory) {
+      t.equal(directory, '.')
+
+      return Promise.resolve(true)
+    },
+    writeFile (file, content) {
+      t.ok(false)
+
+      return Promise.resolve(true)
+    },
+    watch (watch, directory, fn) {
+      t.equal(watch, true)
+
+      t.equal(directory, './')
+
+      return fn()
+    },
+    types: {
+      txt (args, config) {
+        return () => {
+          t.deepEqual(config, {
+            input: ['./a.txt'],
+            output: 'bundle.txt'
+          })
+
+          return Promise.resolve(null)
+        }
+      }
+    }
+  })(noopDefiners)({
+    destination: './',
+    source: ['./a.txt'],
+    watch: true
+  })
+})
+
+test('index.js - no input', function (t) {
+  t.plan(1)
+
+  require('./')({
+    out,
+    makeDir (directory) {
+      t.equal(directory, '.')
+
+      return Promise.resolve(true)
+    },
+    writeFile (file, content) {
+      t.ok(false)
+
+      return Promise.resolve(true)
+    },
+    watch (watch, directory, fn) {
+      t.ok(false)
+
+      return fn()
+    },
+    types: {
+      txt (args, config) {
+        return () => {
+          t.ok(false)
+
+          return Promise.resolve(true)
+        }
+      }
+    }
+  })(noopDefiners)({
+    destination: './bundle',
+    source: ['./a.foo', './b.foo', './c.foo'],
     watch: false
   })
 })
