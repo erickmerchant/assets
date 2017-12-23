@@ -36,7 +36,7 @@ test('index.js - options and parameters', function (t) {
 
   t.ok(parameters.source)
 
-  t.deepEqual(parameters.source.default.value, ['./css/index.css', './js/index.js'])
+  t.deepEqual(parameters.source.required, true)
 
   t.equal(parameters.source.multiple, true)
 

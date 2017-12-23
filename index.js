@@ -20,7 +20,7 @@ module.exports = function (deps) {
   return function ({option, parameter}) {
     parameter('source', {
       description: 'your source files',
-      default: { value: ['./css/index.css', './js/index.js'] },
+      required: true,
       multiple: true
     })
 
