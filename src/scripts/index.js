@@ -1,16 +1,17 @@
-const error = require('sergeant/error')
-const chalk = require('chalk')
-const console = require('console')
-const fs = require('fs')
-const path = require('path')
-const createWriteStream = fs.createWriteStream
-const browserify = require('browserify')
-const transforms = require('./transforms')
-const plugins = require('./plugins')
-const exorcist = require('exorcist')
-const minify = require('minify-stream')
 
 module.exports = function (args, config) {
+  const error = require('sergeant/error')
+  const chalk = require('chalk')
+  const console = require('console')
+  const fs = require('fs')
+  const path = require('path')
+  const createWriteStream = fs.createWriteStream
+  const browserify = require('browserify')
+  const transforms = require('./transforms')
+  const plugins = require('./plugins')
+  const exorcist = require('exorcist')
+  const minify = require('minify-stream')
+
   return function () {
     return new Promise(function (resolve, reject) {
       const writeStream = createWriteStream(config.output)

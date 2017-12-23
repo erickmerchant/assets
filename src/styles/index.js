@@ -1,15 +1,16 @@
-const error = require('sergeant/error')
-const chalk = require('chalk')
-const console = require('console')
-const path = require('path')
-const thenify = require('thenify')
-const readFile = thenify(require('fs').readFile)
-const writeFile = thenify(require('fs').writeFile)
-const postcss = require('postcss')
-const Concat = require('concat-with-sourcemaps')
-const plugins = require('./plugins')
 
 module.exports = function (args, config) {
+  const error = require('sergeant/error')
+  const chalk = require('chalk')
+  const console = require('console')
+  const path = require('path')
+  const thenify = require('thenify')
+  const readFile = thenify(require('fs').readFile)
+  const writeFile = thenify(require('fs').writeFile)
+  const postcss = require('postcss')
+  const Concat = require('concat-with-sourcemaps')
+  const plugins = require('./plugins')
+
   return function () {
     const concat = new Concat(true, config.output, '\n')
 
