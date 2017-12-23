@@ -1,0 +1,15 @@
+@import './variables.css';
+
+body {
+  font-family: system-ui;
+}
+
+.foo {
+  color: var(--red);
+}
+
+@media (--breakpoint) {
+  .foo {
+    color: var(--blue);
+  }
+}

@@ -1,27 +1,96 @@
 const path = require('path')
-const thenify = require('thenify')
-const mkdirp = thenify(require('mkdirp'))
-const chokidar = require('chokidar')
+const assert = require('assert')
+const commonDir = require('common-dir')
+const error = require('sergeant/error')
+const chalk = require('chalk')
 
-module.exports = function (types) {
-  return function (args) {
-    return mkdirp(args.destination).then(function () {
-      return Promise.all(Object.keys(types).map(function (ext) {
-        const config = {
-          input: args[ext],
-          output: path.join(args.destination, 'bundle.' + ext)
-        }
+module.exports = function (deps) {
+  assert.equal(typeof deps.out, 'object')
 
-        const run = types[ext](args, config)
+  assert.equal(typeof deps.out.write, 'function')
 
-        if (args.watch) {
-          chokidar.watch(path.join(path.dirname(args[ext]), '**/*.' + ext), {ignoreInitial: true}).on('all', function () {
-            return run()
-          })
-        }
+  assert.equal(typeof deps.makeDir, 'function')
 
-        return run()
-      }))
+  assert.equal(typeof deps.writeFile, 'function')
+
+  assert.equal(typeof deps.watch, 'function')
+
+  assert.equal(typeof deps.types, 'object')
+
+  return function ({option, parameter}) {
+    parameter('source', {
+      description: 'your source files',
+      default: { value: ['./css/index.css', './js/index.js'] },
+      multiple: true
     })
+
+    parameter('destination', {
+      description: 'what to save',
+      default: { value: './bundle' },
+      required: true
+    })
+
+    option('no-min', {
+      description: 'do not minify',
+      type: Boolean
+    })
+
+    option('electron', {
+      description: 'build for electron',
+      type: Boolean
+    })
+
+    option('watch', {
+      description: 'watch for changes',
+      type: Boolean,
+      aliases: ['w']
+    })
+
+    option('browsers', {
+      description: 'what browsers to target',
+      default: { value: ['last 2 versions', '> 5%'] },
+      multiple: true
+    })
+
+    return function (args) {
+      if (args.destination.endsWith('/')) {
+        args.destination += 'bundle'
+      }
+
+      return deps.makeDir(path.dirname(args.destination)).then(function () {
+        return Promise.all(Object.keys(deps.types).map(function (ext) {
+          const input = args.source.filter((source) => path.extname(source) === '.' + ext)
+
+          if (input.length) {
+            const config = {
+              input,
+              output: path.join(args.destination + '.' + ext),
+              electron: args.electron,
+              noMin: args.noMin,
+              browsers: args.browsers
+            }
+
+            let handler = deps.types[ext](config)
+
+            return deps.watch(args.watch, commonDir(input), function () {
+              handler().then((result) => {
+                if (result != null) {
+                  deps.writeFile(config.output, result.code).then(() => {
+                    deps.out.write(chalk.green('\u2714') + ' saved ' + config.output + '\n')
+                  })
+
+                  deps.writeFile(config.output + '.map', result.map).then(() => {
+                    deps.out.write(chalk.green('\u2714') + ' saved ' + config.output + '.map' + '\n')
+                  })
+                }
+              })
+              .catch(error)
+            })
+          }
+
+          return Promise.resolve(true)
+        }))
+      })
+    }
   }
 }

@@ -1,74 +1,90 @@
-const error = require('sergeant/error')
-const chalk = require('chalk')
-const console = require('console')
-const fs = require('fs')
-const path = require('path')
-const thenify = require('thenify')
-const stat = thenify(fs.stat)
-const createWriteStream = fs.createWriteStream
-const browserify = require('browserify')
-const transforms = require('./transforms')
-const plugins = require('./plugins')
-const exorcist = require('exorcist')
-const minify = require('minify-stream')
 
-module.exports = function (args, config) {
+module.exports = function (config) {
+  const error = require('sergeant/error')
+  const to2 = require('to2')
+  const path = require('path')
+  const browserify = require('browserify')
+  const transforms = require('./transforms')
+  const plugins = require('./plugins')
+  const exorcist = require('exorcist')
+  const minify = require('minify-stream')
+
   return function () {
-    return stat(config.input).then(function () {
-      return new Promise(function (resolve, reject) {
-        const bundleFs = createWriteStream(config.output)
-        const options = {
-          debug: true
-        }
+    let codeData = ''
+    let mapData = ''
 
-        if (args.electron) {
-          options.bare = true
-        }
+    return new Promise(function (resolve, reject) {
+      const options = {
+        debug: true
+      }
 
-        let bundle = browserify(options)
+      if (config.electron) {
+        options.bare = true
+      }
 
-        if (args.electron) {
-          bundle.external('electron')
-        }
+      let bundle = browserify(options)
 
-        bundle.add(config.input)
+      if (config.electron) {
+        bundle.external('electron')
+      }
 
-        transforms(args).forEach(function (transform) {
-          bundle.transform(transform, {global: true})
-        })
-
-        plugins(args).forEach(function (plugin) {
-          bundle.plugin(plugin)
-        })
-
-        bundle = bundle
-        .bundle(function (err) {
-          if (err) reject(err)
-        })
-
-        if (!args.noMin) {
-          bundle = bundle.pipe(minify())
-        }
-
-        bundle.pipe(exorcist(
-          config.output + '.map',
-          path.basename(config.output + '.map'),
-          '',
-          process.cwd()
-        ))
-        .pipe(bundleFs)
-
-        bundleFs.once('finish', resolve)
-
-        bundleFs.once('error', reject)
+      config.input.forEach(function (input) {
+        bundle.add(input)
       })
-      .then(function () {
-        console.log(chalk.green('\u2714') + ' saved ' + config.output)
+
+      transforms(config).forEach(function (transform) {
+        bundle.transform(transform, {global: true})
       })
-      .catch(error)
+
+      plugins(config).forEach(function (plugin) {
+        bundle.plugin(plugin)
+      })
+
+      bundle = bundle
+      .bundle(function (err) {
+        if (err) reject(err)
+      })
+
+      if (!config.noMin) {
+        bundle = bundle.pipe(minify())
+      }
+
+      let mapStream = to2((data, enc, cb) => {
+        mapData += data.toString()
+
+        cb()
+      }, (cb) => {
+        cb()
+      })
+
+      mapStream.once('error', reject)
+
+      let codeStream = to2((data, enc, cb) => {
+        codeData += data.toString()
+
+        cb()
+      }, (cb) => {
+        cb()
+
+        resolve()
+      })
+
+      codeStream.once('error', reject)
+
+      bundle.pipe(exorcist(
+        mapStream,
+        path.basename(config.output + '.map'),
+        '',
+        process.cwd()
+      ))
+      .pipe(codeStream)
     })
-    .catch(function () {
-      return Promise.resolve(true)
+    .then(function () {
+      return Promise.resolve({
+        code: codeData,
+        map: mapData
+      })
     })
+    .catch(error)
   }
 }

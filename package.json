@@ -7,7 +7,7 @@
     "assets": "./cli.js"
   },
   "scripts": {
-    "test": "standard && tape 'test/**/*.js'"
+    "test": "standard && tape test.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/erickmerchant/assets#readme",
   "dependencies": {
+    "@erickmerchant/conditional-watch": "^1.0.0",
     "autoprefixer": "^7.2.3",
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
@@ -28,8 +29,9 @@
     "browser-pack-flat": "^3.0.5",
     "browserify": "^14.5.0",
     "chalk": "^2.3.0",
-    "chokidar": "^1.7.0",
+    "common-dir": "^1.0.1",
     "common-shakeify": "^0.4.5",
+    "concat-with-sourcemaps": "^1.0.4",
     "cssnano": "^3.10.0",
     "exorcist": "^1.0.0",
     "minify-stream": "^1.1.0",
@@ -42,11 +44,13 @@
     "postcss-media-minmax": "^3.0.0",
     "sergeant": "^17.1.1",
     "thenify": "^3.3.0",
+    "to2": "^1.0.0",
     "unassertify": "^2.1.0",
     "yo-yoify": "^4.2.0"
   },
   "devDependencies": {
-    "mockery": "^2.0.0",
+    "bel": "^5.1.5",
+    "execa": "^0.8.0",
     "standard": "^10.0.3",
     "tape": "^4.8.0"
   }

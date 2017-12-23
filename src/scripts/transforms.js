@@ -4,24 +4,24 @@ const presetEnv = require('babel-preset-env')
 const babili = require('babel-preset-minify')
 const yoYoify = require('yo-yoify')
 
-module.exports = function (args) {
+module.exports = function (config) {
   const transforms = []
 
-  if (!args.noMin) {
+  if (!config.noMin) {
     transforms.push(unassertify)
   }
 
   const presets = [
     [presetEnv, {
       targets: {
-        browsers: args.browsers
+        browsers: config.browsers
       }
     }]
   ]
 
   const plugins = []
 
-  if (!args.noMin) {
+  if (!config.noMin) {
     presets.push(babili)
   }
 
@@ -30,7 +30,7 @@ module.exports = function (args) {
     plugins
   }))
 
-  if (!args.noMin) {
+  if (!config.noMin) {
     transforms.push(yoYoify)
   }
 

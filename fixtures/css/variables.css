@@ -1,0 +1,6 @@
+@custom-media --breakpoint (width <= 60rem);
+
+:root {
+  --red: red;
+  --blue: blue;
+}

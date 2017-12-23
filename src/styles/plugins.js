@@ -7,17 +7,17 @@ const mediaMinMax = require('postcss-media-minmax')
 const autoprefixer = require('autoprefixer')
 const cssnano = require('cssnano')
 
-module.exports = function (args) {
+module.exports = function (config) {
   const plugins = [
     cssimport(),
     systemFont(),
     customProperties(),
     customMedia(),
     mediaMinMax(),
-    autoprefixer({browsers: args.browsers})
+    autoprefixer({browsers: config.browsers})
   ]
 
-  if (!args.noMin) {
+  if (!config.noMin) {
     plugins.push(cssnano({autoprefixer: false}))
   }
 
