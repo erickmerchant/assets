@@ -1,5 +1,7 @@
 const test = require('tape')
 const execa = require('execa')
+const thenify = require('thenify')
+const readFile = thenify(require('fs').readFile)
 const stream = require('stream')
 const out = new stream.Writable()
 
@@ -86,11 +88,14 @@ test('index.js - make directory and watch', function (t) {
       return fn()
     },
     types: {
-      txt (args, config) {
+      txt (config) {
         return () => {
           t.deepEqual(config, {
             input: ['./a.txt', './b.txt', './c.txt'],
-            output: 'bundle.txt'
+            output: 'bundle.txt',
+            electron: false,
+            noMin: false,
+            browsers: ['last 2 versions', '> 5%']
           })
 
           return Promise.resolve(true)
@@ -100,7 +105,10 @@ test('index.js - make directory and watch', function (t) {
   })(noopDefiners)({
     destination: './bundle',
     source: ['./a.txt', './b.txt', './c.txt'],
-    watch: false
+    watch: false,
+    electron: false,
+    noMin: false,
+    browsers: ['last 2 versions', '> 5%']
   })
 })
 
@@ -127,11 +135,14 @@ test('index.js - directory destination, watch true, null result', function (t) {
       return fn()
     },
     types: {
-      txt (args, config) {
+      txt (config) {
         return () => {
           t.deepEqual(config, {
             input: ['./a.txt'],
-            output: 'bundle.txt'
+            output: 'bundle.txt',
+            electron: false,
+            noMin: false,
+            browsers: ['last 2 versions', '> 5%']
           })
 
           return Promise.resolve(null)
@@ -141,7 +152,10 @@ test('index.js - directory destination, watch true, null result', function (t) {
   })(noopDefiners)({
     destination: './',
     source: ['./a.txt'],
-    watch: true
+    watch: true,
+    electron: false,
+    noMin: false,
+    browsers: ['last 2 versions', '> 5%']
   })
 })
 
@@ -166,7 +180,7 @@ test('index.js - no input', function (t) {
       return fn()
     },
     types: {
-      txt (args, config) {
+      txt (config) {
         return () => {
           t.ok(false)
 
@@ -179,6 +193,106 @@ test('index.js - no input', function (t) {
     source: ['./a.foo', './b.foo', './c.foo'],
     watch: false
   })
+})
+
+test('scripts - min', async function (t) {
+  t.plan(2)
+
+  const [fixtureCode, fixtureMap] = await Promise.all([
+    readFile('./fixtures/build-min/bundle.js', 'utf-8'),
+    readFile('./fixtures/build-min/bundle.js.map', 'utf-8')
+  ])
+
+  const result = await require('./src/scripts/index')({
+    input: ['fixtures/js/index.js'],
+    output: 'fixtures/build-min/bundle.js',
+    electron: false,
+    noMin: false,
+    browsers: ['Chrome 62']
+  })()
+
+  t.equal(fixtureCode, result.code)
+  t.equal(fixtureMap, result.map)
+})
+
+test('scripts - no-min', async function (t) {
+  t.plan(2)
+
+  const [fixtureCode, fixtureMap] = await Promise.all([
+    readFile('./fixtures/build-no-min/bundle.js', 'utf-8'),
+    readFile('./fixtures/build-no-min/bundle.js.map', 'utf-8')
+  ])
+
+  const result = await require('./src/scripts/index')({
+    input: ['fixtures/js/index.js'],
+    output: 'fixtures/build-no-min/bundle.js',
+    electron: false,
+    noMin: true,
+    browsers: ['Chrome 62']
+  })()
+
+  t.equal(fixtureCode, result.code)
+  t.equal(fixtureMap, result.map)
+})
+
+test('scripts - electron', async function (t) {
+  t.plan(2)
+
+  const [fixtureCode, fixtureMap] = await Promise.all([
+    readFile('./fixtures/build-electron/bundle.js', 'utf-8'),
+    readFile('./fixtures/build-electron/bundle.js.map', 'utf-8')
+  ])
+
+  const result = await require('./src/scripts/index')({
+    input: ['fixtures/js/electron.js'],
+    output: 'fixtures/build-electron/bundle.js',
+    electron: true,
+    noMin: false,
+    browsers: ['Chrome 62']
+  })()
+
+  t.equal(fixtureCode, result.code)
+  t.equal(fixtureMap, result.map)
+})
+
+test('styles - min', async function (t) {
+  t.plan(2)
+
+  const [fixtureCode, fixtureMap] = await Promise.all([
+    readFile('./fixtures/build-min/bundle.css', 'utf-8'),
+    readFile('./fixtures/build-min/bundle.css.map', 'utf-8')
+  ])
+
+  const result = await require('./src/styles/index')({
+    input: ['fixtures/css/index.css'],
+    output: 'fixtures/build-min/bundle.css',
+    electron: false,
+    noMin: false,
+    browsers: ['Chrome 62']
+  })()
+
+  t.equal(fixtureCode, result.code)
+  t.equal(fixtureMap, result.map)
+})
+
+test('styles - no-min', async function (t) {
+  t.plan(2)
+
+  const [fixtureCode, fixtureMap] = await Promise.all([
+    readFile('./fixtures/build-no-min/bundle.css', 'utf-8'),
+    readFile('./fixtures/build-no-min/bundle.css.map', 'utf-8')
+  ])
+
+  const result = await require('./src/styles/index')({
+    input: ['fixtures/css/index.css'],
+    output: 'fixtures/build-no-min/bundle.css',
+    electron: false,
+    noMin: true,
+    browsers: ['Chrome 62']
+  })()
+
+  t.equal(fixtureCode, result.code)
+  t.equal(fixtureMap, result.map)
 })
 
 test('cli.js', async function (t) {

@@ -1,5 +1,5 @@
 
-module.exports = function (args, config) {
+module.exports = function (config) {
   const error = require('sergeant/error')
   const to2 = require('to2')
   const path = require('path')
@@ -18,13 +18,13 @@ module.exports = function (args, config) {
         debug: true
       }
 
-      if (args.electron) {
+      if (config.electron) {
         options.bare = true
       }
 
       let bundle = browserify(options)
 
-      if (args.electron) {
+      if (config.electron) {
         bundle.external('electron')
       }
 
@@ -32,11 +32,11 @@ module.exports = function (args, config) {
         bundle.add(input)
       })
 
-      transforms(args).forEach(function (transform) {
+      transforms(config).forEach(function (transform) {
         bundle.transform(transform, {global: true})
       })
 
-      plugins(args).forEach(function (plugin) {
+      plugins(config).forEach(function (plugin) {
         bundle.plugin(plugin)
       })
 
@@ -45,7 +45,7 @@ module.exports = function (args, config) {
         if (err) reject(err)
       })
 
-      if (!args.noMin) {
+      if (!config.noMin) {
         bundle = bundle.pipe(minify())
       }
 

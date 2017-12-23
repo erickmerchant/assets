@@ -1,5 +1,5 @@
 
-module.exports = function (args, config) {
+module.exports = function (config) {
   const error = require('sergeant/error')
   const path = require('path')
   const thenify = require('thenify')
@@ -14,7 +14,7 @@ module.exports = function (args, config) {
     return Promise.all(config.input.map(function (input) {
       return readFile(input, 'utf-8')
       .then(function (css) {
-        return postcss(plugins(args)).process(css, {
+        return postcss(plugins(config)).process(css, {
           from: input,
           to: '/' + path.basename(config.output),
           map: { inline: false, annotation: path.basename(config.output + '.map') }
@@ -31,8 +31,8 @@ module.exports = function (args, config) {
     }))
     .then(function () {
       return Promise.resolve({
-        code: concat.content,
-        map: concat.sourceMap
+        code: concat.content.toString(),
+        map: concat.sourceMap.toString()
       })
     })
     .catch(error)

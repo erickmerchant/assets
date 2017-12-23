@@ -64,10 +64,13 @@ module.exports = function (deps) {
           if (input.length) {
             const config = {
               input,
-              output: path.join(args.destination + '.' + ext)
+              output: path.join(args.destination + '.' + ext),
+              electron: args.electron,
+              noMin: args.noMin,
+              browsers: args.browsers
             }
 
-            let handler = deps.types[ext](args, config)
+            let handler = deps.types[ext](config)
 
             return deps.watch(args.watch, commonDir(input), function () {
               handler().then((result) => {
