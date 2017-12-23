@@ -1,11 +1,8 @@
 
 module.exports = function (args, config) {
   const error = require('sergeant/error')
-  const chalk = require('chalk')
-  const console = require('console')
-  const fs = require('fs')
+  const to2 = require('to2')
   const path = require('path')
-  const createWriteStream = fs.createWriteStream
   const browserify = require('browserify')
   const transforms = require('./transforms')
   const plugins = require('./plugins')
@@ -13,8 +10,10 @@ module.exports = function (args, config) {
   const minify = require('minify-stream')
 
   return function () {
+    let codeData = ''
+    let mapData = ''
+
     return new Promise(function (resolve, reject) {
-      const writeStream = createWriteStream(config.output)
       const options = {
         debug: true
       }
@@ -50,20 +49,41 @@ module.exports = function (args, config) {
         bundle = bundle.pipe(minify())
       }
 
+      let mapStream = to2((data, enc, cb) => {
+        mapData += data.toString()
+
+        cb()
+      }, (cb) => {
+        cb()
+      })
+
+      mapStream.once('error', reject)
+
+      let codeStream = to2((data, enc, cb) => {
+        codeData += data.toString()
+
+        cb()
+      }, (cb) => {
+        cb()
+
+        resolve()
+      })
+
+      codeStream.once('error', reject)
+
       bundle.pipe(exorcist(
-        config.output + '.map',
+        mapStream,
         path.basename(config.output + '.map'),
         '',
         process.cwd()
       ))
-      .pipe(writeStream)
-
-      writeStream.once('finish', resolve)
-
-      writeStream.once('error', reject)
+      .pipe(codeStream)
     })
     .then(function () {
-      console.log(chalk.green('\u2714') + ' saved ' + config.output)
+      return Promise.resolve({
+        code: codeData,
+        map: mapData
+      })
     })
     .catch(error)
   }

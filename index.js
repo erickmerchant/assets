@@ -1,6 +1,11 @@
 const path = require('path')
 const assert = require('assert')
 const commonDir = require('common-dir')
+const error = require('sergeant/error')
+const chalk = require('chalk')
+const thenify = require('thenify')
+const fs = require('fs')
+const writeFile = thenify(fs.writeFile)
 
 module.exports = function (deps) {
   assert.equal(typeof deps.makeDir, 'function')
@@ -59,7 +64,22 @@ module.exports = function (deps) {
               output: path.join(args.destination + '.' + ext)
             }
 
-            return deps.watch(args.watch, commonDir(input), deps.types[ext](args, config))
+            let handler = deps.types[ext](args, config)
+
+            return deps.watch(args.watch, commonDir(input), function () {
+              handler().then((result) => {
+                if (result != null) {
+                  writeFile(config.output, result.code).then(() => {
+                    console.log(chalk.green('\u2714') + ' saved ' + config.output)
+                  })
+
+                  writeFile(config.output + '.map', result.map).then(() => {
+                    console.log(chalk.green('\u2714') + ' saved ' + config.output + '.map')
+                  })
+                }
+              })
+              .catch(error)
+            })
           }
 
           return Promise.resolve(true)
