@@ -72,13 +72,13 @@ module.exports = function (deps) {
             let handler = deps.types[ext](config)
 
             return deps.watch(args.watch, commonDir(input), function () {
-              handler().then((result) => {
+              handler().then(function (result) {
                 if (result != null) {
-                  deps.writeFile(config.output, result.code).then(() => {
+                  deps.writeFile(config.output, result.code).then(function () {
                     deps.out.write(chalk.green('\u2714') + ' saved ' + config.output + '\n')
                   })
 
-                  deps.writeFile(config.output + '.map', result.map).then(() => {
+                  deps.writeFile(config.output + '.map', result.map).then(function () {
                     deps.out.write(chalk.green('\u2714') + ' saved ' + config.output + '.map' + '\n')
                   })
                 }

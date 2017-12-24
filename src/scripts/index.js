@@ -49,21 +49,21 @@ module.exports = function (config) {
         bundle = bundle.pipe(minify())
       }
 
-      let mapStream = to2((data, enc, cb) => {
+      let mapStream = to2(function (data, enc, cb) {
         mapData += data.toString()
 
         cb()
-      }, (cb) => {
+      }, function (cb) {
         cb()
       })
 
       mapStream.once('error', reject)
 
-      let codeStream = to2((data, enc, cb) => {
+      let codeStream = to2(function (data, enc, cb) {
         codeData += data.toString()
 
         cb()
-      }, (cb) => {
+      }, function (cb) {
         cb()
 
         resolve()
