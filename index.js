@@ -20,13 +20,12 @@ module.exports = function (deps) {
   return function ({option, parameter}) {
     parameter('source', {
       description: 'your source files',
-      default: { value: ['./css/index.css', './js/index.js'] },
+      required: true,
       multiple: true
     })
 
     parameter('destination', {
       description: 'what to save',
-      default: { value: './bundle' },
       required: true
     })
 
@@ -73,16 +72,19 @@ module.exports = function (deps) {
             let handler = deps.types[ext](config)
 
             return deps.watch(args.watch, commonDir(input), function () {
-              handler().then((result) => {
+              return handler().then(function (result) {
                 if (result != null) {
-                  deps.writeFile(config.output, result.code).then(() => {
-                    deps.out.write(chalk.green('\u2714') + ' saved ' + config.output + '\n')
-                  })
-
-                  deps.writeFile(config.output + '.map', result.map).then(() => {
-                    deps.out.write(chalk.green('\u2714') + ' saved ' + config.output + '.map' + '\n')
-                  })
+                  return Promise.all([
+                    deps.writeFile(config.output, result.code).then(function () {
+                      deps.out.write(chalk.green('\u2714') + ' saved ' + config.output + '\n')
+                    }),
+                    deps.writeFile(config.output + '.map', result.map).then(function () {
+                      deps.out.write(chalk.green('\u2714') + ' saved ' + config.output + '.map' + '\n')
+                    })
+                  ])
                 }
+
+                return Promise.resolve(true)
               })
               .catch(error)
             })

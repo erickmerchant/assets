@@ -5,7 +5,7 @@ const readFile = thenify(require('fs').readFile)
 const stream = require('stream')
 const out = new stream.Writable()
 
-out._write = () => { }
+out._write = () => {}
 
 const noopDeps = {
   out,
@@ -15,8 +15,8 @@ const noopDeps = {
   types: {}
 }
 const noopDefiners = {
-  parameter: () => {},
-  option: () => {}
+  parameter () {},
+  option () {}
 }
 
 test('index.js - options and parameters', function (t) {
@@ -26,23 +26,23 @@ test('index.js - options and parameters', function (t) {
   const options = {}
 
   require('./index')(noopDeps)({
-    parameter: (name, args) => {
+    parameter (name, args) {
       parameters[name] = args
     },
-    option: (name, args) => {
+    option (name, args) {
       options[name] = args
     }
   })
 
   t.ok(parameters.source)
 
-  t.deepEqual(parameters.source.default.value, ['./css/index.css', './js/index.js'])
+  t.deepEqual(parameters.source.required, true)
 
   t.equal(parameters.source.multiple, true)
 
   t.ok(parameters.destination)
 
-  t.equal(parameters.destination.default.value, './bundle')
+  t.equal(parameters.destination.required, true)
 
   t.ok(options['no-min'])
 
@@ -89,7 +89,7 @@ test('index.js - make directory and watch', function (t) {
     },
     types: {
       txt (config) {
-        return () => {
+        return function () {
           t.deepEqual(config, {
             input: ['./a.txt', './b.txt', './c.txt'],
             output: 'bundle.txt',
@@ -136,7 +136,7 @@ test('index.js - directory destination, watch true, null result', function (t) {
     },
     types: {
       txt (config) {
-        return () => {
+        return function () {
           t.deepEqual(config, {
             input: ['./a.txt'],
             output: 'bundle.txt',
@@ -181,7 +181,7 @@ test('index.js - no input', function (t) {
     },
     types: {
       txt (config) {
-        return () => {
+        return function () {
           t.ok(false)
 
           return Promise.resolve(true)

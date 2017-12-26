@@ -1,6 +1,6 @@
 {
   "name": "@erickmerchant/assets",
-  "version": "10.3.3",
+  "version": "11.0.5",
   "description": "Generate css using postcss, and js using browserify and babel.",
   "main": "index.js",
   "bin": {
@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/erickmerchant/assets#readme",
   "dependencies": {
-    "@erickmerchant/conditional-watch": "^1.0.0",
+    "@erickmerchant/conditional-watch": "^2.0.1",
     "autoprefixer": "^7.2.3",
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
@@ -41,7 +41,7 @@
     "postcss-font-family-system-ui": "^2.1.1",
     "postcss-import": "^11.0.0",
     "postcss-media-minmax": "^3.0.0",
-    "sergeant": "^17.1.1",
+    "sergeant": "^17.2.1",
     "thenify": "^3.3.0",
     "to2": "^1.0.0",
     "unassertify": "^2.1.0",
