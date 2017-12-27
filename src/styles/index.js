@@ -13,30 +13,38 @@ module.exports = function (config) {
       .then(function (css) {
         return postcss(plugins(config)).process(css, {
           from: input,
-          to: '/' + path.basename(config.output),
-          map: {
-            inline: false
-          }
+          to: config.output,
+          map: { inline: false }
         })
         .then(function (output) {
+          let map = JSON.parse(output.map)
+
           return postcss.parse(output.css, {
             from: input,
-            map: { previous: output.map }
+            to: config.output,
+            map: {
+              prev: map
+            }
           })
         })
       })
     }))
     .then(function (parsed) {
       parsed = parsed.reduce((acc, curr) => acc.append(curr)).toResult({
+        to: '/' + path.basename(config.output),
         map: {
           inline: false,
           annotation: path.basename(config.output + '.map')
         }
       })
 
+      let map = JSON.parse(parsed.map)
+
+      map.sources = map.sources.map((source) => path.relative(process.cwd(), '/' + source))
+
       return {
         code: parsed.css,
-        map: parsed.map
+        map: JSON.stringify(map)
       }
     })
     .catch(error)
