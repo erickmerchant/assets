@@ -17,13 +17,11 @@ module.exports = function (config) {
           map: { inline: false }
         })
         .then(function (output) {
-          let map = JSON.parse(output.map)
-
           return postcss.parse(output.css, {
             from: input,
             to: config.output,
             map: {
-              prev: map
+              prev: output.map
             }
           })
         })
