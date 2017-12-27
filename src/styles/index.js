@@ -5,35 +5,47 @@ module.exports = function (config) {
   const thenify = require('thenify')
   const readFile = thenify(require('fs').readFile)
   const postcss = require('postcss')
-  const Concat = require('concat-with-sourcemaps')
   const plugins = require('./plugins')
 
   return function () {
-    const concat = new Concat(true, config.output, '\n')
-
     return Promise.all(config.input.map(function (input) {
       return readFile(input, 'utf-8')
       .then(function (css) {
         return postcss(plugins(config)).process(css, {
           from: input,
-          to: '/' + path.basename(config.output),
-          map: { inline: false, annotation: path.basename(config.output + '.map') }
-        }).then(function (output) {
+          to: config.output,
+          map: { inline: false }
+        })
+        .then(function (output) {
           let map = JSON.parse(output.map)
 
-          map.sources = map.sources.map((source) => path.relative(process.cwd(), '/' + source))
-
-          concat.add(input, output.css, JSON.stringify(map))
-
-          return true
+          return postcss.parse(output.css, {
+            from: input,
+            to: config.output,
+            map: {
+              prev: map
+            }
+          })
         })
       })
     }))
-    .then(function () {
-      return Promise.resolve({
-        code: concat.content.toString(),
-        map: concat.sourceMap.toString()
+    .then(function (parsed) {
+      parsed = parsed.reduce((acc, curr) => acc.append(curr)).toResult({
+        to: '/' + path.basename(config.output),
+        map: {
+          inline: false,
+          annotation: path.basename(config.output + '.map')
+        }
       })
+
+      let map = JSON.parse(parsed.map)
+
+      map.sources = map.sources.map((source) => path.relative(process.cwd(), '/' + source))
+
+      return {
+        code: parsed.css,
+        map: JSON.stringify(map)
+      }
     })
     .catch(error)
   }

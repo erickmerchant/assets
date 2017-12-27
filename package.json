@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/erickmerchant/assets#readme",
   "dependencies": {
-    "@erickmerchant/conditional-watch": "^2.0.0",
+    "@erickmerchant/conditional-watch": "^2.0.1",
     "autoprefixer": "^7.2.3",
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
@@ -31,7 +31,6 @@
     "chalk": "^2.3.0",
     "common-dir": "^1.0.1",
     "common-shakeify": "^0.4.5",
-    "concat-with-sourcemaps": "^1.0.4",
     "cssnano": "^3.10.0",
     "exorcist": "^1.0.0",
     "minify-stream": "^1.1.0",
