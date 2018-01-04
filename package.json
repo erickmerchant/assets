@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/erickmerchant/assets#readme",
   "dependencies": {
-    "@erickmerchant/conditional-watch": "^2.0.1",
+    "@erickmerchant/conditional-watch": "^2.1.0",
     "autoprefixer": "^7.2.4",
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
