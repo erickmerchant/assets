@@ -35,7 +35,7 @@
     "exorcist": "^1.0.0",
     "minify-stream": "^1.1.0",
     "mkdirp": "^0.5.1",
-    "postcss": "^6.0.15",
+    "postcss": "^6.0.16",
     "postcss-custom-media": "^6.0.0",
     "postcss-custom-properties": "^6.2.0",
     "postcss-font-family-system-ui": "^2.1.1",
