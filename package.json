@@ -24,7 +24,7 @@
     "autoprefixer": "^7.2.5",
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
-    "babel-preset-minify": "^0.2.0",
+    "babel-preset-minify": "^0.3.0",
     "babelify": "^8.0.0",
     "browser-pack-flat": "^3.0.7",
     "browserify": "^15.2.0",
