@@ -7,7 +7,8 @@
     "assets": "./cli.js"
   },
   "scripts": {
-    "test": "standard && tape test.js"
+    "test": "standard && tape test.js",
+    "fixtures": "node ./cli.js --browsers 'Chrome 62' fixtures/js/index.js fixtures/css/index.css fixtures/build-min/ && node ./cli.js --no-min --browsers 'Chrome 62' fixtures/js/index.js fixtures/css/index.css fixtures/build-no-min/ && node ./cli.js --browsers 'Chrome 62' --electron fixtures/js/electron.js fixtures/build-electron/"
   },
   "repository": {
     "type": "git",
@@ -26,8 +27,8 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-minify": "^0.3.0",
     "babelify": "^8.0.0",
-    "browser-pack-flat": "^3.0.7",
-    "browserify": "^15.2.0",
+    "browser-pack-flat": "^3.0.8",
+    "browserify": "^16.0.0",
     "chalk": "^2.3.0",
     "common-dir": "^1.0.1",
     "common-shakeify": "^0.4.5",
