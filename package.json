@@ -40,7 +40,7 @@
     "postcss-custom-media": "^6.0.0",
     "postcss-custom-properties": "^6.2.0",
     "postcss-font-family-system-ui": "^3.0.0",
-    "postcss-import": "^11.0.0",
+    "postcss-import": "^11.1.0",
     "postcss-media-minmax": "^3.0.0",
     "sergeant": "^17.2.1",
     "thenify": "^3.3.0",
