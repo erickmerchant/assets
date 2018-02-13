@@ -19,14 +19,11 @@ module.exports = function (config) {
       }
 
       if (config.electron) {
-        options.bare = true
+        options.node = true
+        options.bundleExternal = false
       }
 
       let bundle = browserify(options)
-
-      if (config.electron) {
-        bundle.external('electron')
-      }
 
       config.input.forEach(function (input) {
         bundle.add(input)
