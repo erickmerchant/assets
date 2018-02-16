@@ -11,7 +11,7 @@ module.exports = function (config) {
   const plugins = [
     cssimport(),
     systemFont(),
-    customProperties(),
+    customProperties({preserve: false}),
     customMedia(),
     mediaMinMax(),
     autoprefixer({browsers: config.browsers})
