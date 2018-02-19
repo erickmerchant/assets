@@ -38,9 +38,9 @@ module.exports = function (config) {
       })
 
       bundle = bundle
-      .bundle(function (err) {
-        if (err) reject(err)
-      })
+        .bundle(function (err) {
+          if (err) reject(err)
+        })
 
       if (!config.noMin) {
         bundle = bundle.pipe(minify())
@@ -74,14 +74,14 @@ module.exports = function (config) {
         '',
         process.cwd()
       ))
-      .pipe(codeStream)
+        .pipe(codeStream)
     })
-    .then(function () {
-      return Promise.resolve({
-        code: codeData,
-        map: mapData
+      .then(function () {
+        return Promise.resolve({
+          code: codeData,
+          map: mapData
+        })
       })
-    })
-    .catch(error)
+      .catch(error)
   }
 }

@@ -86,7 +86,7 @@ module.exports = function (deps) {
 
                 return Promise.resolve(true)
               })
-              .catch(error)
+                .catch(error)
             })
           }
 
