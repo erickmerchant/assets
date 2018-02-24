@@ -49,7 +49,7 @@
     "yo-yoify": "^4.3.0"
   },
   "devDependencies": {
-    "bel": "^5.1.6",
+    "bel": "^5.1.7",
     "execa": "^0.9.0",
     "standard": "^11.0.0",
     "tape": "^4.9.0"

@@ -502,7 +502,7 @@ var multiSpaceRegex = /[\n\s]+/g;
 
 var TEXT_TAGS = ['a', 'abbr', 'b', 'bdi', 'bdo', 'br', 'cite', 'data', 'dfn', 'em', 'i', 'kbd', 'mark', 'q', 'rp', 'rt', 'rtc', 'ruby', 's', 'amp', 'small', 'span', 'strong', 'sub', 'sup', 'time', 'u', 'var', 'wbr'];
 
-var CODE_TAGS = ['code', 'pre'];
+var VERBATIM_TAGS = ['code', 'pre', 'textarea'];
 
 module.exports = function appendChild(el, childs) {
   if (!Array.isArray(childs)) return;
@@ -546,14 +546,14 @@ module.exports = function appendChild(el, childs) {
         hadText = false;
         // Trim the child text nodes if the current node isn't a
         // node where whitespace matters.
-        if (TEXT_TAGS.indexOf(nodeName) === -1 && CODE_TAGS.indexOf(nodeName) === -1) {
+        if (TEXT_TAGS.indexOf(nodeName) === -1 && VERBATIM_TAGS.indexOf(nodeName) === -1) {
           value = lastChild.nodeValue.replace(leadingNewlineRegex, '').replace(trailingSpaceRegex, '').replace(trailingNewlineRegex, '').replace(multiSpaceRegex, ' ');
           if (value === '') {
             el.removeChild(lastChild);
           } else {
             lastChild.nodeValue = value;
           }
-        } else if (CODE_TAGS.indexOf(nodeName) === -1) {
+        } else if (VERBATIM_TAGS.indexOf(nodeName) === -1) {
           // The very first node in the list should not have leading
           // whitespace. Sibling text nodes should have whitespace if there
           // was any.
@@ -571,7 +571,7 @@ module.exports = function appendChild(el, childs) {
 
         // Trim the child text nodes if the current node isn't a
         // text node or a code node
-        if (TEXT_TAGS.indexOf(nodeName) === -1 && CODE_TAGS.indexOf(nodeName) === -1) {
+        if (TEXT_TAGS.indexOf(nodeName) === -1 && VERBATIM_TAGS.indexOf(nodeName) === -1) {
           value = lastChild.nodeValue.replace(leadingNewlineRegex, '').replace(trailingNewlineRegex, '').replace(multiSpaceRegex, ' ');
 
           // Remove empty text nodes, append otherwise
@@ -582,7 +582,7 @@ module.exports = function appendChild(el, childs) {
           }
           // Trim the child nodes if the current node is not a node
           // where all whitespace must be preserved
-        } else if (CODE_TAGS.indexOf(nodeName) === -1) {
+        } else if (VERBATIM_TAGS.indexOf(nodeName) === -1) {
           value = lastChild.nodeValue.replace(leadingSpaceRegex, ' ').replace(leadingNewlineRegex, '').replace(trailingNewlineRegex, '').replace(multiSpaceRegex, ' ');
           lastChild.nodeValue = value;
         }
