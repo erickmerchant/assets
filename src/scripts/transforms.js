@@ -2,7 +2,7 @@ const unassertify = require('unassertify')
 const babelify = require('babelify')
 const presetEnv = require('babel-preset-env')
 const babili = require('babel-preset-minify')
-const yoYoify = require('yo-yoify')
+const html = require('nanohtml')
 
 module.exports = function (config) {
   const transforms = []
@@ -31,7 +31,7 @@ module.exports = function (config) {
   }))
 
   if (!config.noMin) {
-    transforms.push(yoYoify)
+    transforms.push(html)
   }
 
   return transforms

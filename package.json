@@ -36,6 +36,7 @@
     "exorcist": "^1.0.1",
     "minify-stream": "^1.1.0",
     "mkdirp": "^0.5.1",
+    "nanohtml": "^1.0.1",
     "postcss": "^6.0.19",
     "postcss-custom-media": "^6.0.0",
     "postcss-custom-properties": "^7.0.0",
@@ -45,11 +46,9 @@
     "sergeant": "^17.2.4",
     "thenify": "^3.3.0",
     "to2": "^1.0.0",
-    "unassertify": "^2.1.0",
-    "yo-yoify": "^4.3.0"
+    "unassertify": "^2.1.0"
   },
   "devDependencies": {
-    "bel": "^5.1.7",
     "execa": "^0.9.0",
     "standard": "^11.0.0",
     "tape": "^4.9.0"

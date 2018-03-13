@@ -20,7 +20,7 @@ __for js__
 - [browserify](http://browserify.org/)
 - [babelify](https://github.com/babel/babelify)
 - [babel-preset-env](https://github.com/babel/babel-preset-env)
-- [babel-plugin-yo-yoify](https://github.com/goto-bus-stop/babel-plugin-yo-yoify#readme)
+- [nanohtml](https://github.com/choojs/nanohtml#readme)
 - [babel-preset-babili](https://github.com/babel/babili#readme)
 - [unassertify](https://github.com/unassert-js/unassertify)
 - [browser-pack-flat](https://github.com/goto-bus-stop/browser-pack-flat)

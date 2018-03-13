@@ -1,5 +1,5 @@
 const assert = require('assert')
-const html = require('bel')
+const html = require('nanohtml')
 
 module.exports = function (state) {
   assert.equal(typeof state, 'object')
