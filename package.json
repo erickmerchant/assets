@@ -37,7 +37,7 @@
     "minify-stream": "^1.1.0",
     "mkdirp": "^0.5.1",
     "nanohtml": "^1.2.1",
-    "postcss": "^6.0.19",
+    "postcss": "^6.0.20",
     "postcss-custom-media": "^6.0.0",
     "postcss-custom-properties": "^7.0.0",
     "postcss-font-family-system-ui": "^3.0.0",
