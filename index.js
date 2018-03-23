@@ -56,6 +56,8 @@ module.exports = function (deps) {
         args.destination += 'bundle'
       }
 
+      const sourceDir = commonDir(args.source)
+
       return deps.makeDir(path.dirname(args.destination)).then(function () {
         return Promise.all(Object.keys(deps.types).map(function (ext) {
           const input = args.source.filter((source) => path.extname(source) === '.' + ext)
@@ -71,7 +73,7 @@ module.exports = function (deps) {
 
             let handler = deps.types[ext](config)
 
-            return deps.watch(args.watch, commonDir(input), function () {
+            return deps.watch(args.watch, sourceDir, function () {
               return handler().then(function (result) {
                 if (result != null) {
                   return Promise.all([
