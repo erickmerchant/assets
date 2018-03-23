@@ -59,21 +59,21 @@ module.exports = function (deps) {
       const sourceDir = commonDir(args.source)
 
       return deps.makeDir(path.dirname(args.destination)).then(function () {
-        return Promise.all(Object.keys(deps.types).map(function (ext) {
-          const input = args.source.filter((source) => path.extname(source) === '.' + ext)
+        return deps.watch(args.watch, sourceDir, function () {
+          return Promise.all(Object.keys(deps.types).map(function (ext) {
+            const input = args.source.filter((source) => path.extname(source) === '.' + ext)
 
-          if (input.length) {
-            const config = {
-              input,
-              output: path.join(args.destination + '.' + ext),
-              electron: args.electron,
-              noMin: args.noMin,
-              browsers: args.browsers
-            }
+            if (input.length) {
+              const config = {
+                input,
+                output: path.join(args.destination + '.' + ext),
+                electron: args.electron,
+                noMin: args.noMin,
+                browsers: args.browsers
+              }
 
-            let handler = deps.types[ext](config)
+              let handler = deps.types[ext](config)
 
-            return deps.watch(args.watch, sourceDir, function () {
               return handler().then(function (result) {
                 if (result != null) {
                   return Promise.all([
@@ -89,11 +89,11 @@ module.exports = function (deps) {
                 return Promise.resolve(true)
               })
                 .catch(error)
-            })
-          }
+            }
 
-          return Promise.resolve(true)
-        }))
+            return Promise.resolve(true)
+          }))
+        })
       })
     }
   }

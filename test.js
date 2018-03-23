@@ -160,7 +160,7 @@ test('index.js - directory destination, watch true, null result', function (t) {
 })
 
 test('index.js - no input', function (t) {
-  t.plan(1)
+  t.plan(2)
 
   require('./')({
     out,
@@ -175,7 +175,7 @@ test('index.js - no input', function (t) {
       return Promise.resolve(true)
     },
     watch (watch, directory, fn) {
-      t.ok(false)
+      t.equal(watch, false)
 
       return fn()
     },
