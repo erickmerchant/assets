@@ -36,7 +36,7 @@
     "exorcist": "^1.0.1",
     "minify-stream": "^1.1.0",
     "mkdirp": "^0.5.1",
-    "nanohtml": "^1.2.1",
+    "nanohtml": "^1.2.2",
     "postcss": "^6.0.21",
     "postcss-custom-media": "^6.0.0",
     "postcss-custom-properties": "^7.0.0",
