@@ -1,19 +1,25 @@
 (function(){function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s}return e})()({1:[function(require,module,exports){
 'use strict';
 
-const assert = require('assert');
-const html = require('nanohtml');
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _templateObject = _taggedTemplateLiteral(['<h1 class="foo">', '</h1>'], ['<h1 class="foo">', '</h1>']);
+
+function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var assert = require('assert');
+var html = require('nanohtml');
 
 module.exports = function (state) {
-  assert.equal(typeof state, 'object');
+  assert.equal(typeof state === 'undefined' ? 'undefined' : _typeof(state), 'object');
 
-  return html`<h1 class="foo">${state.heading}</h1>`;
+  return html(_templateObject, state.heading);
 };
 
 },{"assert":3,"nanohtml":8}],2:[function(require,module,exports){
 'use strict';
 
-const component = require('./component.js');
+var component = require('./component.js');
 
 document.querySelector('body').appendChild(component({ heading: 'Testing 1 2 3' }));
 
@@ -30,6 +36,8 @@ document.querySelector('body').appendChild(component({ heading: 'Testing 1 2 3' 
  * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
  * @license  MIT
  */
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 function compare(a, b) {
   if (a === b) {
@@ -288,7 +296,7 @@ function _deepEqual(actual, expected, strict, memos) {
 
     // 7.4. Other pairs that do not both pass typeof value == 'object',
     // equivalence is determined by ==.
-  } else if ((actual === null || typeof actual !== 'object') && (expected === null || typeof expected !== 'object')) {
+  } else if ((actual === null || (typeof actual === 'undefined' ? 'undefined' : _typeof(actual)) !== 'object') && (expected === null || (typeof expected === 'undefined' ? 'undefined' : _typeof(expected)) !== 'object')) {
     return strict ? actual === expected : actual == expected;
 
     // If both values are instances of typed arrays, wrap their underlying
@@ -517,6 +525,8 @@ function attributeToProperty(h) {
 },{}],5:[function(require,module,exports){
 'use strict';
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var attrToProp = require('hyperscript-attribute-to-property');
 
 var VAR = 0,
@@ -595,7 +605,7 @@ module.exports = function (h, opts) {
           if (parts[i][0] === ATTR_KEY) {
             key = concat(key, parts[i][1]);
           } else if (parts[i][0] === VAR && parts[i][1] === ATTR_KEY) {
-            if (typeof parts[i][2] === 'object' && !key) {
+            if (_typeof(parts[i][2]) === 'object' && !key) {
               for (copyKey in parts[i][2]) {
                 if (parts[i][2].hasOwnProperty(copyKey) && !cur[1][copyKey]) {
                   cur[1][copyKey] = parts[i][2][copyKey];
@@ -776,7 +786,7 @@ module.exports = function (h, opts) {
   };
 
   function strfn(x) {
-    if (typeof x === 'function') return x;else if (typeof x === 'string') return x;else if (x && typeof x === 'object') return x;else return concat('', x);
+    if (typeof x === 'function') return x;else if (typeof x === 'string') return x;else if (x && (typeof x === 'undefined' ? 'undefined' : _typeof(x)) === 'object') return x;else return concat('', x);
   }
 };
 
@@ -791,7 +801,7 @@ function has(obj, key) {
 
 var closeRE = RegExp('^(' + ['area', 'base', 'basefont', 'bgsound', 'br', 'col', 'command', 'embed', 'frame', 'hr', 'img', 'input', 'isindex', 'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr', '!--',
 // SVG TAGS
-'animate', 'animateTransform', 'circle', 'cursor', 'desc', 'ellipse', 'feBlend', 'feColorMatrix', 'feComposite', 'feConvolveMatrix', 'feDiffuseLighting', 'feDisplacementMap', 'feDistantLight', 'feFlood', 'feFuncA', 'feFuncB', 'feFuncG', 'feFuncR', 'feGaussianBlur', 'feImage', 'feMergeNode', 'feMorphology', 'feOffset', 'fePointLight', 'feSpecularLighting', 'feSpotLight', 'feTile', 'feTurbulence', 'font-face-format', 'font-face-name', 'font-face-uri', 'glyph', 'glyphRef', 'hkern', 'image', 'line', 'missing-glyph', 'mpath', 'path', 'polygon', 'polyline', 'rect', 'set', 'stop', 'tref', 'use', 'view', 'vkern'].join('|') + ')(?:[\.#][a-zA-Z0-9\u007F-\uFFFF_:-]+)*$');
+'animate', 'animateTransform', 'circle', 'cursor', 'desc', 'ellipse', 'feBlend', 'feColorMatrix', 'feComposite', 'feConvolveMatrix', 'feDiffuseLighting', 'feDisplacementMap', 'feDistantLight', 'feFlood', 'feFuncA', 'feFuncB', 'feFuncG', 'feFuncR', 'feGaussianBlur', 'feImage', 'feMergeNode', 'feMorphology', 'feOffset', 'fePointLight', 'feSpecularLighting', 'feSpotLight', 'feTile', 'feTurbulence', 'font-face-format', 'font-face-name', 'font-face-uri', 'glyph', 'glyphRef', 'hkern', 'image', 'line', 'missing-glyph', 'mpath', 'path', 'polygon', 'polyline', 'rect', 'set', 'stop', 'tref', 'use', 'view', 'vkern'].join('|') + ')(?:[.#][a-zA-Z0-9\x7F-\uFFFF_:-]+)*$');
 function selfClosing(tag) {
   return closeRE.test(tag);
 }
@@ -1204,7 +1214,7 @@ if (typeof Object.create === 'function') {
   // old school shim for old browsers
   module.exports = function inherits(ctor, superCtor) {
     ctor.super_ = superCtor;
-    var TempCtor = function () {};
+    var TempCtor = function TempCtor() {};
     TempCtor.prototype = superCtor.prototype;
     ctor.prototype = new TempCtor();
     ctor.prototype.constructor = ctor;
@@ -1214,13 +1224,17 @@ if (typeof Object.create === 'function') {
 },{}],12:[function(require,module,exports){
 'use strict';
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 module.exports = function isBuffer(arg) {
-  return arg && typeof arg === 'object' && typeof arg.copy === 'function' && typeof arg.fill === 'function' && typeof arg.readUInt8 === 'function';
+  return arg && (typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'object' && typeof arg.copy === 'function' && typeof arg.fill === 'function' && typeof arg.readUInt8 === 'function';
 };
 
 },{}],13:[function(require,module,exports){
 (function (process,global){
 'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -1404,7 +1418,7 @@ function stylizeWithColor(str, styleType) {
   var style = inspect.styles[styleType];
 
   if (style) {
-    return '\u001b[' + inspect.colors[style][0] + 'm' + str + '\u001b[' + inspect.colors[style][1] + 'm';
+    return '\x1B[' + inspect.colors[style][0] + 'm' + str + '\x1B[' + inspect.colors[style][1] + 'm';
   } else {
     return str;
   }
@@ -1672,7 +1686,7 @@ function isString(arg) {
 exports.isString = isString;
 
 function isSymbol(arg) {
-  return typeof arg === 'symbol';
+  return (typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'symbol';
 }
 exports.isSymbol = isSymbol;
 
@@ -1687,7 +1701,7 @@ function isRegExp(re) {
 exports.isRegExp = isRegExp;
 
 function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
+  return (typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'object' && arg !== null;
 }
 exports.isObject = isObject;
 
@@ -1707,7 +1721,7 @@ function isFunction(arg) {
 exports.isFunction = isFunction;
 
 function isPrimitive(arg) {
-  return arg === null || typeof arg === 'boolean' || typeof arg === 'number' || typeof arg === 'string' || typeof arg === 'symbol' || // ES6 symbol
+  return arg === null || typeof arg === 'boolean' || typeof arg === 'number' || typeof arg === 'string' || (typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'symbol' || // ES6 symbol
   typeof arg === 'undefined';
 }
 exports.isPrimitive = isPrimitive;

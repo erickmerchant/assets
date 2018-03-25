@@ -3,6 +3,7 @@ const assert = require('assert')
 const commonDir = require('common-dir')
 const error = require('sergeant/error')
 const chalk = require('chalk')
+const pkg = require(path.join(process.cwd(), 'package.json'))
 
 module.exports = function (deps) {
   assert.equal(typeof deps.out, 'object')
@@ -47,7 +48,7 @@ module.exports = function (deps) {
 
     option('browsers', {
       description: 'what browsers to target',
-      default: { value: ['last 2 versions', '> 5%'] },
+      default: { value: pkg.browserslist || ['last 2 versions', '> 5%'] },
       multiple: true
     })
 

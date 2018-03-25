@@ -7,7 +7,6 @@ module.exports = function (config) {
   const transforms = require('./transforms')
   const plugins = require('./plugins')
   const exorcist = require('exorcist')
-  const minify = require('minify-stream')
 
   return function () {
     let codeData = ''
@@ -29,22 +28,18 @@ module.exports = function (config) {
         bundle.add(input)
       })
 
-      transforms(config).forEach(function (transform) {
-        bundle.transform(transform, {global: true})
-      })
-
       plugins(config).forEach(function (plugin) {
         bundle.plugin(plugin)
+      })
+
+      transforms(config).forEach(function (transform) {
+        bundle.transform(transform, {global: true})
       })
 
       bundle = bundle
         .bundle(function (err) {
           if (err) reject(err)
         })
-
-      if (!config.noMin) {
-        bundle = bundle.pipe(minify())
-      }
 
       let mapStream = to2(function (data, enc, cb) {
         mapData += data.toString()

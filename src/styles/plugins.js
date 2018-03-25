@@ -1,8 +1,5 @@
 const cssimport = require('postcss-import')
-const systemFont = require('postcss-font-family-system-ui')
-const customProperties = require('postcss-custom-properties')
-const customMedia = require('postcss-custom-media')
-const mediaMinMax = require('postcss-media-minmax')
+const presetEnv = require('postcss-preset-env')
 
 const autoprefixer = require('autoprefixer')
 const cssnano = require('cssnano')
@@ -10,10 +7,15 @@ const cssnano = require('cssnano')
 module.exports = function (config) {
   const plugins = [
     cssimport(),
-    systemFont(),
-    customProperties({preserve: false}),
-    customMedia(),
-    mediaMinMax(),
+    presetEnv({
+      browsers: config.browsers,
+      stage: 0,
+      features: {
+        'css-variables': {
+          preserve: false
+        }
+      }
+    }),
     autoprefixer({browsers: config.browsers})
   ]
 

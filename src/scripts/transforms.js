@@ -1,4 +1,3 @@
-const unassertify = require('unassertify')
 const babelify = require('babelify')
 const presetEnv = require('babel-preset-env')
 const babili = require('babel-preset-minify')
@@ -6,10 +5,6 @@ const html = require('nanohtml')
 
 module.exports = function (config) {
   const transforms = []
-
-  if (!config.noMin) {
-    transforms.push(unassertify)
-  }
 
   const presets = [
     [presetEnv, {

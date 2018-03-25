@@ -1,2 +1,2 @@
-!function(){const{clipboard:e}=require("electron");e.writeText(Date.now())}();
+require("electron").clipboard.writeText(Date.now());
 //# sourceMappingURL=bundle.js.map

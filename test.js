@@ -208,7 +208,7 @@ test('scripts - min', async function (t) {
     output: 'fixtures/build-min/bundle.js',
     electron: false,
     noMin: false,
-    browsers: ['Chrome 62']
+    browsers: ['Chrome <= 47']
   })()
 
   t.equal(fixtureCode, result.code)
@@ -228,7 +228,7 @@ test('scripts - no-min', async function (t) {
     output: 'fixtures/build-no-min/bundle.js',
     electron: false,
     noMin: true,
-    browsers: ['Chrome 62']
+    browsers: ['Chrome <= 47']
   })()
 
   t.equal(fixtureCode, result.code)
@@ -248,7 +248,7 @@ test('scripts - electron', async function (t) {
     output: 'fixtures/build-electron/bundle.js',
     electron: true,
     noMin: false,
-    browsers: ['Chrome 62']
+    browsers: ['Chrome <= 47']
   })()
 
   t.equal(fixtureCode, result.code)
@@ -268,7 +268,7 @@ test('styles - min', async function (t) {
     output: 'fixtures/build-min/bundle.css',
     electron: false,
     noMin: false,
-    browsers: ['Chrome 62']
+    browsers: ['Chrome <= 47']
   })()
 
   t.equal(fixtureCode, result.code)
@@ -288,7 +288,7 @@ test('styles - no-min', async function (t) {
     output: 'fixtures/build-no-min/bundle.css',
     electron: false,
     noMin: true,
-    browsers: ['Chrome 62']
+    browsers: ['Chrome <= 47']
   })()
 
   t.equal(fixtureCode, result.code)

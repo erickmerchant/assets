@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "standard && tape test.js",
-    "fixtures": "node ./cli.js --browsers 'Chrome 62' fixtures/js/index.js fixtures/css/index.css fixtures/build-min/ && node ./cli.js --no-min --browsers 'Chrome 62' fixtures/js/index.js fixtures/css/index.css fixtures/build-no-min/ && node ./cli.js --browsers 'Chrome 62' --electron fixtures/js/electron.js fixtures/build-electron/"
+    "fixtures": "node ./cli.js --browsers 'Chrome <= 47' fixtures/js/index.js fixtures/css/index.css fixtures/build-min/ && node ./cli.js --no-min --browsers 'Chrome <= 47' fixtures/js/index.js fixtures/css/index.css fixtures/build-no-min/ && node ./cli.js --browsers 'Chrome <= 47' --electron fixtures/js/electron.js fixtures/build-electron/"
   },
   "repository": {
     "type": "git",
@@ -27,26 +27,20 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-minify": "^0.3.0",
     "babelify": "^8.0.0",
-    "browser-pack-flat": "^3.0.8",
     "browserify": "^16.1.1",
     "chalk": "^2.3.2",
     "common-dir": "^1.0.1",
-    "common-shakeify": "^0.4.6",
     "cssnano": "^3.10.0",
     "exorcist": "^1.0.1",
-    "minify-stream": "^1.1.0",
     "mkdirp": "^0.5.1",
     "nanohtml": "^1.2.2",
     "postcss": "^6.0.21",
-    "postcss-custom-media": "^6.0.0",
-    "postcss-custom-properties": "^7.0.0",
-    "postcss-font-family-system-ui": "^3.0.0",
     "postcss-import": "^11.1.0",
-    "postcss-media-minmax": "^3.0.0",
+    "postcss-preset-env": "^3.4.0",
     "sergeant": "^17.2.4",
     "thenify": "^3.3.0",
-    "to2": "^1.0.0",
-    "unassertify": "^2.1.0"
+    "tinyify": "^2.4.0",
+    "to2": "^1.0.0"
   },
   "devDependencies": {
     "execa": "^0.10.0",

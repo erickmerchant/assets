@@ -1,19 +1,17 @@
 {
   "version": 3,
   "sources": [
-    "node_modules/browser-pack-flat/_prelude",
     "fixtures/js/electron.js"
   ],
   "names": [
-    "clipboard",
     "require",
+    "clipboard",
     "writeText",
     "Date",
     "now"
   ],
-  "mappings": "CAAA,WCAA,MAAMA,UAAAA,GAAcC,QAAA,YAEpBD,EAAAE,UAAoBC,KAApBC,ODFA",
+  "mappings": "AAAoBA,QAAA,YAAdC,UAEIC,UAAUC,KAAKC",
   "sourcesContent": [
-    "(function(){\n",
     "const {clipboard} = require('electron')\n\nclipboard.writeText(Date.now())\n"
   ],
   "sourceRoot": ""
