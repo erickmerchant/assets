@@ -13,7 +13,7 @@ command('assets', 'generate css using postcss, and js using browserify and babel
   writeFile,
   watch,
   types: {
-    js: require('./src/scripts/'),
-    css: require('./src/styles/')
+    js: require('./src/js'),
+    css: require('./src/css')
   }
 }))(process.argv.slice(2))

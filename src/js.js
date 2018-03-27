@@ -4,9 +4,12 @@ module.exports = function (config) {
   const to2 = require('to2')
   const path = require('path')
   const browserify = require('browserify')
-  const transforms = require('./transforms')
-  const plugins = require('./plugins')
   const exorcist = require('exorcist')
+  const tinyify = require('tinyify')
+  const babelify = require('babelify')
+  const presetEnv = require('babel-preset-env')
+  const babili = require('babel-preset-minify')
+  const html = require('nanohtml')
 
   return function () {
     let codeData = ''
@@ -28,13 +31,32 @@ module.exports = function (config) {
         bundle.add(input)
       })
 
-      plugins(config).forEach(function (plugin) {
-        bundle.plugin(plugin)
-      })
+      if (!config.noMin) {
+        bundle.plugin(tinyify)
+      }
 
-      transforms(config).forEach(function (transform) {
-        bundle.transform(transform, {global: true})
-      })
+      const presets = [
+        [presetEnv, {
+          targets: {
+            browsers: config.browsers
+          }
+        }]
+      ]
+
+      const plugins = []
+
+      if (!config.noMin) {
+        presets.push(babili)
+      }
+
+      bundle.transform(babelify.configure({
+        presets,
+        plugins
+      }), {global: true})
+
+      if (!config.noMin) {
+        bundle.transform(html, {global: true})
+      }
 
       bundle = bundle
         .bundle(function (err) {

@@ -5,13 +5,34 @@ module.exports = function (config) {
   const thenify = require('thenify')
   const readFile = thenify(require('fs').readFile)
   const postcss = require('postcss')
-  const plugins = require('./plugins')
+  const cssimport = require('postcss-import')
+  const presetEnv = require('postcss-preset-env')
+  const autoprefixer = require('autoprefixer')
+  const cssnano = require('cssnano')
 
   return function () {
     return Promise.all(config.input.map(function (input) {
       return readFile(input, 'utf-8')
         .then(function (css) {
-          return postcss(plugins(config)).process(css, {
+          const plugins = [
+            cssimport(),
+            presetEnv({
+              browsers: config.browsers,
+              stage: 0,
+              features: {
+                'css-variables': {
+                  preserve: false
+                }
+              }
+            }),
+            autoprefixer({browsers: config.browsers})
+          ]
+
+          if (!config.noMin) {
+            plugins.push(cssnano({autoprefixer: false}))
+          }
+
+          return postcss(plugins).process(css, {
             from: input,
             to: config.output,
             map: { inline: false }

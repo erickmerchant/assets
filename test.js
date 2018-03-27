@@ -195,7 +195,7 @@ test('index.js - no input', function (t) {
   })
 })
 
-test('scripts - min', async function (t) {
+test('js - min', async function (t) {
   t.plan(2)
 
   const [fixtureCode, fixtureMap] = await Promise.all([
@@ -203,7 +203,7 @@ test('scripts - min', async function (t) {
     readFile('./fixtures/build-min/bundle.js.map', 'utf-8')
   ])
 
-  const result = await require('./src/scripts/index')({
+  const result = await require('./src/js')({
     input: ['fixtures/js/index.js'],
     output: 'fixtures/build-min/bundle.js',
     electron: false,
@@ -215,7 +215,7 @@ test('scripts - min', async function (t) {
   t.equal(fixtureMap, result.map)
 })
 
-test('scripts - no-min', async function (t) {
+test('js - no-min', async function (t) {
   t.plan(2)
 
   const [fixtureCode, fixtureMap] = await Promise.all([
@@ -223,7 +223,7 @@ test('scripts - no-min', async function (t) {
     readFile('./fixtures/build-no-min/bundle.js.map', 'utf-8')
   ])
 
-  const result = await require('./src/scripts/index')({
+  const result = await require('./src/js')({
     input: ['fixtures/js/index.js'],
     output: 'fixtures/build-no-min/bundle.js',
     electron: false,
@@ -235,7 +235,7 @@ test('scripts - no-min', async function (t) {
   t.equal(fixtureMap, result.map)
 })
 
-test('scripts - electron', async function (t) {
+test('js - electron', async function (t) {
   t.plan(2)
 
   const [fixtureCode, fixtureMap] = await Promise.all([
@@ -243,7 +243,7 @@ test('scripts - electron', async function (t) {
     readFile('./fixtures/build-electron/bundle.js.map', 'utf-8')
   ])
 
-  const result = await require('./src/scripts/index')({
+  const result = await require('./src/js')({
     input: ['fixtures/js/electron.js'],
     output: 'fixtures/build-electron/bundle.js',
     electron: true,
@@ -255,7 +255,7 @@ test('scripts - electron', async function (t) {
   t.equal(fixtureMap, result.map)
 })
 
-test('styles - min', async function (t) {
+test('css - min', async function (t) {
   t.plan(2)
 
   const [fixtureCode, fixtureMap] = await Promise.all([
@@ -263,7 +263,7 @@ test('styles - min', async function (t) {
     readFile('./fixtures/build-min/bundle.css.map', 'utf-8')
   ])
 
-  const result = await require('./src/styles/index')({
+  const result = await require('./src/css')({
     input: ['fixtures/css/index.css'],
     output: 'fixtures/build-min/bundle.css',
     electron: false,
@@ -275,7 +275,7 @@ test('styles - min', async function (t) {
   t.equal(fixtureMap, result.map)
 })
 
-test('styles - no-min', async function (t) {
+test('css - no-min', async function (t) {
   t.plan(2)
 
   const [fixtureCode, fixtureMap] = await Promise.all([
@@ -283,7 +283,7 @@ test('styles - no-min', async function (t) {
     readFile('./fixtures/build-no-min/bundle.css.map', 'utf-8')
   ])
 
-  const result = await require('./src/styles/index')({
+  const result = await require('./src/css')({
     input: ['fixtures/css/index.css'],
     output: 'fixtures/build-no-min/bundle.css',
     electron: false,
