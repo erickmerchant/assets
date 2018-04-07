@@ -36,7 +36,7 @@
     "nanohtml": "^1.2.2",
     "postcss": "^6.0.21",
     "postcss-import": "^11.1.0",
-    "postcss-preset-env": "^3.4.0",
+    "postcss-preset-env": "^3.5.0",
     "sergeant": "^17.2.5",
     "thenify": "^3.3.0",
     "tinyify": "^2.4.0",
