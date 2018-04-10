@@ -20,7 +20,7 @@ module.exports = function (config) {
               browsers: config.browsers,
               stage: 0,
               features: {
-                'css-variables': {
+                'custom-properties': {
                   preserve: false
                 }
               }
