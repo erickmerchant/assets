@@ -33,7 +33,7 @@
     "cssnano": "^3.10.0",
     "exorcist": "^1.0.1",
     "mkdirp": "^0.5.1",
-    "nanohtml": "^1.2.2",
+    "nanohtml": "^1.2.3",
     "postcss": "^6.0.21",
     "postcss-import": "^11.1.0",
     "postcss-preset-env": "^4.0.0",
