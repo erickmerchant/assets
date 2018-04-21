@@ -27,9 +27,9 @@ module.exports = function (config) {
 
       let bundle = browserify(options)
 
-      config.input.forEach(function (input) {
+      for (let input of config.input) {
         bundle.add(input)
-      })
+      }
 
       if (!config.noMin) {
         bundle.plugin(tinyify)
