@@ -12,7 +12,7 @@
   ],
   "mappings": "AACAA,QAAA,YAAAC,UAAAC,UAAAC,KAAAC",
   "sourcesContent": [
-    "var _$electron_1 = {};\n\"use strict\";var _require=require(\"electron\"),clipboard=_require.clipboard;clipboard.writeText(Date.now());\n\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImVsZWN0cm9uLmpzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7MEJBQW9CLG1CQUFRLENBQXJCLFNBQUEsQ0FBQSxRQUFBLENBQUQsU0FBQSxDQUVOLFNBQUEsQ0FBVSxTQUFBLENBQVUsSUFBQSxDQUFLLEdBQUEsRUFBQSxDQUFBLENBQUEiLCJzb3VyY2VzQ29udGVudCI6W251bGxdfQ=="
+    "var _$electron_1 = {};\n\"use strict\";var _require=require(\"electron\"),clipboard=_require.clipboard;clipboard.writeText(Date.now());\n\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImVsZWN0cm9uLmpzIl0sIm5hbWVzIjpbInJlcXVpcmUiLCJjbGlwYm9hcmQiLCJ3cml0ZVRleHQiLCJEYXRlIiwibm93Il0sIm1hcHBpbmdzIjoiOzBCQUFvQkEsbUJBQUFBLENBQWJDLFNBQUFBLENBQUFBLFFBQUFBLENBQUFBLFNBQUFBLENBRVBBLFNBQUFBLENBQVVDLFNBQVZELENBQW9CRSxJQUFBQSxDQUFLQyxHQUFMRCxFQUFwQkYsQ0FBQUEsQ0FBQUEiLCJzb3VyY2VzQ29udGVudCI6W251bGxdfQ=="
   ],
   "sourceRoot": ""
 }

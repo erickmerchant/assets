@@ -499,7 +499,7 @@ var objectKeys = Object.keys || function (obj) {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"util/":13}],4:[function(require,module,exports){
+},{"util/":14}],4:[function(require,module,exports){
 'use strict';
 
 module.exports = attributeToProperty;
@@ -925,6 +925,8 @@ var hyperx = require('hyperx');
 var appendChild = require('./append-child');
 var SVG_TAGS = require('./svg-tags');
 var BOOL_PROPS = require('./bool-props');
+// Props that need to be set directly rather than with el.setAttribute()
+var DIRECT_PROPS = require('./direct-props');
 
 var SVGNS = 'http://www.w3.org/2000/svg';
 var XLINKNS = 'http://www.w3.org/1999/xlink';
@@ -974,7 +976,7 @@ function nanoHtmlCreateElement(tag, props, children) {
         if (val === 'true') val = key;else if (val === 'false') continue;
       }
       // If a property prefers being set directly vs setAttribute
-      if (key.slice(0, 2) === 'on') {
+      if (key.slice(0, 2) === 'on' || DIRECT_PROPS.indexOf(key) !== -1) {
         el[p] = val;
       } else {
         if (ns) {
@@ -1000,12 +1002,17 @@ module.exports = hyperx(nanoHtmlCreateElement, { comments: true });
 module.exports.default = module.exports;
 module.exports.createElement = nanoHtmlCreateElement;
 
-},{"./append-child":6,"./bool-props":7,"./svg-tags":9,"hyperx":5}],9:[function(require,module,exports){
+},{"./append-child":6,"./bool-props":7,"./direct-props":9,"./svg-tags":10,"hyperx":5}],9:[function(require,module,exports){
+'use strict';
+
+module.exports = ['indeterminate'];
+
+},{}],10:[function(require,module,exports){
 'use strict';
 
 module.exports = ['svg', 'altGlyph', 'altGlyphDef', 'altGlyphItem', 'animate', 'animateColor', 'animateMotion', 'animateTransform', 'circle', 'clipPath', 'color-profile', 'cursor', 'defs', 'desc', 'ellipse', 'feBlend', 'feColorMatrix', 'feComponentTransfer', 'feComposite', 'feConvolveMatrix', 'feDiffuseLighting', 'feDisplacementMap', 'feDistantLight', 'feFlood', 'feFuncA', 'feFuncB', 'feFuncG', 'feFuncR', 'feGaussianBlur', 'feImage', 'feMerge', 'feMergeNode', 'feMorphology', 'feOffset', 'fePointLight', 'feSpecularLighting', 'feSpotLight', 'feTile', 'feTurbulence', 'filter', 'font', 'font-face', 'font-face-format', 'font-face-name', 'font-face-src', 'font-face-uri', 'foreignObject', 'g', 'glyph', 'glyphRef', 'hkern', 'image', 'line', 'linearGradient', 'marker', 'mask', 'metadata', 'missing-glyph', 'mpath', 'path', 'pattern', 'polygon', 'polyline', 'radialGradient', 'rect', 'set', 'stop', 'switch', 'symbol', 'text', 'textPath', 'title', 'tref', 'tspan', 'use', 'view', 'vkern'];
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 'use strict';
 
 // shim for using process in browser
@@ -1194,7 +1201,7 @@ process.umask = function () {
     return 0;
 };
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 'use strict';
 
 if (typeof Object.create === 'function') {
@@ -1221,7 +1228,7 @@ if (typeof Object.create === 'function') {
   };
 }
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -1230,7 +1237,7 @@ module.exports = function isBuffer(arg) {
   return arg && (typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'object' && typeof arg.copy === 'function' && typeof arg.fill === 'function' && typeof arg.readUInt8 === 'function';
 };
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 (function (process,global){
 'use strict';
 
@@ -1783,5 +1790,5 @@ function hasOwnProperty(obj, prop) {
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"./support/isBuffer":12,"_process":10,"inherits":11}]},{},[2])
+},{"./support/isBuffer":13,"_process":11,"inherits":12}]},{},[2])
 //# sourceMappingURL=bundle.js.map
