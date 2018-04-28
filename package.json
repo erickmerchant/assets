@@ -22,7 +22,7 @@
   "homepage": "https://github.com/erickmerchant/assets#readme",
   "dependencies": {
     "@erickmerchant/conditional-watch": "^2.1.3",
-    "autoprefixer": "^8.3.0",
+    "autoprefixer": "^8.4.1",
     "babel-core": "^6.26.3",
     "babel-preset-env": "^1.6.1",
     "babel-preset-minify": "^0.4.0",
@@ -34,10 +34,10 @@
     "exorcist": "^1.0.1",
     "mkdirp": "^0.5.1",
     "nanohtml": "^1.2.3",
-    "postcss": "^6.0.21",
+    "postcss": "^6.0.22",
     "postcss-import": "^11.1.0",
     "postcss-preset-env": "^4.1.0",
-    "sergeant": "^18.0.2",
+    "sergeant": "^19.0.0",
     "thenify": "^3.3.0",
     "tinyify": "^2.4.0",
     "to2": "^1.0.0"

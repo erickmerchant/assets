@@ -31,25 +31,23 @@ module.exports = function (deps) {
     })
 
     option('no-min', {
-      description: 'do not minify',
-      default: false
+      description: 'do not minify'
     })
 
     option('electron', {
-      description: 'build for electron',
-      default: false
+      description: 'build for electron'
     })
 
     option('watch', {
       description: 'watch for changes',
-      default: false,
       aliases: ['w']
     })
 
     option('browsers', {
       description: 'what browser to target',
-      default: pkg.browserslist || ['last 2 versions', '> 5%'],
       type: function browser (value) {
+        if (value == null) return pkg.browserslist || ['last 2 versions', '> 5%']
+
         return value
       },
       multiple: true

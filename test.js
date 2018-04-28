@@ -20,7 +20,7 @@ const noopDefiners = {
 }
 
 test('index.js - options and parameters', function (t) {
-  t.plan(15)
+  t.plan(13)
 
   const parameters = {}
   const options = {}
@@ -46,15 +46,9 @@ test('index.js - options and parameters', function (t) {
 
   t.ok(options['no-min'])
 
-  t.equal(options['no-min'].default, false)
-
   t.ok(options.electron)
 
-  t.equal(options.electron.default, false)
-
   t.ok(options.watch)
-
-  t.equal(options.watch.default, false)
 
   t.deepEqual(options.watch.aliases, ['w'])
 
@@ -62,7 +56,9 @@ test('index.js - options and parameters', function (t) {
 
   t.equal(options.browsers.multiple, true)
 
-  t.deepEqual(options.browsers.default, ['last 2 versions', '> 5%'])
+  t.equal(typeof options.browsers.type, 'function')
+
+  t.deepEqual(options.browsers.type(), ['last 2 versions', '> 5%'])
 })
 
 test('index.js - make directory and watch', function (t) {
