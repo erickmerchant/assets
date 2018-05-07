@@ -8,7 +8,10 @@
   },
   "scripts": {
     "test": "standard && tape test.js",
-    "fixtures": "node ./cli.js --browsers 'Chrome <= 47' fixtures/js/index.js fixtures/css/index.css fixtures/build-min/ && node ./cli.js --no-min --browsers 'Chrome <= 47' fixtures/js/index.js fixtures/css/index.css fixtures/build-no-min/ && node ./cli.js --browsers 'Chrome <= 47' --electron fixtures/js/electron.js fixtures/build-electron/"
+    "fixtures": "npm run fixtures:min && npm run fixtures:no-min && npm run fixtures:electron",
+    "fixtures:min": "node ./cli.js --browsers 'Chrome <= 47' fixtures/js/index.js fixtures/css/index.css fixtures/build-min/",
+    "fixtures:no-min": "node ./cli.js --no-min --browsers 'Chrome <= 47' fixtures/js/index.js fixtures/css/index.css fixtures/build-no-min/",
+    "fixtures:electron": "node ./cli.js --browsers 'Chrome <= 47' --electron fixtures/js/electron.js fixtures/build-electron/"
   },
   "repository": {
     "type": "git",
