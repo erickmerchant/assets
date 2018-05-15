@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 const command = require('sergeant')
 const fs = require('fs')
-const thenify = require('thenify')
-const writeFile = thenify(fs.writeFile)
-const mkdirp = thenify(require('mkdirp'))
+const promisify = require('util').promisify
+const writeFile = promisify(fs.writeFile)
+const makeDir = require('make-dir')
 const watch = require('@erickmerchant/conditional-watch')
 const action = require('./')
 
 command('assets', 'generate css using postcss, and js using browserify and babel', action({
   out: process.stdout,
-  makeDir: mkdirp,
+  makeDir,
   writeFile,
   watch,
   types: {

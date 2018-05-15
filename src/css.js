@@ -2,8 +2,9 @@
 module.exports = function (config) {
   const error = require('sergeant/error')
   const path = require('path')
-  const thenify = require('thenify')
-  const readFile = thenify(require('fs').readFile)
+  const promisify = require('util').promisify
+  const fs = require('fs')
+  const readFile = promisify(fs.readFile)
   const postcss = require('postcss')
   const cssimport = require('postcss-import')
   const presetEnv = require('postcss-preset-env')
