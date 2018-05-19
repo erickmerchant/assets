@@ -8,6 +8,7 @@ module.exports = function (config) {
   const postcss = require('postcss')
   const cssimport = require('postcss-import')
   const presetEnv = require('postcss-preset-env')
+  const cssnanoPreset = require('cssnano-preset-advanced')
   const autoprefixer = require('autoprefixer')
   const cssnano = require('cssnano')
 
@@ -30,7 +31,11 @@ module.exports = function (config) {
           ]
 
           if (!config.noMin) {
-            plugins.push(cssnano({autoprefixer: false}))
+            plugins.push(cssnano({
+              preset: [cssnanoPreset, {
+                autoprefixer: false
+              }]
+            }))
           }
 
           return postcss(plugins).process(css, {
