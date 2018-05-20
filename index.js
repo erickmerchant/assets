@@ -84,10 +84,10 @@ module.exports = function (deps) {
                 if (result != null) {
                   return Promise.all([
                     deps.writeFile(config.output, result.code).then(function () {
-                      deps.out.write(chalk.green('\u2714') + ' saved ' + config.output + '\n')
+                      deps.out.write(`${chalk.gray('[assets]')} ${chalk.green('\u2714')} saved ${config.output}\n`)
                     }),
                     deps.writeFile(config.output + '.map', result.map).then(function () {
-                      deps.out.write(chalk.green('\u2714') + ' saved ' + config.output + '.map' + '\n')
+                      deps.out.write(`${chalk.gray('[assets]')} ${chalk.green('\u2714')} saved ${config.output}.map\n`)
                     })
                   ])
                 }
