@@ -9,7 +9,7 @@ module.exports = function (config) {
   const cssimport = require('postcss-import')
   const presetEnv = require('postcss-preset-env')
   const autoprefixer = require('autoprefixer')
-  const csswring = require('csswring')
+  const cssnano = require('cssnano')
 
   return function () {
     return Promise.all(config.input.map(function (input) {
@@ -30,7 +30,7 @@ module.exports = function (config) {
           ]
 
           if (!config.noMin) {
-            plugins.push(csswring())
+            plugins.push(cssnano({autoprefixer: false}))
           }
 
           return postcss(plugins).process(css, {

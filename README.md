@@ -10,7 +10,7 @@ __for css__
 - [postcss-import](https://github.com/postcss/postcss-import#readme)
 - [postcss-preset-env](https://github.com/jonathantneal/postcss-preset-env)
 - [autoprefixer](https://github.com/postcss/autoprefixer)
-- [csswring](https://github.com/hail2u/node-csswring)
+- [cssnano](https://github.com/ben-eb/cssnano)
 
 __for js__
 
