@@ -17,7 +17,7 @@ __for js__
 - [browserify](http://browserify.org/)
 - [babelify](https://github.com/babel/babelify)
 - [babel-preset-env](https://github.com/babel/babel-preset-env)
-- [babel-preset-babili](https://github.com/babel/babili#readme)
+- [babel-preset-minify](https://github.com/babel/minify)
 - [nanohtml](https://github.com/choojs/nanohtml#readme)
 - [tinyify](https://github.com/browserify/tinyify)
 - [exorcist](https://github.com/thlorenz/exorcist)
