@@ -17,9 +17,12 @@ __for js__
 - [browserify](http://browserify.org/)
 - [babelify](https://github.com/babel/babelify)
 - [babel-preset-env](https://github.com/babel/babel-preset-env)
-- [babel-preset-minify](https://github.com/babel/minify)
+- [babel-plugin-transform-inline-environment-variables](https://github.com/babel/minify/tree/master/packages/babel-plugin-transform-inline-environment-variables)
+- [babel-plugin-unassert](https://github.com/unassert-js/babel-plugin-unassert)
 - [nanohtml](https://github.com/choojs/nanohtml#readme)
-- [tinyify](https://github.com/browserify/tinyify)
+- [browser-pack-flat](https://github.com/goto-bus-stop/browser-pack-flat)
+- [common-shakeify](https://github.com/browserify/common-shakeify)
+- [minify-stream](https://github.com/goto-bus-stop/minify-stream)
 - [exorcist](https://github.com/thlorenz/exorcist)
 
 

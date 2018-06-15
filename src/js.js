@@ -4,12 +4,15 @@ module.exports = function (config) {
   const to2 = require('to2')
   const path = require('path')
   const browserify = require('browserify')
-  const exorcist = require('exorcist')
-  const tinyify = require('tinyify')
   const babelify = require('babelify')
+  const shakeify = require('common-shakeify')
+  const packFlat = require('browser-pack-flat')
   const presetEnv = require('babel-preset-env')
-  const babili = require('babel-preset-minify')
   const html = require('nanohtml')
+  const unassert = require('babel-plugin-unassert')
+  const inlineVars = require('babel-plugin-transform-inline-environment-variables')
+  const minify = require('minify-stream')
+  const exorcist = require('exorcist')
 
   return function () {
     let codeData = ''
@@ -31,10 +34,6 @@ module.exports = function (config) {
         bundle.add(input)
       }
 
-      if (!config.noMin) {
-        bundle.plugin(tinyify)
-      }
-
       const presets = [
         [presetEnv, {
           targets: {
@@ -43,10 +42,10 @@ module.exports = function (config) {
         }]
       ]
 
-      const plugins = []
+      const plugins = [ html, inlineVars ]
 
       if (!config.noMin) {
-        presets.push(babili)
+        plugins.push(unassert)
       }
 
       bundle.transform(babelify.configure({
@@ -55,13 +54,27 @@ module.exports = function (config) {
       }), {global: true})
 
       if (!config.noMin) {
-        bundle.transform(html, {global: true})
+        bundle.plugin(packFlat)
+
+        bundle.plugin(shakeify)
       }
 
       bundle = bundle
         .bundle(function (err) {
           if (err) reject(err)
         })
+
+      if (!config.noMin) {
+        bundle = bundle.pipe(minify({
+          output: {
+            ascii_only: true
+          },
+          mangle: {
+            safari10: true
+          },
+          toplevel: true
+        }))
+      }
 
       let mapStream = to2(function (data, enc, cb) {
         mapData += data.toString()
