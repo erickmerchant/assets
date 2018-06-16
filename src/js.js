@@ -78,8 +78,6 @@ module.exports = function (config) {
         mapData.push(data)
 
         cb()
-      }, function (cb) {
-        cb()
       })
 
       mapStream.once('error', reject)
@@ -89,9 +87,9 @@ module.exports = function (config) {
 
         cb()
       }, function (cb) {
-        cb()
-
         resolve()
+
+        cb()
       })
 
       codeStream.once('error', reject)
@@ -105,10 +103,10 @@ module.exports = function (config) {
         .pipe(codeStream)
     })
       .then(function () {
-        return Promise.resolve({
+        return {
           code: codeData.join(''),
           map: mapData.join('')
-        })
+        }
       })
       .catch(error)
   }
