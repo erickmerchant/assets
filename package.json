@@ -46,7 +46,7 @@
     "postcss": "^6.0.22",
     "postcss-import": "^11.1.0",
     "postcss-preset-env": "^5.1.0",
-    "sergeant": "^19.5.0",
+    "sergeant": "^20.0.0",
     "to2": "^1.0.0"
   },
   "devDependencies": {
