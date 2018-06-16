@@ -39,28 +39,37 @@ module.exports = function (config) {
             map: { inline: false }
           })
             .then(function (output) {
-              return postcss.parse(output.css, {
-                from: input,
-                to: config.output,
-                map: {
-                  prev: output.map
-                }
-              })
+              if (config.input.length > 1) {
+                return postcss.parse(output.css, {
+                  from: input,
+                  to: config.output,
+                  map: {
+                    prev: output.map
+                  }
+                })
+              }
+
+              return output
             })
         })
     }))
       .then(function (parsed) {
-        parsed = parsed.reduce((acc, curr) => acc.append(curr)).toResult({
-          to: '/' + path.basename(config.output),
-          map: {
-            inline: false,
-            annotation: path.basename(config.output + '.map')
-          }
-        })
+        if (config.input.length > 1) {
+          return parsed.reduce((acc, curr) => acc.append(curr)).toResult({
+            to: config.output,
+            map: {
+              inline: false,
+              annotation: path.basename(config.output + '.map')
+            }
+          })
+        }
 
+        return parsed[0]
+      })
+      .then(function (parsed) {
         let map = JSON.parse(parsed.map)
 
-        map.sources = map.sources.map((source) => path.relative(process.cwd(), '/' + source))
+        map.sources = map.sources.map((source) => path.join(path.dirname(config.output), source))
 
         return {
           code: parsed.css,

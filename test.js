@@ -212,6 +212,26 @@ test('js - min', async function (t) {
   t.equal(fixtureMap, result.map)
 })
 
+test('js - multiple files', async function (t) {
+  t.plan(2)
+
+  const [fixtureCode, fixtureMap] = await Promise.all([
+    readFile('./fixtures/build-multiple-files/bundle.js', 'utf-8'),
+    readFile('./fixtures/build-multiple-files/bundle.js.map', 'utf-8')
+  ])
+
+  const result = await require('./src/js')({
+    input: ['fixtures/js/index.js', 'fixtures/js/other.js'],
+    output: 'fixtures/build-multiple-files/bundle.js',
+    electron: false,
+    noMin: false,
+    browsers: ['Chrome <= 47']
+  })()
+
+  t.equal(fixtureCode, result.code)
+  t.equal(fixtureMap, result.map)
+})
+
 test('js - no-min', async function (t) {
   t.plan(2)
 
@@ -263,6 +283,26 @@ test('css - min', async function (t) {
   const result = await require('./src/css')({
     input: ['fixtures/css/index.css'],
     output: 'fixtures/build-min/bundle.css',
+    electron: false,
+    noMin: false,
+    browsers: ['Chrome <= 47']
+  })()
+
+  t.equal(fixtureCode, result.code)
+  t.equal(fixtureMap, result.map)
+})
+
+test('css - multiple files', async function (t) {
+  t.plan(2)
+
+  const [fixtureCode, fixtureMap] = await Promise.all([
+    readFile('./fixtures/build-multiple-files/bundle.css', 'utf-8'),
+    readFile('./fixtures/build-multiple-files/bundle.css.map', 'utf-8')
+  ])
+
+  const result = await require('./src/css')({
+    input: ['fixtures/css/index.css', 'fixtures/css/other.css'],
+    output: 'fixtures/build-multiple-files/bundle.css',
     electron: false,
     noMin: false,
     browsers: ['Chrome <= 47']

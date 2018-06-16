@@ -8,9 +8,10 @@
   },
   "scripts": {
     "test": "standard && tape test.js",
-    "fixtures": "npm run fixtures:min && npm run fixtures:no-min && npm run fixtures:electron",
+    "fixtures": "npm run fixtures:min && npm run fixtures:no-min && npm run fixtures:electron && npm run fixtures:multiple-files",
     "fixtures:browser": "node ./cli.js --browsers 'Chrome <= 47' fixtures/js/index.js fixtures/css/index.css",
     "fixtures:min": "npm run fixtures:browser -- fixtures/build-min/",
+    "fixtures:multiple-files": "node ./cli.js --browsers 'Chrome <= 47' fixtures/js/index.js fixtures/js/other.js fixtures/css/index.css fixtures/css/other.css fixtures/build-multiple-files/",
     "fixtures:no-min": "npm run fixtures:browser -- --no-min fixtures/build-no-min/",
     "fixtures:electron": "node ./cli.js --electron fixtures/js/electron.js fixtures/build-electron/"
   },
