@@ -15,8 +15,8 @@ module.exports = function (config) {
   const exorcist = require('exorcist')
 
   return function () {
-    let codeData = ''
-    let mapData = ''
+    let codeData = []
+    let mapData = []
 
     return new Promise(function (resolve, reject) {
       const options = {
@@ -66,18 +66,16 @@ module.exports = function (config) {
 
       if (!config.noMin) {
         bundle = bundle.pipe(minify({
+          toplevel: true,
+          safari10: true,
           output: {
             ascii_only: true
-          },
-          mangle: {
-            safari10: true
-          },
-          toplevel: true
+          }
         }))
       }
 
       let mapStream = to2(function (data, enc, cb) {
-        mapData += data.toString()
+        mapData.push(data)
 
         cb()
       }, function (cb) {
@@ -87,7 +85,7 @@ module.exports = function (config) {
       mapStream.once('error', reject)
 
       let codeStream = to2(function (data, enc, cb) {
-        codeData += data.toString()
+        codeData.push(data)
 
         cb()
       }, function (cb) {
@@ -108,8 +106,8 @@ module.exports = function (config) {
     })
       .then(function () {
         return Promise.resolve({
-          code: codeData,
-          map: mapData
+          code: codeData.join(''),
+          map: mapData.join('')
         })
       })
       .catch(error)
