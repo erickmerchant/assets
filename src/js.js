@@ -1,19 +1,18 @@
+const error = require('sergeant/error')
+const to2 = require('to2')
+const path = require('path')
+const browserify = require('browserify')
+const babelify = require('babelify')
+const shakeify = require('common-shakeify')
+const packFlat = require('browser-pack-flat')
+const presetEnv = require('babel-preset-env')
+const html = require('nanohtml')
+const unassert = require('babel-plugin-unassert')
+const inlineVars = require('babel-plugin-transform-inline-environment-variables')
+const minify = require('minify-stream')
+const exorcist = require('exorcist')
 
 module.exports = function (config) {
-  const error = require('sergeant/error')
-  const to2 = require('to2')
-  const path = require('path')
-  const browserify = require('browserify')
-  const babelify = require('babelify')
-  const shakeify = require('common-shakeify')
-  const packFlat = require('browser-pack-flat')
-  const presetEnv = require('babel-preset-env')
-  const html = require('nanohtml')
-  const unassert = require('babel-plugin-unassert')
-  const inlineVars = require('babel-plugin-transform-inline-environment-variables')
-  const minify = require('minify-stream')
-  const exorcist = require('exorcist')
-
   return function () {
     let codeData = []
     let mapData = []

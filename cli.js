@@ -6,6 +6,8 @@ const writeFile = promisify(fs.writeFile)
 const makeDir = require('make-dir')
 const watch = require('@erickmerchant/conditional-watch')
 const action = require('./')
+const js = require('./src/js')
+const css = require('./src/css')
 
 command('assets', 'generate css using postcss, and js using browserify and babel', action({
   out: process.stdout,
@@ -13,7 +15,7 @@ command('assets', 'generate css using postcss, and js using browserify and babel
   writeFile,
   watch,
   types: {
-    js: require('./src/js'),
-    css: require('./src/css')
+    js,
+    css
   }
 }))(process.argv.slice(2))

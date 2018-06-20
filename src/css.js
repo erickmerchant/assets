@@ -1,16 +1,15 @@
+const error = require('sergeant/error')
+const path = require('path')
+const promisify = require('util').promisify
+const fs = require('fs')
+const readFile = promisify(fs.readFile)
+const postcss = require('postcss')
+const cssimport = require('postcss-import')
+const presetEnv = require('postcss-preset-env')
+const autoprefixer = require('autoprefixer')
+const cssnano = require('cssnano')
 
 module.exports = function (config) {
-  const error = require('sergeant/error')
-  const path = require('path')
-  const promisify = require('util').promisify
-  const fs = require('fs')
-  const readFile = promisify(fs.readFile)
-  const postcss = require('postcss')
-  const cssimport = require('postcss-import')
-  const presetEnv = require('postcss-preset-env')
-  const autoprefixer = require('autoprefixer')
-  const cssnano = require('cssnano')
-
   return function () {
     return Promise.all(config.input.map(function (input) {
       return readFile(input, 'utf-8')
