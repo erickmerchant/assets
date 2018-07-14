@@ -40,7 +40,7 @@ module.exports = function (deps) {
 
     option('watch', {
       description: 'watch for changes',
-      aliases: ['w']
+      alias: 'w'
     })
 
     option('browsers', {
