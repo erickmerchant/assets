@@ -9,7 +9,7 @@
   "scripts": {
     "test": "standard && tape test.js",
     "fixtures": "npm run fixtures:min && npm run fixtures:no-min && npm run fixtures:electron && npm run fixtures:multiple-files",
-    "fixtures:browser": "node ./cli.js --browsers 'Chrome <= 47' fixtures/js/index.js fixtures/css/index.css",
+    "fixtures:browser": "node ./cli.js --browser 'Chrome <= 47' fixtures/js/index.js fixtures/css/index.css",
     "fixtures:min": "npm run fixtures:browser -- fixtures/build-min/",
     "fixtures:multiple-files": "npm run fixtures:browser -- fixtures/js/other.js fixtures/css/other.css fixtures/build-multiple-files/",
     "fixtures:no-min": "npm run fixtures:browser -- --no-min fixtures/build-no-min/",
@@ -27,7 +27,7 @@
   "homepage": "https://github.com/erickmerchant/assets#readme",
   "dependencies": {
     "@erickmerchant/conditional-watch": "^2.1.5",
-    "autoprefixer": "^9.0.0",
+    "autoprefixer": "^9.0.1",
     "babel-core": "^6.26.3",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "babel-plugin-unassert": "^2.1.2",
@@ -45,8 +45,8 @@
     "nanohtml": "^1.2.3",
     "postcss": "^7.0.1",
     "postcss-import": "^11.1.0",
-    "postcss-preset-env": "^5.2.2",
-    "sergeant": "^21.0.0",
+    "postcss-preset-env": "^5.2.3",
+    "sergeant": "^22.0.0",
     "to2": "^1.0.0"
   },
   "devDependencies": {

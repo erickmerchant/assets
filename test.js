@@ -8,60 +8,6 @@ const out = new stream.Writable()
 
 out._write = () => {}
 
-const noopDeps = {
-  out,
-  makeDir () {},
-  writeFile () {},
-  watch () {},
-  types: {}
-}
-const noopDefiners = {
-  parameter () {},
-  option () {}
-}
-
-test('index.js - options and parameters', function (t) {
-  t.plan(13)
-
-  const parameters = {}
-  const options = {}
-
-  require('./index')(noopDeps)({
-    parameter (name, args) {
-      parameters[name] = args
-    },
-    option (name, args) {
-      options[name] = args
-    }
-  })
-
-  t.ok(parameters.source)
-
-  t.deepEqual(parameters.source.required, true)
-
-  t.equal(parameters.source.multiple, true)
-
-  t.ok(parameters.destination)
-
-  t.equal(parameters.destination.required, true)
-
-  t.ok(options['no-min'])
-
-  t.ok(options.electron)
-
-  t.ok(options.watch)
-
-  t.deepEqual(options.watch.alias, 'w')
-
-  t.ok(options.browsers)
-
-  t.equal(options.browsers.multiple, true)
-
-  t.equal(typeof options.browsers.type, 'function')
-
-  t.deepEqual(options.browsers.type(), ['last 2 versions', '> 5%'])
-})
-
 test('index.js - make directory and watch', function (t) {
   t.plan(6)
 
@@ -99,13 +45,13 @@ test('index.js - make directory and watch', function (t) {
         }
       }
     }
-  })(noopDefiners)({
+  })({
     destination: './bundle',
     source: ['./a.txt', './b.txt', './c.txt'],
     watch: false,
     electron: false,
     noMin: false,
-    browsers: ['last 2 versions', '> 5%']
+    browser: ['last 2 versions', '> 5%']
   })
 })
 
@@ -146,13 +92,13 @@ test('index.js - directory destination, watch true, null result', function (t) {
         }
       }
     }
-  })(noopDefiners)({
+  })({
     destination: './',
     source: ['./a.txt'],
     watch: true,
     electron: false,
     noMin: false,
-    browsers: ['last 2 versions', '> 5%']
+    browser: ['last 2 versions', '> 5%']
   })
 })
 
@@ -185,7 +131,7 @@ test('index.js - no input', function (t) {
         }
       }
     }
-  })(noopDefiners)({
+  })({
     destination: './bundle',
     source: ['./a.foo', './b.foo', './c.foo'],
     watch: false
