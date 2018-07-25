@@ -45,7 +45,7 @@
     "nanohtml": "^1.2.3",
     "postcss": "^7.0.1",
     "postcss-import": "^11.1.0",
-    "postcss-preset-env": "^5.2.3",
+    "postcss-preset-env": "^5.3.0",
     "sergeant": "^22.0.0",
     "to2": "^1.0.0"
   },
