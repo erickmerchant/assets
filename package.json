@@ -27,7 +27,7 @@
   "homepage": "https://github.com/erickmerchant/assets#readme",
   "dependencies": {
     "@erickmerchant/conditional-watch": "^2.1.5",
-    "autoprefixer": "^9.0.2",
+    "autoprefixer": "^9.1.0",
     "babel-core": "^6.26.3",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "babel-plugin-unassert": "^2.1.2",
