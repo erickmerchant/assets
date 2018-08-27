@@ -1,6 +1,6 @@
 {
   "name": "@erickmerchant/assets",
-  "version": "14.0.3",
+  "version": "14.0.4",
   "description": "Generate css using postcss, and js using browserify and babel.",
   "main": "index.js",
   "bin": {
