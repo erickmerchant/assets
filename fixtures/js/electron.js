@@ -1,3 +1,3 @@
-const {clipboard} = require('electron')
+const { clipboard } = require('electron')
 
 clipboard.writeText(Date.now())

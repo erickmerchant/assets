@@ -25,11 +25,11 @@ module.exports = function (config) {
                 }
               }
             }),
-            autoprefixer({browsers: config.browsers})
+            autoprefixer({ browsers: config.browsers })
           ]
 
           if (!config.noMin) {
-            plugins.push(cssnano({autoprefixer: false}))
+            plugins.push(cssnano({ autoprefixer: false }))
           }
 
           return postcss(plugins).process(css, {

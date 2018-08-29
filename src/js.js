@@ -50,7 +50,7 @@ module.exports = function (config) {
       bundle.transform(babelify.configure({
         presets,
         plugins
-      }), {global: true})
+      }), { global: true })
 
       if (!config.noMin) {
         bundle.plugin(packFlat)

@@ -10,9 +10,9 @@
     "Date",
     "now"
   ],
-  "mappings": "AAAoBA,QAAA,YAAbC,UAEGC,UAAUC,KAAKC",
+  "mappings": "AAAsBA,QAAA,YAAdC,UAEEC,UAAUC,KAAKC",
   "sourcesContent": [
-    "const {clipboard} = require('electron')\n\nclipboard.writeText(Date.now())\n"
+    "const { clipboard } = require('electron')\n\nclipboard.writeText(Date.now())\n"
   ],
   "sourceRoot": ""
 }

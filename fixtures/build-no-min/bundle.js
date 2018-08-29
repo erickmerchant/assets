@@ -11,7 +11,7 @@ var assert = require('assert');
 module.exports = function (state) {
   var _foo;
 
-  assert.equal(typeof state === 'undefined' ? 'undefined' : _typeof(state), 'object');
+  assert.strictEqual(typeof state === 'undefined' ? 'undefined' : _typeof(state), 'object');
 
   return _foo = document.createElement('h1'), _foo.setAttribute('class', 'foo'), _appendChild(_foo, [state.heading]), _foo;
 };

@@ -5,17 +5,17 @@ const error = require('sergeant/error')
 const chalk = require('chalk')
 
 module.exports = function (deps) {
-  assert.equal(typeof deps.out, 'object')
+  assert.strictEqual(typeof deps.out, 'object')
 
-  assert.equal(typeof deps.out.write, 'function')
+  assert.strictEqual(typeof deps.out.write, 'function')
 
-  assert.equal(typeof deps.makeDir, 'function')
+  assert.strictEqual(typeof deps.makeDir, 'function')
 
-  assert.equal(typeof deps.writeFile, 'function')
+  assert.strictEqual(typeof deps.writeFile, 'function')
 
-  assert.equal(typeof deps.watch, 'function')
+  assert.strictEqual(typeof deps.watch, 'function')
 
-  assert.equal(typeof deps.types, 'object')
+  assert.strictEqual(typeof deps.types, 'object')
 
   return function (args) {
     if (args.destination.endsWith('/')) {

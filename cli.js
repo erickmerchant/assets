@@ -11,7 +11,7 @@ const js = require('./src/js')
 const css = require('./src/css')
 const pkg = require(path.join(process.cwd(), 'package.json'))
 
-command('assets', 'generate css using postcss, and js using browserify and babel', ({option, parameter}) => {
+command('assets', 'generate css using postcss, and js using browserify and babel', ({ option, parameter }) => {
   parameter('source', {
     description: 'your source files',
     required: true,
