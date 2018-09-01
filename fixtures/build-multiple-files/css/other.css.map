@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../css/other.css"],"names":[],"mappings":"AAAA,KACE,qCAAyB,AAAzB,6BAAyB,AAAzB,uBAAyB,CAC1B","file":"other.css","sourcesContent":[".foo {\n  font-variant: small-caps;\n}\n"]}

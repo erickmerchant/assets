@@ -1,1 +1,0 @@
-{"version":3,"sources":["fixtures/css/index.css"],"names":[],"mappings":"AAEA;EACE,mIAAuB;CACxB;;AAED;EACE,WAAkB;CACnB;;AAED;EACE;IACE,YAAmB;GACpB;CACF","file":"bundle.css","sourcesContent":["@import './variables.css';\n\nbody {\n  font-family: system-ui;\n}\n\n.foo {\n  color: var(--red);\n}\n\n@media (--breakpoint) {\n  .foo {\n    color: var(--blue);\n  }\n}\n"]}

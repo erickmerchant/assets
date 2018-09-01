@@ -4,50 +4,49 @@ const promisify = require('util').promisify
 const fs = require('fs')
 const readFile = promisify(fs.readFile)
 const stream = require('stream')
+const streamPromise = require('stream-to-promise')
 const out = new stream.Writable()
 
 out._write = () => {}
 
 test('index.js - make directory and watch', function (t) {
-  t.plan(6)
+  t.plan(8)
 
   require('./')({
     out,
     makeDir (directory) {
-      t.equal(directory, '.')
+      t.equal(directory, 'assets')
 
       return Promise.resolve(true)
     },
-    writeFile (file, content) {
-      t.ok(file.startsWith('bundle.txt'))
+    createWriteStream (file, content) {
+      const writable = new stream.Writable()
 
-      return Promise.resolve(true)
+      writable._write = () => {
+        t.ok(file.startsWith('bundle.txt'))
+      }
+
+      return writable
     },
     watch (watch, directory, fn) {
       t.equal(watch, false)
 
-      t.equal(directory, './')
+      t.equal(directory, '.')
 
       return fn()
     },
     types: {
       txt (config) {
-        return function () {
-          t.deepEqual(config, {
-            input: ['./a.txt', './b.txt', './c.txt'],
-            output: 'bundle.txt',
-            electron: false,
-            noMin: false,
-            browsers: ['last 2 versions', '> 5%']
-          })
-
-          return Promise.resolve(true)
-        }
+        t.deepEqual(config.input, 'a.txt')
+        t.deepEqual(config.output, 'assets/a.txt')
+        t.deepEqual(config.electron, false)
+        t.deepEqual(config.noMin, false)
+        t.deepEqual(config.browsers, ['last 2 versions', '> 5%'])
       }
     }
   })({
-    destination: './bundle',
-    source: ['./a.txt', './b.txt', './c.txt'],
+    destination: '.',
+    source: ['a.txt'],
     watch: false,
     electron: false,
     noMin: false,
@@ -61,40 +60,34 @@ test('index.js - directory destination, watch true, null result', function (t) {
   require('./')({
     out,
     makeDir (directory) {
-      t.equal(directory, '.')
+      t.equal(directory, 'assets')
 
       return Promise.resolve(true)
     },
-    writeFile (file, content) {
-      t.ok(false)
+    createWriteStream (file, content) {
+      const writable = new stream.Writable()
 
-      return Promise.resolve(true)
+      writable._write = () => {
+        t.ok(false)
+      }
+
+      return writable
     },
     watch (watch, directory, fn) {
       t.equal(watch, true)
 
-      t.equal(directory, './')
+      t.equal(directory, '.')
 
       return fn()
     },
     types: {
       txt (config) {
-        return function () {
-          t.deepEqual(config, {
-            input: ['./a.txt'],
-            output: 'bundle.txt',
-            electron: false,
-            noMin: false,
-            browsers: ['last 2 versions', '> 5%']
-          })
-
-          return Promise.resolve(null)
-        }
+        t.ok(true)
       }
     }
   })({
-    destination: './',
-    source: ['./a.txt'],
+    destination: '.',
+    source: ['a.txt'],
     watch: true,
     electron: false,
     noMin: false,
@@ -108,14 +101,18 @@ test('index.js - no input', function (t) {
   require('./')({
     out,
     makeDir (directory) {
-      t.equal(directory, '.')
-
-      return Promise.resolve(true)
-    },
-    writeFile (file, content) {
       t.ok(false)
 
       return Promise.resolve(true)
+    },
+    createWriteStream (file, content) {
+      const writable = new stream.Writable()
+
+      writable._write = () => {
+        t.ok(false)
+      }
+
+      return writable
     },
     watch (watch, directory, fn) {
       t.ok(false)
@@ -124,158 +121,252 @@ test('index.js - no input', function (t) {
     },
     types: {
       txt (config) {
-        return function () {
-          t.ok(false)
-
-          return Promise.resolve(true)
-        }
+        t.ok(false)
       }
     }
   })({
-    destination: './bundle',
-    source: ['./a.foo', './b.foo', './c.foo'],
+    destination: '.',
+    source: ['a.foo'],
     watch: false
   })
+    .then(() => {
+      t.ok(true)
+    })
 })
 
 test('js - min', async function (t) {
   t.plan(2)
 
   const [fixtureCode, fixtureMap] = await Promise.all([
-    readFile('./fixtures/build-min/bundle.js', 'utf-8'),
-    readFile('./fixtures/build-min/bundle.js.map', 'utf-8')
+    readFile('./fixtures/build-min/js/index.js', 'utf-8'),
+    readFile('./fixtures/build-min/js/index.js.map', 'utf-8')
   ])
 
-  const result = await require('./src/js')({
-    input: ['fixtures/js/index.js'],
-    output: 'fixtures/build-min/bundle.js',
+  const code = new stream.Writable()
+
+  const codeResult = []
+
+  code._write = function (chunk, encoding, cb) {
+    codeResult.push(Buffer.from(chunk, encoding))
+
+    cb()
+  }
+
+  const map = new stream.Writable()
+
+  const mapResult = []
+
+  map._write = function (chunk, encoding, cb) {
+    mapResult.push(Buffer.from(chunk, encoding))
+
+    cb()
+  }
+
+  require('./src/js')({
+    input: 'fixtures/js/index.js',
+    output: 'fixtures/build-min/js/index.js',
     electron: false,
     noMin: false,
-    browsers: ['Chrome <= 47']
-  })()
+    browsers: ['Chrome <= 47'],
+    code,
+    map
+  })
 
-  t.equal(fixtureCode, result.code)
-  t.equal(fixtureMap, result.map)
-})
+  await streamPromise(code)
 
-test('js - multiple files', async function (t) {
-  t.plan(2)
+  await streamPromise(map)
 
-  const [fixtureCode, fixtureMap] = await Promise.all([
-    readFile('./fixtures/build-multiple-files/bundle.js', 'utf-8'),
-    readFile('./fixtures/build-multiple-files/bundle.js.map', 'utf-8')
-  ])
+  t.equal(fixtureCode, codeResult.join(''))
 
-  const result = await require('./src/js')({
-    input: ['fixtures/js/index.js', 'fixtures/js/other.js'],
-    output: 'fixtures/build-multiple-files/bundle.js',
-    electron: false,
-    noMin: false,
-    browsers: ['Chrome <= 47']
-  })()
-
-  t.equal(fixtureCode, result.code)
-  t.equal(fixtureMap, result.map)
+  t.equal(fixtureMap, mapResult.join(''))
 })
 
 test('js - no-min', async function (t) {
   t.plan(2)
 
   const [fixtureCode, fixtureMap] = await Promise.all([
-    readFile('./fixtures/build-no-min/bundle.js', 'utf-8'),
-    readFile('./fixtures/build-no-min/bundle.js.map', 'utf-8')
+    readFile('./fixtures/build-no-min/js/index.js', 'utf-8'),
+    readFile('./fixtures/build-no-min/js/index.js.map', 'utf-8')
   ])
 
-  const result = await require('./src/js')({
-    input: ['fixtures/js/index.js'],
-    output: 'fixtures/build-no-min/bundle.js',
+  const code = new stream.Writable()
+
+  const codeResult = []
+
+  code._write = function (chunk, encoding, cb) {
+    codeResult.push(Buffer.from(chunk, encoding))
+
+    cb()
+  }
+
+  const map = new stream.Writable()
+
+  const mapResult = []
+
+  map._write = function (chunk, encoding, cb) {
+    mapResult.push(Buffer.from(chunk, encoding))
+
+    cb()
+  }
+
+  require('./src/js')({
+    input: 'fixtures/js/index.js',
+    output: 'fixtures/build-no-min/js/index.js',
     electron: false,
     noMin: true,
-    browsers: ['Chrome <= 47']
-  })()
+    browsers: ['Chrome <= 47'],
+    code,
+    map
+  })
 
-  t.equal(fixtureCode, result.code)
-  t.equal(fixtureMap, result.map)
+  await streamPromise(code)
+
+  await streamPromise(map)
+
+  t.equal(fixtureCode, codeResult.join(''))
+
+  t.equal(fixtureMap, mapResult.join(''))
 })
 
 test('js - electron', async function (t) {
   t.plan(2)
 
   const [fixtureCode, fixtureMap] = await Promise.all([
-    readFile('./fixtures/build-electron/bundle.js', 'utf-8'),
-    readFile('./fixtures/build-electron/bundle.js.map', 'utf-8')
+    readFile('./fixtures/build-electron/js/electron.js', 'utf-8'),
+    readFile('./fixtures/build-electron/js/electron.js.map', 'utf-8')
   ])
 
-  const result = await require('./src/js')({
-    input: ['fixtures/js/electron.js'],
-    output: 'fixtures/build-electron/bundle.js',
+  const code = new stream.Writable()
+
+  const codeResult = []
+
+  code._write = function (chunk, encoding, cb) {
+    codeResult.push(Buffer.from(chunk, encoding))
+
+    cb()
+  }
+
+  const map = new stream.Writable()
+
+  const mapResult = []
+
+  map._write = function (chunk, encoding, cb) {
+    mapResult.push(Buffer.from(chunk, encoding))
+
+    cb()
+  }
+
+  require('./src/js')({
+    input: 'fixtures/js/electron.js',
+    output: 'fixtures/build-electron/js/electron.js',
     electron: true,
     noMin: false,
-    browsers: ['Chrome <= 47']
-  })()
+    browsers: ['Chrome <= 47'],
+    code,
+    map
+  })
 
-  t.equal(fixtureCode, result.code)
-  t.equal(fixtureMap, result.map)
+  await streamPromise(code)
+
+  await streamPromise(map)
+
+  t.equal(fixtureCode, codeResult.join(''))
+
+  t.equal(fixtureMap, mapResult.join(''))
 })
 
 test('css - min', async function (t) {
   t.plan(2)
 
   const [fixtureCode, fixtureMap] = await Promise.all([
-    readFile('./fixtures/build-min/bundle.css', 'utf-8'),
-    readFile('./fixtures/build-min/bundle.css.map', 'utf-8')
+    readFile('./fixtures/build-min/css/index.css', 'utf-8'),
+    readFile('./fixtures/build-min/css/index.css.map', 'utf-8')
   ])
 
-  const result = await require('./src/css')({
-    input: ['fixtures/css/index.css'],
-    output: 'fixtures/build-min/bundle.css',
+  const code = new stream.Writable()
+
+  const codeResult = []
+
+  code._write = function (chunk, encoding, cb) {
+    codeResult.push(Buffer.from(chunk, encoding))
+
+    cb()
+  }
+
+  const map = new stream.Writable()
+
+  const mapResult = []
+
+  map._write = function (chunk, encoding, cb) {
+    mapResult.push(Buffer.from(chunk, encoding))
+
+    cb()
+  }
+
+  require('./src/css')({
+    input: 'fixtures/css/index.css',
+    output: 'fixtures/build-min/css/index.css',
     electron: false,
     noMin: false,
-    browsers: ['Chrome <= 47']
-  })()
+    browsers: ['Chrome <= 47'],
+    code,
+    map
+  })
 
-  t.equal(fixtureCode, result.code)
-  t.equal(fixtureMap, result.map)
-})
+  await streamPromise(code)
 
-test('css - multiple files', async function (t) {
-  t.plan(2)
+  await streamPromise(map)
 
-  const [fixtureCode, fixtureMap] = await Promise.all([
-    readFile('./fixtures/build-multiple-files/bundle.css', 'utf-8'),
-    readFile('./fixtures/build-multiple-files/bundle.css.map', 'utf-8')
-  ])
+  t.equal(fixtureCode, codeResult.join(''))
 
-  const result = await require('./src/css')({
-    input: ['fixtures/css/index.css', 'fixtures/css/other.css'],
-    output: 'fixtures/build-multiple-files/bundle.css',
-    electron: false,
-    noMin: false,
-    browsers: ['Chrome <= 47']
-  })()
-
-  t.equal(fixtureCode, result.code)
-  t.equal(fixtureMap, result.map)
+  t.equal(fixtureMap, mapResult.join(''))
 })
 
 test('css - no-min', async function (t) {
   t.plan(2)
 
   const [fixtureCode, fixtureMap] = await Promise.all([
-    readFile('./fixtures/build-no-min/bundle.css', 'utf-8'),
-    readFile('./fixtures/build-no-min/bundle.css.map', 'utf-8')
+    readFile('./fixtures/build-no-min/css/index.css', 'utf-8'),
+    readFile('./fixtures/build-no-min/css/index.css.map', 'utf-8')
   ])
 
-  const result = await require('./src/css')({
-    input: ['fixtures/css/index.css'],
-    output: 'fixtures/build-no-min/bundle.css',
+  const code = new stream.Writable()
+
+  const codeResult = []
+
+  code._write = function (chunk, encoding, cb) {
+    codeResult.push(Buffer.from(chunk, encoding))
+
+    cb()
+  }
+
+  const map = new stream.Writable()
+
+  const mapResult = []
+
+  map._write = function (chunk, encoding, cb) {
+    mapResult.push(Buffer.from(chunk, encoding))
+
+    cb()
+  }
+
+  require('./src/css')({
+    input: 'fixtures/css/index.css',
+    output: 'fixtures/build-no-min/css/index.css',
     electron: false,
     noMin: true,
-    browsers: ['Chrome <= 47']
-  })()
+    browsers: ['Chrome <= 47'],
+    code,
+    map
+  })
 
-  t.equal(fixtureCode, result.code)
-  t.equal(fixtureMap, result.map)
+  await streamPromise(code)
+
+  await streamPromise(map)
+
+  t.equal(fixtureCode, codeResult.join(''))
+
+  t.equal(fixtureMap, mapResult.join(''))
 })
 
 test('cli.js', async function (t) {

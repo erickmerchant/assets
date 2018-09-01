@@ -1,10 +1,10 @@
 {
   "version": 3,
   "sources": [
-    "node_modules/browser-pack-flat/_prelude",
-    "node_modules/nanohtml/lib/append-child.js",
-    "fixtures/js/component.js",
-    "fixtures/js/index.js"
+    "../../node_modules/browser-pack-flat/_prelude",
+    "../../node_modules/nanohtml/lib/append-child.js",
+    "component.js",
+    "index.js"
   ],
   "names": [
     "state",

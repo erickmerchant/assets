@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 const command = require('sergeant')
 const fs = require('fs')
-const promisify = require('util').promisify
-const writeFile = promisify(fs.writeFile)
+const createWriteStream = fs.createWriteStream
 const makeDir = require('make-dir')
 const path = require('path')
 const watch = require('@erickmerchant/conditional-watch')
@@ -49,7 +48,7 @@ command('assets', 'generate css using postcss, and js using browserify and babel
   return (args) => action({
     out: process.stdout,
     makeDir,
-    writeFile,
+    createWriteStream,
     watch,
     types: {
       js,

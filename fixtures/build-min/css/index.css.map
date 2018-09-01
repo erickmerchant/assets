@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../css/index.css"],"names":[],"mappings":"AAEA,KACE,wHAAuB,CACxB,AAED,KACE,SAAkB,CACnB,AAED,yBACE,KACE,UAAmB,CACpB,CACF","file":"index.css","sourcesContent":["@import './variables.css';\n\nbody {\n  font-family: system-ui;\n}\n\n.foo {\n  color: var(--red);\n}\n\n@media (--breakpoint) {\n  .foo {\n    color: var(--blue);\n  }\n}\n"]}

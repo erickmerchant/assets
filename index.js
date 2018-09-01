@@ -1,7 +1,7 @@
 const path = require('path')
 const assert = require('assert')
 const commonDir = require('common-dir')
-const error = require('sergeant/error')
+const streamPromise = require('stream-to-promise')
 const chalk = require('chalk')
 
 module.exports = function (deps) {
@@ -11,59 +11,57 @@ module.exports = function (deps) {
 
   assert.strictEqual(typeof deps.makeDir, 'function')
 
-  assert.strictEqual(typeof deps.writeFile, 'function')
+  assert.strictEqual(typeof deps.createWriteStream, 'function')
 
   assert.strictEqual(typeof deps.watch, 'function')
 
   assert.strictEqual(typeof deps.types, 'object')
 
   return function (args) {
-    if (args.destination.endsWith('/')) {
-      args.destination += 'bundle'
-    }
+    return Promise.all(args.source.map(function (source) {
+      const ext = path.extname(source).substr(1)
 
-    return deps.makeDir(path.dirname(args.destination)).then(function () {
-      return Promise.all(Object.keys(deps.types).map(function (ext) {
-        const input = args.source.filter((source) => path.extname(source) === '.' + ext)
+      if (deps.types[ext] == null) {
+        return Promise.resolve(null)
+      }
 
-        if (!input.length) {
-          return Promise.resolve(true)
-        }
+      var sourceDir = commonDir([args.destination, path.dirname(source)].map(dir => path.resolve(dir)))
 
-        const sourceDir = commonDir(input)
+      const destinationDir = path.join(args.destination, path.dirname(path.resolve(source)).substr(sourceDir.length))
 
-        return deps.watch(args.watch, sourceDir, function () {
-          if (input.length) {
-            const config = {
-              input,
-              output: path.join(args.destination + '.' + ext),
-              electron: args.electron,
-              noMin: args.noMin,
-              browsers: args.browser
-            }
-
-            let handler = deps.types[ext](config)
-
-            return handler().then(function (result) {
-              if (result != null) {
-                return Promise.all([
-                  deps.writeFile(config.output, result.code).then(function () {
-                    deps.out.write(`${chalk.gray('[assets]')} saved ${config.output}\n`)
-                  }),
-                  deps.writeFile(config.output + '.map', result.map).then(function () {
-                    deps.out.write(`${chalk.gray('[assets]')} saved ${config.output}.map\n`)
-                  })
-                ])
-              }
-
-              return Promise.resolve(true)
-            })
-              .catch(error)
+      return deps.makeDir(destinationDir).then(function () {
+        return deps.watch(args.watch, path.dirname(source), function () {
+          const config = {
+            input: source,
+            output: path.join(destinationDir, path.basename(source)),
+            electron: args.electron,
+            noMin: args.noMin,
+            browsers: args.browser
           }
 
-          return Promise.resolve(true)
+          const promises = []
+          const outputs = {
+            code: config.output,
+            map: config.output + '.map'
+          }
+
+          for (const key of Object.keys(outputs)) {
+            config[key] = deps.createWriteStream(outputs[key])
+
+            const promise = streamPromise(config.code)
+
+            promise.then(() => {
+              deps.out.write(`${chalk.gray('[assets]')} saved ${outputs[key]}\n`)
+            })
+
+            promises.push(promise)
+          }
+
+          deps.types[ext](config)
+
+          return Promise.all(promises)
         })
-      }))
-    })
+      })
+    }))
   }
 }
