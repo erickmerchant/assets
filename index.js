@@ -25,7 +25,7 @@ module.exports = function (deps) {
         return Promise.resolve(null)
       }
 
-      var sourceDir = commonDir([args.destination, path.dirname(source)].map(dir => path.resolve(dir)))
+      const sourceDir = commonDir([args.destination, path.dirname(source)].map(dir => path.resolve(dir)))
 
       const destinationDir = path.join(args.destination, path.dirname(path.resolve(source)).substr(sourceDir.length))
 
