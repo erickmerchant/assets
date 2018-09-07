@@ -13,10 +13,9 @@
   },
   "scripts": {
     "test": "standard && tape test.js",
-    "fixtures": "npm run fixtures:min && npm run fixtures:no-min && npm run fixtures:electron && npm run fixtures:multiple-files",
+    "fixtures": "npm run fixtures:min && npm run fixtures:no-min && npm run fixtures:electron",
     "fixtures:browser": "node ./cli.js --browser 'Chrome <= 47' fixtures/js/index.js fixtures/css/index.css",
     "fixtures:min": "npm run fixtures:browser -- fixtures/build-min/",
-    "fixtures:multiple-files": "npm run fixtures:browser -- fixtures/js/other.js fixtures/css/other.css fixtures/build-multiple-files/",
     "fixtures:no-min": "npm run fixtures:browser -- --no-min fixtures/build-no-min/",
     "fixtures:electron": "node ./cli.js --electron fixtures/js/electron.js fixtures/build-electron/"
   },
@@ -31,13 +30,13 @@
   },
   "homepage": "https://github.com/erickmerchant/assets#readme",
   "dependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
     "@erickmerchant/conditional-watch": "^3.0.0",
     "autoprefixer": "^9.1.5",
-    "babel-core": "^6.26.3",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "babel-plugin-unassert": "^2.1.2",
-    "babel-preset-env": "^1.7.0",
-    "babelify": "^8.0.0",
+    "babelify": "^10.0.0",
     "browser-pack-flat": "^3.1.0",
     "browserify": "^16.2.2",
     "chalk": "^2.4.1",

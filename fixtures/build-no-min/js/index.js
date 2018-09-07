@@ -1,33 +1,31 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-'use strict';
+"use strict";
 
-var _appendChild = require('nanohtml/lib/append-child');
+var _appendChild = require("nanohtml/lib/append-child");
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 var assert = require('assert');
-
 
 module.exports = function (state) {
   var _foo;
 
-  assert.strictEqual(typeof state === 'undefined' ? 'undefined' : _typeof(state), 'object');
-
-  return _foo = document.createElement('h1'), _foo.setAttribute('class', 'foo'), _appendChild(_foo, [state.heading]), _foo;
+  assert.strictEqual(_typeof(state), 'object');
+  return _foo = document.createElement("h1"), _foo.setAttribute("class", "foo"), _appendChild(_foo, [state.heading]), _foo;
 };
 
 },{"assert":3,"nanohtml/lib/append-child":7}],2:[function(require,module,exports){
-'use strict';
+"use strict";
 
 var component = require('./component.js');
 
-document.querySelector('body').appendChild(component({ heading: 'Testing 1 2 3' }));
+document.querySelector('body').appendChild(component({
+  heading: 'Testing 1 2 3'
+}));
 
 },{"./component.js":1}],3:[function(require,module,exports){
 (function (global){
-'use strict';
-
-// compare and isBuffer taken from https://github.com/feross/buffer/blob/680e9e5e488f22aac27599a57dc844a6315928dd/index.js
+'use strict'; // compare and isBuffer taken from https://github.com/feross/buffer/blob/680e9e5e488f22aac27599a57dc844a6315928dd/index.js
 // original notice:
 
 /*!
@@ -37,7 +35,7 @@ document.querySelector('body').appendChild(component({ heading: 'Testing 1 2 3' 
  * @license  MIT
  */
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function compare(a, b) {
   if (a === b) {
@@ -58,20 +56,21 @@ function compare(a, b) {
   if (x < y) {
     return -1;
   }
+
   if (y < x) {
     return 1;
   }
+
   return 0;
 }
+
 function isBuffer(b) {
   if (global.Buffer && typeof global.Buffer.isBuffer === 'function') {
     return global.Buffer.isBuffer(b);
   }
+
   return !!(b != null && b._isBuffer);
-}
-
-// based on node assert, original notice:
-
+} // based on node assert, original notice:
 // http://wiki.commonjs.org/wiki/Unit_Testing/1.0
 //
 // THIS IS NOT TESTED NOR LIKELY TO WORK OUTSIDE V8!
@@ -96,65 +95,78 @@ function isBuffer(b) {
 // ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+
 var util = require('util/');
+
 var hasOwn = Object.prototype.hasOwnProperty;
 var pSlice = Array.prototype.slice;
+
 var functionsHaveNames = function () {
   return function foo() {}.name === 'foo';
 }();
+
 function pToString(obj) {
   return Object.prototype.toString.call(obj);
 }
+
 function isView(arrbuf) {
   if (isBuffer(arrbuf)) {
     return false;
   }
+
   if (typeof global.ArrayBuffer !== 'function') {
     return false;
   }
+
   if (typeof ArrayBuffer.isView === 'function') {
     return ArrayBuffer.isView(arrbuf);
   }
+
   if (!arrbuf) {
     return false;
   }
+
   if (arrbuf instanceof DataView) {
     return true;
   }
+
   if (arrbuf.buffer && arrbuf.buffer instanceof ArrayBuffer) {
     return true;
   }
+
   return false;
-}
-// 1. The assert module provides functions that throw
+} // 1. The assert module provides functions that throw
 // AssertionError's when particular conditions are not met. The
 // assert module must conform to the following interface.
 
-var assert = module.exports = ok;
 
-// 2. The AssertionError is defined in assert.
+var assert = module.exports = ok; // 2. The AssertionError is defined in assert.
 // new assert.AssertionError({ message: message,
 //                             actual: actual,
 //                             expected: expected })
 
-var regex = /\s*function\s+([^\(\s]*)\s*/;
-// based on https://github.com/ljharb/function.prototype.name/blob/adeeeec8bfcc6068b187d7d9fb3d5bb1d3a30899/implementation.js
+var regex = /\s*function\s+([^\(\s]*)\s*/; // based on https://github.com/ljharb/function.prototype.name/blob/adeeeec8bfcc6068b187d7d9fb3d5bb1d3a30899/implementation.js
+
 function getName(func) {
   if (!util.isFunction(func)) {
     return;
   }
+
   if (functionsHaveNames) {
     return func.name;
   }
+
   var str = func.toString();
   var match = str.match(regex);
   return match && match[1];
 }
+
 assert.AssertionError = function AssertionError(options) {
   this.name = 'AssertionError';
   this.actual = options.actual;
   this.expected = options.expected;
   this.operator = options.operator;
+
   if (options.message) {
     this.message = options.message;
     this.generatedMessage = false;
@@ -162,18 +174,21 @@ assert.AssertionError = function AssertionError(options) {
     this.message = getMessage(this);
     this.generatedMessage = true;
   }
+
   var stackStartFunction = options.stackStartFunction || fail;
+
   if (Error.captureStackTrace) {
     Error.captureStackTrace(this, stackStartFunction);
   } else {
     // non v8 browsers so we can have a stacktrace
     var err = new Error();
-    if (err.stack) {
-      var out = err.stack;
 
-      // try to strip useless frames
+    if (err.stack) {
+      var out = err.stack; // try to strip useless frames
+
       var fn_name = getName(stackStartFunction);
       var idx = out.indexOf('\n' + fn_name);
+
       if (idx >= 0) {
         // once we have located the function frame
         // we need to strip out everything before it (and its line)
@@ -184,9 +199,9 @@ assert.AssertionError = function AssertionError(options) {
       this.stack = out;
     }
   }
-};
+}; // assert.AssertionError instanceof Error
 
-// assert.AssertionError instanceof Error
+
 util.inherits(assert.AssertionError, Error);
 
 function truncate(s, n) {
@@ -196,28 +211,29 @@ function truncate(s, n) {
     return s;
   }
 }
+
 function inspect(something) {
   if (functionsHaveNames || !util.isFunction(something)) {
     return util.inspect(something);
   }
+
   var rawname = getName(something);
   var name = rawname ? ': ' + rawname : '';
   return '[Function' + name + ']';
 }
+
 function getMessage(self) {
   return truncate(inspect(self.actual), 128) + ' ' + self.operator + ' ' + truncate(inspect(self.expected), 128);
-}
-
-// At present only the three keys mentioned above are used and
+} // At present only the three keys mentioned above are used and
 // understood by the spec. Implementations or sub modules can pass
 // other keys to the AssertionError's constructor - they will be
 // ignored.
-
 // 3. All of the following functions must throw an AssertionError
 // when a corresponding condition is not met, with a message that
 // may be undefined if not provided.  All assertion methods provide
 // both the actual and expected values to the assertion error for
 // display purposes.
+
 
 function fail(actual, expected, message, operator, stackStartFunction) {
   throw new assert.AssertionError({
@@ -227,12 +243,10 @@ function fail(actual, expected, message, operator, stackStartFunction) {
     operator: operator,
     stackStartFunction: stackStartFunction
   });
-}
+} // EXTENSION! allows for well behaved errors defined elsewhere.
 
-// EXTENSION! allows for well behaved errors defined elsewhere.
-assert.fail = fail;
 
-// 4. Pure assertion tests whether a value is truthy, as determined
+assert.fail = fail; // 4. Pure assertion tests whether a value is truthy, as determined
 // by !!guard.
 // assert.ok(guard, message_opt);
 // This statement is equivalent to assert.equal(true, !!guard,
@@ -242,27 +256,24 @@ assert.fail = fail;
 function ok(value, message) {
   if (!value) fail(value, true, message, '==', assert.ok);
 }
-assert.ok = ok;
 
-// 5. The equality assertion tests shallow, coercive equality with
+assert.ok = ok; // 5. The equality assertion tests shallow, coercive equality with
 // ==.
 // assert.equal(actual, expected, message_opt);
 
 assert.equal = function equal(actual, expected, message) {
   if (actual != expected) fail(actual, expected, message, '==', assert.equal);
-};
-
-// 6. The non-equality assertion tests for whether two objects are not equal
+}; // 6. The non-equality assertion tests for whether two objects are not equal
 // with != assert.notEqual(actual, expected, message_opt);
+
 
 assert.notEqual = function notEqual(actual, expected, message) {
   if (actual == expected) {
     fail(actual, expected, message, '!=', assert.notEqual);
   }
-};
-
-// 7. The equivalence assertion tests a deep equality relation.
+}; // 7. The equivalence assertion tests a deep equality relation.
 // assert.deepEqual(actual, expected, message_opt);
+
 
 assert.deepEqual = function deepEqual(actual, expected, message) {
   if (!_deepEqual(actual, expected, false)) {
@@ -281,34 +292,24 @@ function _deepEqual(actual, expected, strict, memos) {
   if (actual === expected) {
     return true;
   } else if (isBuffer(actual) && isBuffer(expected)) {
-    return compare(actual, expected) === 0;
-
-    // 7.2. If the expected value is a Date object, the actual value is
+    return compare(actual, expected) === 0; // 7.2. If the expected value is a Date object, the actual value is
     // equivalent if it is also a Date object that refers to the same time.
   } else if (util.isDate(actual) && util.isDate(expected)) {
-    return actual.getTime() === expected.getTime();
-
-    // 7.3 If the expected value is a RegExp object, the actual value is
+    return actual.getTime() === expected.getTime(); // 7.3 If the expected value is a RegExp object, the actual value is
     // equivalent if it is also a RegExp object with the same source and
     // properties (`global`, `multiline`, `lastIndex`, `ignoreCase`).
   } else if (util.isRegExp(actual) && util.isRegExp(expected)) {
-    return actual.source === expected.source && actual.global === expected.global && actual.multiline === expected.multiline && actual.lastIndex === expected.lastIndex && actual.ignoreCase === expected.ignoreCase;
-
-    // 7.4. Other pairs that do not both pass typeof value == 'object',
+    return actual.source === expected.source && actual.global === expected.global && actual.multiline === expected.multiline && actual.lastIndex === expected.lastIndex && actual.ignoreCase === expected.ignoreCase; // 7.4. Other pairs that do not both pass typeof value == 'object',
     // equivalence is determined by ==.
-  } else if ((actual === null || (typeof actual === 'undefined' ? 'undefined' : _typeof(actual)) !== 'object') && (expected === null || (typeof expected === 'undefined' ? 'undefined' : _typeof(expected)) !== 'object')) {
-    return strict ? actual === expected : actual == expected;
-
-    // If both values are instances of typed arrays, wrap their underlying
+  } else if ((actual === null || _typeof(actual) !== 'object') && (expected === null || _typeof(expected) !== 'object')) {
+    return strict ? actual === expected : actual == expected; // If both values are instances of typed arrays, wrap their underlying
     // ArrayBuffers in a Buffer each to increase performance
     // This optimization requires the arrays to have the same type as checked by
     // Object.prototype.toString (aka pToString). Never perform binary
     // comparisons for Float*Arrays, though, since e.g. +0 === -0 but their
     // bit patterns are not identical.
   } else if (isView(actual) && isView(expected) && pToString(actual) === pToString(expected) && !(actual instanceof Float32Array || actual instanceof Float64Array)) {
-    return compare(new Uint8Array(actual.buffer), new Uint8Array(expected.buffer)) === 0;
-
-    // 7.5 For all other Object pairs, including Array objects, equivalence is
+    return compare(new Uint8Array(actual.buffer), new Uint8Array(expected.buffer)) === 0; // 7.5 For all other Object pairs, including Array objects, equivalence is
     // determined by having the same number of owned properties (as verified
     // with Object.prototype.hasOwnProperty.call), the same set of keys
     // (although not necessarily the same order), equivalent values for every
@@ -317,9 +318,12 @@ function _deepEqual(actual, expected, strict, memos) {
   } else if (isBuffer(actual) !== isBuffer(expected)) {
     return false;
   } else {
-    memos = memos || { actual: [], expected: [] };
-
+    memos = memos || {
+      actual: [],
+      expected: []
+    };
     var actualIndex = memos.actual.indexOf(actual);
+
     if (actualIndex !== -1) {
       if (actualIndex === memos.expected.indexOf(expected)) {
         return true;
@@ -328,7 +332,6 @@ function _deepEqual(actual, expected, strict, memos) {
 
     memos.actual.push(actual);
     memos.expected.push(expected);
-
     return objEquiv(actual, expected, strict, memos);
   }
 }
@@ -338,42 +341,45 @@ function isArguments(object) {
 }
 
 function objEquiv(a, b, strict, actualVisitedObjects) {
-  if (a === null || a === undefined || b === null || b === undefined) return false;
-  // if one is a primitive, the other must be same
+  if (a === null || a === undefined || b === null || b === undefined) return false; // if one is a primitive, the other must be same
+
   if (util.isPrimitive(a) || util.isPrimitive(b)) return a === b;
   if (strict && Object.getPrototypeOf(a) !== Object.getPrototypeOf(b)) return false;
   var aIsArgs = isArguments(a);
   var bIsArgs = isArguments(b);
   if (aIsArgs && !bIsArgs || !aIsArgs && bIsArgs) return false;
+
   if (aIsArgs) {
     a = pSlice.call(a);
     b = pSlice.call(b);
     return _deepEqual(a, b, strict);
   }
+
   var ka = objectKeys(a);
   var kb = objectKeys(b);
-  var key, i;
-  // having the same number of owned properties (keys incorporates
+  var key, i; // having the same number of owned properties (keys incorporates
   // hasOwnProperty)
-  if (ka.length !== kb.length) return false;
-  //the same set of keys (although not necessarily the same order),
+
+  if (ka.length !== kb.length) return false; //the same set of keys (although not necessarily the same order),
+
   ka.sort();
-  kb.sort();
-  //~~~cheap key test
+  kb.sort(); //~~~cheap key test
+
   for (i = ka.length - 1; i >= 0; i--) {
     if (ka[i] !== kb[i]) return false;
-  }
-  //equivalent values for every corresponding key, and
+  } //equivalent values for every corresponding key, and
   //~~~possibly expensive deep test
+
+
   for (i = ka.length - 1; i >= 0; i--) {
     key = ka[i];
     if (!_deepEqual(a[key], b[key], strict, actualVisitedObjects)) return false;
   }
-  return true;
-}
 
-// 8. The non-equivalence assertion tests for any deep inequality.
+  return true;
+} // 8. The non-equivalence assertion tests for any deep inequality.
 // assert.notDeepEqual(actual, expected, message_opt);
+
 
 assert.notDeepEqual = function notDeepEqual(actual, expected, message) {
   if (_deepEqual(actual, expected, false)) {
@@ -382,23 +388,22 @@ assert.notDeepEqual = function notDeepEqual(actual, expected, message) {
 };
 
 assert.notDeepStrictEqual = notDeepStrictEqual;
+
 function notDeepStrictEqual(actual, expected, message) {
   if (_deepEqual(actual, expected, true)) {
     fail(actual, expected, message, 'notDeepStrictEqual', notDeepStrictEqual);
   }
-}
-
-// 9. The strict equality assertion tests strict equality, as determined by ===.
+} // 9. The strict equality assertion tests strict equality, as determined by ===.
 // assert.strictEqual(actual, expected, message_opt);
+
 
 assert.strictEqual = function strictEqual(actual, expected, message) {
   if (actual !== expected) {
     fail(actual, expected, message, '===', assert.strictEqual);
   }
-};
-
-// 10. The strict non-equality assertion tests for strict inequality, as
+}; // 10. The strict non-equality assertion tests for strict inequality, as
 // determined by !==.  assert.notStrictEqual(actual, expected, message_opt);
+
 
 assert.notStrictEqual = function notStrictEqual(actual, expected, message) {
   if (actual === expected) {
@@ -419,8 +424,7 @@ function expectedException(actual, expected) {
     if (actual instanceof expected) {
       return true;
     }
-  } catch (e) {
-    // Ignore.  The instanceof check doesn't work for arrow functions.
+  } catch (e) {// Ignore.  The instanceof check doesn't work for arrow functions.
   }
 
   if (Error.isPrototypeOf(expected)) {
@@ -432,11 +436,13 @@ function expectedException(actual, expected) {
 
 function _tryBlock(block) {
   var error;
+
   try {
     block();
   } catch (e) {
     error = e;
   }
+
   return error;
 }
 
@@ -453,7 +459,6 @@ function _throws(shouldThrow, block, expected, message) {
   }
 
   actual = _tryBlock(block);
-
   message = (expected && expected.name ? ' (' + expected.name + ').' : '.') + (message ? ' ' + message : '.');
 
   if (shouldThrow && !actual) {
@@ -471,17 +476,24 @@ function _throws(shouldThrow, block, expected, message) {
   if (shouldThrow && actual && expected && !expectedException(actual, expected) || !shouldThrow && actual) {
     throw actual;
   }
-}
-
-// 11. Expected to throw an error:
+} // 11. Expected to throw an error:
 // assert.throws(block, Error_opt, message_opt);
 
-assert.throws = function (block, /*optional*/error, /*optional*/message) {
-  _throws(true, block, error, message);
-};
 
-// EXTENSION! This is annoying to write outside this module.
-assert.doesNotThrow = function (block, /*optional*/error, /*optional*/message) {
+assert.throws = function (block,
+/*optional*/
+error,
+/*optional*/
+message) {
+  _throws(true, block, error, message);
+}; // EXTENSION! This is annoying to write outside this module.
+
+
+assert.doesNotThrow = function (block,
+/*optional*/
+error,
+/*optional*/
+message) {
   _throws(false, block, error, message);
 };
 
@@ -491,16 +503,18 @@ assert.ifError = function (err) {
 
 var objectKeys = Object.keys || function (obj) {
   var keys = [];
+
   for (var key in obj) {
     if (hasOwn.call(obj, key)) keys.push(key);
   }
+
   return keys;
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
 },{"util/":6}],4:[function(require,module,exports){
-'use strict';
+"use strict";
 
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
@@ -519,7 +533,9 @@ if (typeof Object.create === 'function') {
   // old school shim for old browsers
   module.exports = function inherits(ctor, superCtor) {
     ctor.super_ = superCtor;
+
     var TempCtor = function TempCtor() {};
+
     TempCtor.prototype = superCtor.prototype;
     ctor.prototype = new TempCtor();
     ctor.prototype.constructor = ctor;
@@ -527,19 +543,19 @@ if (typeof Object.create === 'function') {
 }
 
 },{}],5:[function(require,module,exports){
-'use strict';
+"use strict";
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 module.exports = function isBuffer(arg) {
-  return arg && (typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'object' && typeof arg.copy === 'function' && typeof arg.fill === 'function' && typeof arg.readUInt8 === 'function';
+  return arg && _typeof(arg) === 'object' && typeof arg.copy === 'function' && typeof arg.fill === 'function' && typeof arg.readUInt8 === 'function';
 };
 
 },{}],6:[function(require,module,exports){
 (function (process,global){
-'use strict';
+"use strict";
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -561,14 +577,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 // DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
 // OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 // USE OR OTHER DEALINGS IN THE SOFTWARE.
-
 var formatRegExp = /%[sdj%]/g;
+
 exports.format = function (f) {
   if (!isString(f)) {
     var objects = [];
+
     for (var i = 0; i < arguments.length; i++) {
       objects.push(inspect(arguments[i]));
     }
+
     return objects.join(' ');
   }
 
@@ -578,21 +596,26 @@ exports.format = function (f) {
   var str = String(f).replace(formatRegExp, function (x) {
     if (x === '%%') return '%';
     if (i >= len) return x;
+
     switch (x) {
       case '%s':
         return String(args[i++]);
+
       case '%d':
         return Number(args[i++]);
+
       case '%j':
         try {
           return JSON.stringify(args[i++]);
         } catch (_) {
           return '[Circular]';
         }
+
       default:
         return x;
     }
   });
+
   for (var x = args[i]; i < len; x = args[++i]) {
     if (isNull(x) || !isObject(x)) {
       str += ' ' + x;
@@ -600,12 +623,13 @@ exports.format = function (f) {
       str += ' ' + inspect(x);
     }
   }
-  return str;
-};
 
-// Mark that a method should not be used.
+  return str;
+}; // Mark that a method should not be used.
 // Returns a modified function which warns once by default.
 // If --no-deprecation is set, then it is a no-op.
+
+
 exports.deprecate = function (fn, msg) {
   // Allow for deprecating things in the process of starting up.
   if (isUndefined(global.process)) {
@@ -619,6 +643,7 @@ exports.deprecate = function (fn, msg) {
   }
 
   var warned = false;
+
   function deprecated() {
     if (!warned) {
       if (process.throwDeprecation) {
@@ -628,8 +653,10 @@ exports.deprecate = function (fn, msg) {
       } else {
         console.error(msg);
       }
+
       warned = true;
     }
+
     return fn.apply(this, arguments);
   }
 
@@ -638,12 +665,15 @@ exports.deprecate = function (fn, msg) {
 
 var debugs = {};
 var debugEnviron;
+
 exports.debuglog = function (set) {
   if (isUndefined(debugEnviron)) debugEnviron = undefined || '';
   set = set.toUpperCase();
+
   if (!debugs[set]) {
     if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
       var pid = process.pid;
+
       debugs[set] = function () {
         var msg = exports.format.apply(exports, arguments);
         console.error('%s %d: %s', set, pid, msg);
@@ -652,9 +682,9 @@ exports.debuglog = function (set) {
       debugs[set] = function () {};
     }
   }
+
   return debugs[set];
 };
-
 /**
  * Echos the value of a value. Trys to print the value out
  * in the best way possible given the different types.
@@ -662,24 +692,29 @@ exports.debuglog = function (set) {
  * @param {Object} obj The object to print out.
  * @param {Object} opts Optional options object that alters the output.
  */
+
 /* legacy: obj, showHidden, depth, colors*/
+
+
 function inspect(obj, opts) {
   // default options
   var ctx = {
     seen: [],
     stylize: stylizeNoColor
-  };
-  // legacy...
+  }; // legacy...
+
   if (arguments.length >= 3) ctx.depth = arguments[2];
   if (arguments.length >= 4) ctx.colors = arguments[3];
+
   if (isBoolean(opts)) {
     // legacy...
     ctx.showHidden = opts;
   } else if (opts) {
     // got an "options" object
     exports._extend(ctx, opts);
-  }
-  // set default options
+  } // set default options
+
+
   if (isUndefined(ctx.showHidden)) ctx.showHidden = false;
   if (isUndefined(ctx.depth)) ctx.depth = 2;
   if (isUndefined(ctx.colors)) ctx.colors = false;
@@ -687,9 +722,9 @@ function inspect(obj, opts) {
   if (ctx.colors) ctx.stylize = stylizeWithColor;
   return formatValue(ctx, obj, ctx.depth);
 }
-exports.inspect = inspect;
 
-// http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
+exports.inspect = inspect; // http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
+
 inspect.colors = {
   'bold': [1, 22],
   'italic': [3, 23],
@@ -704,9 +739,8 @@ inspect.colors = {
   'magenta': [35, 39],
   'red': [31, 39],
   'yellow': [33, 39]
-};
+}; // Don't use 'blue' not visible on cmd.exe
 
-// Don't use 'blue' not visible on cmd.exe
 inspect.styles = {
   'special': 'cyan',
   'number': 'yellow',
@@ -723,7 +757,7 @@ function stylizeWithColor(str, styleType) {
   var style = inspect.styles[styleType];
 
   if (style) {
-    return '\x1B[' + inspect.colors[style][0] + 'm' + str + '\x1B[' + inspect.colors[style][1] + 'm';
+    return "\x1B[" + inspect.colors[style][0] + 'm' + str + "\x1B[" + inspect.colors[style][1] + 'm';
   } else {
     return str;
   }
@@ -735,61 +769,63 @@ function stylizeNoColor(str, styleType) {
 
 function arrayToHash(array) {
   var hash = {};
-
   array.forEach(function (val, idx) {
     hash[val] = true;
   });
-
   return hash;
 }
 
 function formatValue(ctx, value, recurseTimes) {
   // Provide a hook for user-specified inspect functions.
   // Check that value is an object with an inspect function on it
-  if (ctx.customInspect && value && isFunction(value.inspect) &&
-  // Filter out the util module, it's inspect function is special
-  value.inspect !== exports.inspect &&
-  // Also filter out any prototype objects using the circular check.
+  if (ctx.customInspect && value && isFunction(value.inspect) && // Filter out the util module, it's inspect function is special
+  value.inspect !== exports.inspect && // Also filter out any prototype objects using the circular check.
   !(value.constructor && value.constructor.prototype === value)) {
     var ret = value.inspect(recurseTimes, ctx);
+
     if (!isString(ret)) {
       ret = formatValue(ctx, ret, recurseTimes);
     }
-    return ret;
-  }
 
-  // Primitive types cannot have properties
+    return ret;
+  } // Primitive types cannot have properties
+
+
   var primitive = formatPrimitive(ctx, value);
+
   if (primitive) {
     return primitive;
-  }
+  } // Look up the keys of the object.
 
-  // Look up the keys of the object.
+
   var keys = Object.keys(value);
   var visibleKeys = arrayToHash(keys);
 
   if (ctx.showHidden) {
     keys = Object.getOwnPropertyNames(value);
-  }
-
-  // IE doesn't make error fields non-enumerable
+  } // IE doesn't make error fields non-enumerable
   // http://msdn.microsoft.com/en-us/library/ie/dww52sbt(v=vs.94).aspx
+
+
   if (isError(value) && (keys.indexOf('message') >= 0 || keys.indexOf('description') >= 0)) {
     return formatError(value);
-  }
+  } // Some type of object without properties can be shortcutted.
 
-  // Some type of object without properties can be shortcutted.
+
   if (keys.length === 0) {
     if (isFunction(value)) {
       var name = value.name ? ': ' + value.name : '';
       return ctx.stylize('[Function' + name + ']', 'special');
     }
+
     if (isRegExp(value)) {
       return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
     }
+
     if (isDate(value)) {
       return ctx.stylize(Date.prototype.toString.call(value), 'date');
     }
+
     if (isError(value)) {
       return formatError(value);
     }
@@ -797,31 +833,30 @@ function formatValue(ctx, value, recurseTimes) {
 
   var base = '',
       array = false,
-      braces = ['{', '}'];
+      braces = ['{', '}']; // Make Array say that they are Array
 
-  // Make Array say that they are Array
   if (isArray(value)) {
     array = true;
     braces = ['[', ']'];
-  }
+  } // Make functions say that they are functions
 
-  // Make functions say that they are functions
+
   if (isFunction(value)) {
     var n = value.name ? ': ' + value.name : '';
     base = ' [Function' + n + ']';
-  }
+  } // Make RegExps say that they are RegExps
 
-  // Make RegExps say that they are RegExps
+
   if (isRegExp(value)) {
     base = ' ' + RegExp.prototype.toString.call(value);
-  }
+  } // Make dates with properties first say the date
 
-  // Make dates with properties first say the date
+
   if (isDate(value)) {
     base = ' ' + Date.prototype.toUTCString.call(value);
-  }
+  } // Make error with message first say the error
 
-  // Make error with message first say the error
+
   if (isError(value)) {
     base = ' ' + formatError(value);
   }
@@ -839,8 +874,8 @@ function formatValue(ctx, value, recurseTimes) {
   }
 
   ctx.seen.push(value);
-
   var output;
+
   if (array) {
     output = formatArray(ctx, value, recurseTimes, visibleKeys, keys);
   } else {
@@ -850,19 +885,20 @@ function formatValue(ctx, value, recurseTimes) {
   }
 
   ctx.seen.pop();
-
   return reduceToSingleString(output, base, braces);
 }
 
 function formatPrimitive(ctx, value) {
   if (isUndefined(value)) return ctx.stylize('undefined', 'undefined');
+
   if (isString(value)) {
     var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '').replace(/'/g, "\\'").replace(/\\"/g, '"') + '\'';
     return ctx.stylize(simple, 'string');
   }
+
   if (isNumber(value)) return ctx.stylize('' + value, 'number');
-  if (isBoolean(value)) return ctx.stylize('' + value, 'boolean');
-  // For some reason typeof null is "object", so special case here.
+  if (isBoolean(value)) return ctx.stylize('' + value, 'boolean'); // For some reason typeof null is "object", so special case here.
+
   if (isNull(value)) return ctx.stylize('null', 'null');
 }
 
@@ -872,6 +908,7 @@ function formatError(value) {
 
 function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
   var output = [];
+
   for (var i = 0, l = value.length; i < l; ++i) {
     if (hasOwnProperty(value, String(i))) {
       output.push(formatProperty(ctx, value, recurseTimes, visibleKeys, String(i), true));
@@ -879,6 +916,7 @@ function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
       output.push('');
     }
   }
+
   keys.forEach(function (key) {
     if (!key.match(/^\d+$/)) {
       output.push(formatProperty(ctx, value, recurseTimes, visibleKeys, key, true));
@@ -889,7 +927,10 @@ function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
 
 function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
   var name, str, desc;
-  desc = Object.getOwnPropertyDescriptor(value, key) || { value: value[key] };
+  desc = Object.getOwnPropertyDescriptor(value, key) || {
+    value: value[key]
+  };
+
   if (desc.get) {
     if (desc.set) {
       str = ctx.stylize('[Getter/Setter]', 'special');
@@ -901,9 +942,11 @@ function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
       str = ctx.stylize('[Setter]', 'special');
     }
   }
+
   if (!hasOwnProperty(visibleKeys, key)) {
     name = '[' + key + ']';
   }
+
   if (!str) {
     if (ctx.seen.indexOf(desc.value) < 0) {
       if (isNull(recurseTimes)) {
@@ -911,6 +954,7 @@ function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
       } else {
         str = formatValue(ctx, desc.value, recurseTimes - 1);
       }
+
       if (str.indexOf('\n') > -1) {
         if (array) {
           str = str.split('\n').map(function (line) {
@@ -926,11 +970,14 @@ function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
       str = ctx.stylize('[Circular]', 'special');
     }
   }
+
   if (isUndefined(name)) {
     if (array && key.match(/^\d+$/)) {
       return str;
     }
+
     name = JSON.stringify('' + key);
+
     if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
       name = name.substr(1, name.length - 2);
       name = ctx.stylize(name, 'name');
@@ -956,81 +1003,94 @@ function reduceToSingleString(output, base, braces) {
   }
 
   return braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
-}
-
-// NOTE: These type checking functions intentionally don't use `instanceof`
+} // NOTE: These type checking functions intentionally don't use `instanceof`
 // because it is fragile and can be easily faked with `Object.create()`.
+
+
 function isArray(ar) {
   return Array.isArray(ar);
 }
+
 exports.isArray = isArray;
 
 function isBoolean(arg) {
   return typeof arg === 'boolean';
 }
+
 exports.isBoolean = isBoolean;
 
 function isNull(arg) {
   return arg === null;
 }
+
 exports.isNull = isNull;
 
 function isNullOrUndefined(arg) {
   return arg == null;
 }
+
 exports.isNullOrUndefined = isNullOrUndefined;
 
 function isNumber(arg) {
   return typeof arg === 'number';
 }
+
 exports.isNumber = isNumber;
 
 function isString(arg) {
   return typeof arg === 'string';
 }
+
 exports.isString = isString;
 
 function isSymbol(arg) {
-  return (typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'symbol';
+  return _typeof(arg) === 'symbol';
 }
+
 exports.isSymbol = isSymbol;
 
 function isUndefined(arg) {
   return arg === void 0;
 }
+
 exports.isUndefined = isUndefined;
 
 function isRegExp(re) {
   return isObject(re) && objectToString(re) === '[object RegExp]';
 }
+
 exports.isRegExp = isRegExp;
 
 function isObject(arg) {
-  return (typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'object' && arg !== null;
+  return _typeof(arg) === 'object' && arg !== null;
 }
+
 exports.isObject = isObject;
 
 function isDate(d) {
   return isObject(d) && objectToString(d) === '[object Date]';
 }
+
 exports.isDate = isDate;
 
 function isError(e) {
   return isObject(e) && (objectToString(e) === '[object Error]' || e instanceof Error);
 }
+
 exports.isError = isError;
 
 function isFunction(arg) {
   return typeof arg === 'function';
 }
+
 exports.isFunction = isFunction;
 
 function isPrimitive(arg) {
-  return arg === null || typeof arg === 'boolean' || typeof arg === 'number' || typeof arg === 'string' || (typeof arg === 'undefined' ? 'undefined' : _typeof(arg)) === 'symbol' || // ES6 symbol
+  return arg === null || typeof arg === 'boolean' || typeof arg === 'number' || typeof arg === 'string' || _typeof(arg) === 'symbol' || // ES6 symbol
   typeof arg === 'undefined';
 }
-exports.isPrimitive = isPrimitive;
 
+exports.isPrimitive = isPrimitive;
 exports.isBuffer = require('./support/isBuffer');
 
 function objectToString(o) {
@@ -1041,20 +1101,18 @@ function pad(n) {
   return n < 10 ? '0' + n.toString(10) : n.toString(10);
 }
 
-var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']; // 26 Feb 16:19:34
 
-// 26 Feb 16:19:34
 function timestamp() {
   var d = new Date();
   var time = [pad(d.getHours()), pad(d.getMinutes()), pad(d.getSeconds())].join(':');
   return [d.getDate(), months[d.getMonth()], time].join(' ');
-}
+} // log is just a thin wrapper to console.log that prepends a timestamp
 
-// log is just a thin wrapper to console.log that prepends a timestamp
+
 exports.log = function () {
   console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
 };
-
 /**
  * Inherit the prototype methods from one constructor into another.
  *
@@ -1068,17 +1126,20 @@ exports.log = function () {
  *     prototype.
  * @param {function} superCtor Constructor function to inherit prototype from.
  */
+
+
 exports.inherits = require('inherits');
 
 exports._extend = function (origin, add) {
   // Don't do anything if add isn't an object
   if (!add || !isObject(add)) return origin;
-
   var keys = Object.keys(add);
   var i = keys.length;
+
   while (i--) {
     origin[keys[i]] = add[keys[i]];
   }
+
   return origin;
 };
 
@@ -1089,28 +1150,25 @@ function hasOwnProperty(obj, prop) {
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
 },{"./support/isBuffer":5,"_process":8,"inherits":4}],7:[function(require,module,exports){
-'use strict';
+"use strict";
 
 var trailingNewlineRegex = /\n[\s]+$/;
 var leadingNewlineRegex = /^\n[\s]+/;
 var trailingSpaceRegex = /[\s]+$/;
 var leadingSpaceRegex = /^[\s]+/;
 var multiSpaceRegex = /[\n\s]+/g;
-
 var TEXT_TAGS = ['a', 'abbr', 'b', 'bdi', 'bdo', 'br', 'cite', 'data', 'dfn', 'em', 'i', 'kbd', 'mark', 'q', 'rp', 'rt', 'rtc', 'ruby', 's', 'amp', 'small', 'span', 'strong', 'sub', 'sup', 'time', 'u', 'var', 'wbr'];
-
 var VERBATIM_TAGS = ['code', 'pre', 'textarea'];
 
 module.exports = function appendChild(el, childs) {
   if (!Array.isArray(childs)) return;
-
   var nodeName = el.nodeName.toLowerCase();
-
   var hadText = false;
   var value, leader;
 
   for (var i = 0, len = childs.length; i < len; i++) {
     var node = childs[i];
+
     if (Array.isArray(node)) {
       appendChild(el, node);
       continue;
@@ -1120,31 +1178,28 @@ module.exports = function appendChild(el, childs) {
       node = node.toString();
     }
 
-    var lastChild = el.childNodes[el.childNodes.length - 1];
+    var lastChild = el.childNodes[el.childNodes.length - 1]; // Iterate over text nodes
 
-    // Iterate over text nodes
     if (typeof node === 'string') {
-      hadText = true;
+      hadText = true; // If we already had text, append to the existing text
 
-      // If we already had text, append to the existing text
       if (lastChild && lastChild.nodeName === '#text') {
-        lastChild.nodeValue += node;
-
-        // We didn't have a text node yet, create one
+        lastChild.nodeValue += node; // We didn't have a text node yet, create one
       } else {
         node = document.createTextNode(node);
         el.appendChild(node);
         lastChild = node;
-      }
-
-      // If this is the last of the child nodes, make sure we close it out
+      } // If this is the last of the child nodes, make sure we close it out
       // right
+
+
       if (i === len - 1) {
-        hadText = false;
-        // Trim the child text nodes if the current node isn't a
+        hadText = false; // Trim the child text nodes if the current node isn't a
         // node where whitespace matters.
+
         if (TEXT_TAGS.indexOf(nodeName) === -1 && VERBATIM_TAGS.indexOf(nodeName) === -1) {
           value = lastChild.nodeValue.replace(leadingNewlineRegex, '').replace(trailingSpaceRegex, '').replace(trailingNewlineRegex, '').replace(multiSpaceRegex, ' ');
+
           if (value === '') {
             el.removeChild(lastChild);
           } else {
@@ -1158,50 +1213,44 @@ module.exports = function appendChild(el, childs) {
           value = lastChild.nodeValue.replace(leadingNewlineRegex, leader).replace(leadingSpaceRegex, ' ').replace(trailingSpaceRegex, '').replace(trailingNewlineRegex, '').replace(multiSpaceRegex, ' ');
           lastChild.nodeValue = value;
         }
-      }
+      } // Iterate over DOM nodes
 
-      // Iterate over DOM nodes
     } else if (node && node.nodeType) {
       // If the last node was a text node, make sure it is properly closed out
       if (hadText) {
-        hadText = false;
-
-        // Trim the child text nodes if the current node isn't a
+        hadText = false; // Trim the child text nodes if the current node isn't a
         // text node or a code node
-        if (TEXT_TAGS.indexOf(nodeName) === -1 && VERBATIM_TAGS.indexOf(nodeName) === -1) {
-          value = lastChild.nodeValue.replace(leadingNewlineRegex, '').replace(trailingNewlineRegex, '').replace(multiSpaceRegex, ' ');
 
-          // Remove empty text nodes, append otherwise
+        if (TEXT_TAGS.indexOf(nodeName) === -1 && VERBATIM_TAGS.indexOf(nodeName) === -1) {
+          value = lastChild.nodeValue.replace(leadingNewlineRegex, '').replace(trailingNewlineRegex, '').replace(multiSpaceRegex, ' '); // Remove empty text nodes, append otherwise
+
           if (value === '') {
             el.removeChild(lastChild);
           } else {
             lastChild.nodeValue = value;
-          }
-          // Trim the child nodes if the current node is not a node
+          } // Trim the child nodes if the current node is not a node
           // where all whitespace must be preserved
+
         } else if (VERBATIM_TAGS.indexOf(nodeName) === -1) {
           value = lastChild.nodeValue.replace(leadingSpaceRegex, ' ').replace(leadingNewlineRegex, '').replace(trailingNewlineRegex, '').replace(multiSpaceRegex, ' ');
           lastChild.nodeValue = value;
         }
-      }
+      } // Store the last nodename
 
-      // Store the last nodename
+
       var _nodeName = node.nodeName;
-      if (_nodeName) nodeName = _nodeName.toLowerCase();
+      if (_nodeName) nodeName = _nodeName.toLowerCase(); // Append the node to the DOM
 
-      // Append the node to the DOM
       el.appendChild(node);
     }
   }
 };
 
 },{}],8:[function(require,module,exports){
-'use strict';
+"use strict";
 
 // shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
+var process = module.exports = {}; // cached from whatever global is present so that test runners that stub it
 // don't break things.  But we need to wrap it in a try catch in case it is
 // wrapped in strict mode code which doesn't define any globals.  It's inside a
 // function because try/catches deoptimize in certain engines.
@@ -1210,148 +1259,171 @@ var cachedSetTimeout;
 var cachedClearTimeout;
 
 function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
+  throw new Error('setTimeout has not been defined');
 }
+
 function defaultClearTimeout() {
-    throw new Error('clearTimeout has not been defined');
+  throw new Error('clearTimeout has not been defined');
 }
+
 (function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
+  try {
+    if (typeof setTimeout === 'function') {
+      cachedSetTimeout = setTimeout;
+    } else {
+      cachedSetTimeout = defaultSetTimout;
     }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
+  } catch (e) {
+    cachedSetTimeout = defaultSetTimout;
+  }
+
+  try {
+    if (typeof clearTimeout === 'function') {
+      cachedClearTimeout = clearTimeout;
+    } else {
+      cachedClearTimeout = defaultClearTimeout;
     }
+  } catch (e) {
+    cachedClearTimeout = defaultClearTimeout;
+  }
 })();
+
 function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
+  if (cachedSetTimeout === setTimeout) {
+    //normal enviroments in sane situations
+    return setTimeout(fun, 0);
+  } // if setTimeout wasn't available but was latter defined
+
+
+  if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+    cachedSetTimeout = setTimeout;
+    return setTimeout(fun, 0);
+  }
+
+  try {
+    // when when somebody has screwed with setTimeout but no I.E. maddness
+    return cachedSetTimeout(fun, 0);
+  } catch (e) {
     try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
+      // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+      return cachedSetTimeout.call(null, fun, 0);
     } catch (e) {
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch (e) {
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
+      // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+      return cachedSetTimeout.call(this, fun, 0);
     }
+  }
 }
+
 function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
+  if (cachedClearTimeout === clearTimeout) {
+    //normal enviroments in sane situations
+    return clearTimeout(marker);
+  } // if clearTimeout wasn't available but was latter defined
+
+
+  if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+    cachedClearTimeout = clearTimeout;
+    return clearTimeout(marker);
+  }
+
+  try {
+    // when when somebody has screwed with setTimeout but no I.E. maddness
+    return cachedClearTimeout(marker);
+  } catch (e) {
     try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
+      // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+      return cachedClearTimeout.call(null, marker);
     } catch (e) {
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e) {
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
+      // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+      // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+      return cachedClearTimeout.call(this, marker);
     }
+  }
 }
+
 var queue = [];
 var draining = false;
 var currentQueue;
 var queueIndex = -1;
 
 function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
+  if (!draining || !currentQueue) {
+    return;
+  }
+
+  draining = false;
+
+  if (currentQueue.length) {
+    queue = currentQueue.concat(queue);
+  } else {
+    queueIndex = -1;
+  }
+
+  if (queue.length) {
+    drainQueue();
+  }
 }
 
 function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
+  if (draining) {
+    return;
+  }
 
-    var len = queue.length;
-    while (len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
+  var timeout = runTimeout(cleanUpNextTick);
+  draining = true;
+  var len = queue.length;
+
+  while (len) {
+    currentQueue = queue;
+    queue = [];
+
+    while (++queueIndex < len) {
+      if (currentQueue) {
+        currentQueue[queueIndex].run();
+      }
     }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
+
+    queueIndex = -1;
+    len = queue.length;
+  }
+
+  currentQueue = null;
+  draining = false;
+  runClearTimeout(timeout);
 }
 
 process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
+  var args = new Array(arguments.length - 1);
+
+  if (arguments.length > 1) {
+    for (var i = 1; i < arguments.length; i++) {
+      args[i - 1] = arguments[i];
     }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
+  }
+
+  queue.push(new Item(fun, args));
+
+  if (queue.length === 1 && !draining) {
+    runTimeout(drainQueue);
+  }
+}; // v8 likes predictible objects
+
+
+function Item(fun, array) {
+  this.fun = fun;
+  this.array = array;
+}
+
+Item.prototype.run = function () {
+  this.fun.apply(null, this.array);
 };
 
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
 process.title = 'browser';
 process.browser = true;
 process.env = {};
 process.argv = [];
 process.version = ''; // empty string to avoid regexp issues
+
 process.versions = {};
 
 function noop() {}
@@ -1367,21 +1439,23 @@ process.prependListener = noop;
 process.prependOnceListener = noop;
 
 process.listeners = function (name) {
-    return [];
+  return [];
 };
 
 process.binding = function (name) {
-    throw new Error('process.binding is not supported');
+  throw new Error('process.binding is not supported');
 };
 
 process.cwd = function () {
-    return '/';
+  return '/';
 };
+
 process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
+  throw new Error('process.chdir is not supported');
 };
+
 process.umask = function () {
-    return 0;
+  return 0;
 };
 
 },{}]},{},[2])
