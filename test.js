@@ -9,15 +9,15 @@ const out = new stream.Writable()
 
 out._write = () => {}
 
-test('index.js - make directory and watch', function (t) {
+test('index.js - make directory and watch', (t) => {
   t.plan(8)
 
   require('./')({
     out,
-    makeDir (directory) {
+    async makeDir (directory) {
       t.equal(directory, 'assets')
 
-      return Promise.resolve(true)
+      return true
     },
     createWriteStream (file, content) {
       const writable = new stream.Writable()
@@ -54,15 +54,15 @@ test('index.js - make directory and watch', function (t) {
   })
 })
 
-test('index.js - directory destination, watch true, null result', function (t) {
+test('index.js - directory destination, watch true, null result', (t) => {
   t.plan(4)
 
   require('./')({
     out,
-    makeDir (directory) {
+    async makeDir (directory) {
       t.equal(directory, 'assets')
 
-      return Promise.resolve(true)
+      return true
     },
     createWriteStream (file, content) {
       const writable = new stream.Writable()
@@ -95,15 +95,15 @@ test('index.js - directory destination, watch true, null result', function (t) {
   })
 })
 
-test('index.js - no input', function (t) {
+test('index.js - no input', async (t) => {
   t.plan(1)
 
-  require('./')({
+  await require('./')({
     out,
-    makeDir (directory) {
+    async makeDir (directory) {
       t.ok(false)
 
-      return Promise.resolve(true)
+      return true
     },
     createWriteStream (file, content) {
       const writable = new stream.Writable()
@@ -129,12 +129,11 @@ test('index.js - no input', function (t) {
     source: ['a.foo'],
     watch: false
   })
-    .then(() => {
-      t.ok(true)
-    })
+
+  t.ok(true)
 })
 
-test('js - min', async function (t) {
+test('js - min', async (t) => {
   t.plan(2)
 
   const [fixtureCode, fixtureMap] = await Promise.all([
@@ -146,7 +145,7 @@ test('js - min', async function (t) {
 
   const codeResult = []
 
-  code._write = function (chunk, encoding, cb) {
+  code._write = (chunk, encoding, cb) => {
     codeResult.push(Buffer.from(chunk, encoding))
 
     cb()
@@ -156,7 +155,7 @@ test('js - min', async function (t) {
 
   const mapResult = []
 
-  map._write = function (chunk, encoding, cb) {
+  map._write = (chunk, encoding, cb) => {
     mapResult.push(Buffer.from(chunk, encoding))
 
     cb()
@@ -181,7 +180,7 @@ test('js - min', async function (t) {
   t.equal(fixtureMap, mapResult.join(''))
 })
 
-test('js - no-min', async function (t) {
+test('js - no-min', async (t) => {
   t.plan(2)
 
   const [fixtureCode, fixtureMap] = await Promise.all([
@@ -193,7 +192,7 @@ test('js - no-min', async function (t) {
 
   const codeResult = []
 
-  code._write = function (chunk, encoding, cb) {
+  code._write = (chunk, encoding, cb) => {
     codeResult.push(Buffer.from(chunk, encoding))
 
     cb()
@@ -203,7 +202,7 @@ test('js - no-min', async function (t) {
 
   const mapResult = []
 
-  map._write = function (chunk, encoding, cb) {
+  map._write = (chunk, encoding, cb) => {
     mapResult.push(Buffer.from(chunk, encoding))
 
     cb()
@@ -228,7 +227,7 @@ test('js - no-min', async function (t) {
   t.equal(fixtureMap, mapResult.join(''))
 })
 
-test('js - electron', async function (t) {
+test('js - electron', async (t) => {
   t.plan(2)
 
   const [fixtureCode, fixtureMap] = await Promise.all([
@@ -240,7 +239,7 @@ test('js - electron', async function (t) {
 
   const codeResult = []
 
-  code._write = function (chunk, encoding, cb) {
+  code._write = (chunk, encoding, cb) => {
     codeResult.push(Buffer.from(chunk, encoding))
 
     cb()
@@ -250,7 +249,7 @@ test('js - electron', async function (t) {
 
   const mapResult = []
 
-  map._write = function (chunk, encoding, cb) {
+  map._write = (chunk, encoding, cb) => {
     mapResult.push(Buffer.from(chunk, encoding))
 
     cb()
@@ -275,7 +274,7 @@ test('js - electron', async function (t) {
   t.equal(fixtureMap, mapResult.join(''))
 })
 
-test('css - min', async function (t) {
+test('css - min', async (t) => {
   t.plan(2)
 
   const [fixtureCode, fixtureMap] = await Promise.all([
@@ -287,7 +286,7 @@ test('css - min', async function (t) {
 
   const codeResult = []
 
-  code._write = function (chunk, encoding, cb) {
+  code._write = (chunk, encoding, cb) => {
     codeResult.push(Buffer.from(chunk, encoding))
 
     cb()
@@ -297,7 +296,7 @@ test('css - min', async function (t) {
 
   const mapResult = []
 
-  map._write = function (chunk, encoding, cb) {
+  map._write = (chunk, encoding, cb) => {
     mapResult.push(Buffer.from(chunk, encoding))
 
     cb()
@@ -322,7 +321,7 @@ test('css - min', async function (t) {
   t.equal(fixtureMap, mapResult.join(''))
 })
 
-test('css - no-min', async function (t) {
+test('css - no-min', async (t) => {
   t.plan(2)
 
   const [fixtureCode, fixtureMap] = await Promise.all([
@@ -334,7 +333,7 @@ test('css - no-min', async function (t) {
 
   const codeResult = []
 
-  code._write = function (chunk, encoding, cb) {
+  code._write = (chunk, encoding, cb) => {
     codeResult.push(Buffer.from(chunk, encoding))
 
     cb()
@@ -344,7 +343,7 @@ test('css - no-min', async function (t) {
 
   const mapResult = []
 
-  map._write = function (chunk, encoding, cb) {
+  map._write = (chunk, encoding, cb) => {
     mapResult.push(Buffer.from(chunk, encoding))
 
     cb()
@@ -369,7 +368,7 @@ test('css - no-min', async function (t) {
   t.equal(fixtureMap, mapResult.join(''))
 })
 
-test('cli.js', async function (t) {
+test('cli.js', async (t) => {
   t.plan(4)
 
   try {

@@ -11,7 +11,7 @@ const inlineVars = require('babel-plugin-transform-inline-environment-variables'
 const minify = require('minify-stream')
 const exorcist = require('exorcist')
 
-module.exports = function (config) {
+module.exports = (config) => {
   const options = {
     debug: true
   }
