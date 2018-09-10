@@ -25,6 +25,7 @@ module.exports = (config) => {
 
   const presets = [
     [presetEnv, {
+      useBuiltIns: 'entry',
       targets: {
         browsers: config.browsers
       }
