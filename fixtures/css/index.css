@@ -1,4 +1,5 @@
 @import './variables.css';
+@import './other.css';
 
 body {
   font-family: system-ui;

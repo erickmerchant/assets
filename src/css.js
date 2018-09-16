@@ -5,7 +5,6 @@ const readFile = promisify(fs.readFile)
 const postcss = require('postcss')
 const cssimport = require('postcss-import')
 const presetEnv = require('postcss-preset-env')
-const autoprefixer = require('autoprefixer')
 const cssnano = require('cssnano')
 
 module.exports = async (config) => {
@@ -22,8 +21,7 @@ module.exports = async (config) => {
             preserve: false
           }
         }
-      }),
-      autoprefixer({ browsers: config.browsers })
+      })
     ]
 
     if (!config.noMin) {
