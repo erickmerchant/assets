@@ -4,7 +4,7 @@ const fs = require('fs')
 const createWriteStream = fs.createWriteStream
 const makeDir = require('make-dir')
 const path = require('path')
-const watch = require('@erickmerchant/conditional-watch')
+const chokidar = require('chokidar')
 const action = require('./')
 const js = require('./src/js')
 const css = require('./src/css')
@@ -49,7 +49,13 @@ command('assets', 'generate css using postcss, and js using browserify and babel
     out: process.stdout,
     makeDir,
     createWriteStream,
-    watch,
+    watch (watch, path, fn) {
+      if (watch) {
+        chokidar.watch(path, { ignoreInitial: true }).on('all', fn)
+      }
+
+      return fn()
+    },
     types: {
       js,
       css
