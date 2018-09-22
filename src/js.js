@@ -10,10 +10,12 @@ const unassert = require('babel-plugin-unassert')
 const inlineVars = require('babel-plugin-transform-inline-environment-variables')
 const minify = require('minify-stream')
 const exorcist = require('exorcist')
+const through = require('through2')
 
 module.exports = (config) => {
   const options = {
-    debug: true
+    debug: true,
+    cache: config.cache
   }
 
   if (config.electron) {
@@ -22,6 +24,17 @@ module.exports = (config) => {
   }
 
   let bundle = browserify(config.input, options)
+
+  bundle.pipeline.get('deps').push(through.obj(function (row, enc, next) {
+    if (row.file.startsWith(path.resolve(path.dirname(config.input)))) {
+      config.cache[row.file] = {
+        source: row.source,
+        deps: Object.assign({}, row.deps)
+      }
+    }
+    this.push(row)
+    next()
+  }))
 
   const presets = [
     [presetEnv, {
@@ -41,7 +54,7 @@ module.exports = (config) => {
   bundle.transform(babelify.configure({
     presets,
     plugins
-  }), { global: true })
+  }))
 
   if (!config.noMin) {
     bundle.plugin(packFlat)

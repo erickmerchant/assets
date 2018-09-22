@@ -30,13 +30,22 @@ module.exports = (deps) => {
 
     await deps.makeDir(destinationDir)
 
-    return deps.watch(args.watch, path.dirname(source), () => {
+    const cache = {}
+
+    return deps.watch(args.watch, path.dirname(source), (_, file) => {
+      const start = process.hrtime()
+
+      if (file) {
+        delete cache[file]
+      }
+
       const config = {
         input: source,
         output: path.join(destinationDir, path.basename(source)),
         electron: args.electron,
         noMin: args.noMin,
-        browsers: args.browser
+        browsers: args.browser,
+        cache
       }
 
       const promises = []
@@ -48,10 +57,12 @@ module.exports = (deps) => {
       for (const key of Object.keys(outputs)) {
         config[key] = deps.createWriteStream(outputs[key])
 
-        const promise = streamPromise(config.code)
+        const promise = streamPromise(config[key])
 
         promise.then(() => {
-          deps.out.write(`${chalk.gray('[assets]')} saved ${outputs[key]}\n`)
+          const end = process.hrtime(start)
+
+          deps.out.write(`${chalk.gray('[assets]')} saved ${outputs[key]} in ${end[0] + (end[1] / 1e9)}s\n`)
         })
 
         promises.push(promise)
