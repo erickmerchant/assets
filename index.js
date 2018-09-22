@@ -24,9 +24,9 @@ module.exports = (deps) => {
       return null
     }
 
-    const sourceDir = commonDir([args.destination, path.dirname(source)].map(dir => path.resolve(dir)))
+    const rootDir = commonDir([args.destination, path.dirname(source)].map(dir => path.resolve(dir)))
 
-    const destinationDir = path.join(args.destination, path.dirname(path.resolve(source)).substr(sourceDir.length))
+    const destinationDir = path.join(args.destination, path.dirname(path.resolve(source)).substr(rootDir.length))
 
     await deps.makeDir(destinationDir)
 
@@ -36,7 +36,7 @@ module.exports = (deps) => {
       const start = process.hrtime()
 
       if (file) {
-        delete cache[file]
+        delete cache[path.resolve(file)]
       }
 
       const config = {
