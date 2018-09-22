@@ -168,7 +168,8 @@ test('js - min', async (t) => {
     noMin: false,
     browsers: ['Chrome <= 47'],
     code,
-    map
+    map,
+    cache: {}
   })
 
   await streamPromise(code)
@@ -215,7 +216,8 @@ test('js - no-min', async (t) => {
     noMin: true,
     browsers: ['Chrome <= 47'],
     code,
-    map
+    map,
+    cache: {}
   })
 
   await streamPromise(code)
@@ -262,7 +264,8 @@ test('js - electron', async (t) => {
     noMin: false,
     browsers: ['Chrome <= 47'],
     code,
-    map
+    map,
+    cache: {}
   })
 
   await streamPromise(code)
