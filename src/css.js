@@ -1,7 +1,7 @@
 const error = require('sergeant/error')
-const promisify = require('util').promisify
+const streamPromise = require('stream-to-promise')
 const fs = require('fs')
-const readFile = promisify(fs.readFile)
+const createReadStream = fs.createReadStream
 const postcss = require('postcss')
 const cssimport = require('postcss-import')
 const presetEnv = require('postcss-preset-env')
@@ -9,7 +9,7 @@ const cssnano = require('cssnano')
 
 module.exports = async (config) => {
   try {
-    const css = await readFile(config.input, 'utf-8')
+    const css = await streamPromise(createReadStream(config.input, 'utf-8'))
 
     const plugins = [
       cssimport(),
