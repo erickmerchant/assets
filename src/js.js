@@ -15,7 +15,8 @@ const through = require('through2')
 module.exports = (config) => {
   const options = {
     debug: true,
-    cache: config.cache
+    cache: config.cache,
+    packageCache: {}
   }
 
   if (config.electron) {
@@ -26,11 +27,9 @@ module.exports = (config) => {
   let bundle = browserify(config.input, options)
 
   bundle.pipeline.get('deps').push(through.obj(function (row, enc, next) {
-    if (row.file.startsWith(path.resolve(path.dirname(config.input)))) {
-      config.cache[row.file] = {
-        source: row.source,
-        deps: Object.assign({}, row.deps)
-      }
+    config.cache[row.file] = {
+      source: row.source,
+      deps: Object.assign({}, row.deps)
     }
     this.push(row)
     next()
