@@ -19,7 +19,7 @@ test('index.js - make directory and watch', (t) => {
 
       return true
     },
-    createWriteStream (file, content) {
+    createWriteStream (file) {
       const writable = new stream.Writable()
 
       writable._write = () => {
@@ -64,7 +64,7 @@ test('index.js - directory destination, watch true, null result', (t) => {
 
       return true
     },
-    createWriteStream (file, content) {
+    createWriteStream (file) {
       const writable = new stream.Writable()
 
       writable._write = () => {
@@ -105,7 +105,7 @@ test('index.js - no input', async (t) => {
 
       return true
     },
-    createWriteStream (file, content) {
+    createWriteStream (file) {
       const writable = new stream.Writable()
 
       writable._write = () => {
