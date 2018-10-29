@@ -15,11 +15,10 @@ __for css__
 __for js__
 
 - [browserify](http://browserify.org/)
+- [unassertify](https://github.com/unassert-js/unassertify)
 - [babelify](https://github.com/babel/babelify)
 - [@babel/preset-env](https://github.com/babel/babel/tree/master/packages/babel-preset-env)
 - [babel-plugin-transform-inline-environment-variables](https://github.com/babel/minify/tree/master/packages/babel-plugin-transform-inline-environment-variables)
-- [babel-plugin-unassert](https://github.com/unassert-js/babel-plugin-unassert)
-- [nanohtml](https://github.com/choojs/nanohtml#readme)
 - [browser-pack-flat](https://github.com/goto-bus-stop/browser-pack-flat)
 - [common-shakeify](https://github.com/browserify/common-shakeify)
 - [minify-stream](https://github.com/goto-bus-stop/minify-stream)
@@ -37,7 +36,3 @@ npm install @erickmerchant/assets
 ```
 npx assets --help
 ```
-
-## Targeting Electron
-
-Be sure to pass `--electron`.

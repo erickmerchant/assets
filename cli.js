@@ -26,10 +26,6 @@ command('assets', 'generate css using postcss, and js using browserify and babel
     description: 'do not minify'
   })
 
-  option('electron', {
-    description: 'build for electron'
-  })
-
   option('watch', {
     description: 'watch for changes',
     alias: 'w'

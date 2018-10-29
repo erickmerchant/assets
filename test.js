@@ -10,7 +10,7 @@ const out = new stream.Writable()
 out._write = () => {}
 
 test('index.js - make directory and watch', (t) => {
-  t.plan(8)
+  t.plan(7)
 
   require('./')({
     out,
@@ -39,7 +39,6 @@ test('index.js - make directory and watch', (t) => {
       txt (config) {
         t.deepEqual(config.input, 'a.txt')
         t.deepEqual(config.output, 'assets/a.txt')
-        t.deepEqual(config.electron, false)
         t.deepEqual(config.noMin, false)
         t.deepEqual(config.browsers, ['last 2 versions', '> 5%'])
       }
@@ -48,7 +47,6 @@ test('index.js - make directory and watch', (t) => {
     destination: '.',
     source: ['a.txt'],
     watch: false,
-    electron: false,
     noMin: false,
     browser: ['last 2 versions', '> 5%']
   })
@@ -89,7 +87,6 @@ test('index.js - directory destination, watch true, null result', (t) => {
     destination: '.',
     source: ['a.txt'],
     watch: true,
-    electron: false,
     noMin: false,
     browser: ['last 2 versions', '> 5%']
   })
@@ -164,7 +161,6 @@ test('js - min', async (t) => {
   require('./src/js')({
     input: 'fixtures/js/index.js',
     output: 'fixtures/build-min/js/index.js',
-    electron: false,
     noMin: false,
     browsers: ['Chrome <= 47'],
     code,
@@ -212,56 +208,7 @@ test('js - no-min', async (t) => {
   require('./src/js')({
     input: 'fixtures/js/index.js',
     output: 'fixtures/build-no-min/js/index.js',
-    electron: false,
     noMin: true,
-    browsers: ['Chrome <= 47'],
-    code,
-    map,
-    cache: {}
-  })
-
-  await streamPromise(code)
-
-  await streamPromise(map)
-
-  t.equal(fixtureCode, codeResult.join(''))
-
-  t.equal(fixtureMap, mapResult.join(''))
-})
-
-test('js - electron', async (t) => {
-  t.plan(2)
-
-  const [fixtureCode, fixtureMap] = await Promise.all([
-    readFile('./fixtures/build-electron/js/electron.js', 'utf-8'),
-    readFile('./fixtures/build-electron/js/electron.js.map', 'utf-8')
-  ])
-
-  const code = new stream.Writable()
-
-  const codeResult = []
-
-  code._write = (chunk, encoding, cb) => {
-    codeResult.push(Buffer.from(chunk, encoding))
-
-    cb()
-  }
-
-  const map = new stream.Writable()
-
-  const mapResult = []
-
-  map._write = (chunk, encoding, cb) => {
-    mapResult.push(Buffer.from(chunk, encoding))
-
-    cb()
-  }
-
-  require('./src/js')({
-    input: 'fixtures/js/electron.js',
-    output: 'fixtures/build-electron/js/electron.js',
-    electron: true,
-    noMin: false,
     browsers: ['Chrome <= 47'],
     code,
     map,
@@ -308,7 +255,6 @@ test('css - min', async (t) => {
   require('./src/css')({
     input: 'fixtures/css/index.css',
     output: 'fixtures/build-min/css/index.css',
-    electron: false,
     noMin: false,
     browsers: ['Chrome <= 47'],
     code,
@@ -355,7 +301,6 @@ test('css - no-min', async (t) => {
   require('./src/css')({
     input: 'fixtures/css/index.css',
     output: 'fixtures/build-no-min/css/index.css',
-    electron: false,
     noMin: true,
     browsers: ['Chrome <= 47'],
     code,

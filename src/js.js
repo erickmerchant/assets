@@ -5,8 +5,7 @@ const babelify = require('babelify')
 const shakeify = require('common-shakeify')
 const packFlat = require('browser-pack-flat')
 const presetEnv = require('@babel/preset-env')
-const html = require('nanohtml')
-const unassert = require('babel-plugin-unassert')
+const unassert = require('unassertify')
 const inlineVars = require('babel-plugin-transform-inline-environment-variables')
 const minify = require('minify-stream')
 const exorcist = require('exorcist')
@@ -17,11 +16,6 @@ module.exports = (config) => {
     debug: true,
     cache: config.cache,
     packageCache: {}
-  }
-
-  if (config.electron) {
-    options.node = true
-    options.bundleExternal = false
   }
 
   let bundle = browserify(config.input, options)
@@ -44,16 +38,16 @@ module.exports = (config) => {
     }]
   ]
 
-  const plugins = [ html, inlineVars ]
-
-  if (!config.noMin) {
-    plugins.push(unassert)
-  }
+  const plugins = [ inlineVars ]
 
   bundle.transform(babelify.configure({
     presets,
     plugins
-  }))
+  }), { global: true })
+
+  if (!config.noMin) {
+    bundle.transform(unassert, { global: true })
+  }
 
   if (!config.noMin) {
     bundle.plugin(packFlat)

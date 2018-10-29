@@ -42,7 +42,6 @@ module.exports = (deps) => {
       const config = {
         input: source,
         output: path.join(destinationDir, path.basename(source)),
-        electron: args.electron,
         noMin: args.noMin,
         browsers: args.browser,
         cache
