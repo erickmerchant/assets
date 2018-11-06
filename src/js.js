@@ -6,7 +6,6 @@ const shakeify = require('common-shakeify')
 const packFlat = require('browser-pack-flat')
 const presetEnv = require('@babel/preset-env')
 const unassert = require('unassertify')
-const inlineVars = require('babel-plugin-transform-inline-environment-variables')
 const minify = require('minify-stream')
 const exorcist = require('exorcist')
 const through = require('through2')
@@ -38,11 +37,9 @@ module.exports = (config) => {
     }]
   ]
 
-  const plugins = [ inlineVars ]
-
   bundle.transform(babelify.configure({
     presets,
-    plugins
+    plugins: []
   }), { global: true })
 
   if (!config.noMin) {

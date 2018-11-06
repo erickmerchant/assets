@@ -663,7 +663,7 @@ var debugs = {};
 var debugEnviron;
 
 exports.debuglog = function (set) {
-  if (isUndefined(debugEnviron)) debugEnviron = undefined || '';
+  if (isUndefined(debugEnviron)) debugEnviron = process.env.NODE_DEBUG || '';
   set = set.toUpperCase();
 
   if (!debugs[set]) {

@@ -6,7 +6,6 @@ Uses the following modules.
 
 __for css__
 
-- [autoprefixer](https://github.com/postcss/autoprefixer)
 - [cssnano](https://github.com/ben-eb/cssnano)
 - [postcss-import](https://github.com/postcss/postcss-import#readme)
 - [postcss-preset-env](https://github.com/jonathantneal/postcss-preset-env)
@@ -15,7 +14,6 @@ __for css__
 __for js__
 
 - [@babel/preset-env](https://github.com/babel/babel/tree/master/packages/babel-preset-env)
-- [babel-plugin-transform-inline-environment-variables](https://github.com/babel/minify/tree/master/packages/babel-plugin-transform-inline-environment-variables)
 - [babelify](https://github.com/babel/babelify)
 - [browser-pack-flat](https://github.com/goto-bus-stop/browser-pack-flat)
 - [browserify](http://browserify.org/)
