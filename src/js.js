@@ -59,6 +59,7 @@ module.exports = (config) => {
   if (!config.noMin) {
     bundle = bundle.pipe(minify({
       toplevel: true,
+      compress: { passes: 3 },
       safari10: true,
       output: {
         ascii_only: true

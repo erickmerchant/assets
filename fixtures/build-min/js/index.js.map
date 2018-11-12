@@ -9,10 +9,9 @@
     "document",
     "querySelector",
     "appendChild",
-    "concat",
-    "heading"
+    "concat"
   ],
-  "mappings": "CAAA,WACA,aCCAA,SAASC,cAAc,QAAQC,YCG7B,mBAAAC,ODHmD,CAAEC,QAAS,iBCG9BA,QAAhC,UFLF",
+  "mappings": "CAAA,WACA,aCCAA,SAASC,cAAc,QAAQC,YCG7B,mBAAAC,ODH8D,gBCG9D,UFLF",
   "sourcesContent": [
     "(function(){\n",
     "const component = require('./component.js')\n\ndocument.querySelector('body').appendChild(component({ heading: 'Testing 1 2 3' }))\n",
